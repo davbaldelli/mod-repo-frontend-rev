@@ -3,13 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "HOST=localhost vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@vuelidate/core": "^2.0.0-alpha.32",
+    "axios": "^0.24.0",
     "core-js": "^3.6.5",
-    "vue": "^3.0.0"
+    "moment-timezone": "^0.5.34",
+    "primeflex": "^2.0.0",
+    "primeicons": "^5.0.0",
+    "primevue": "^3.8.2",
+    "vue": "^3.0.0",
+    "vue-axios": "^3.4.0",
+    "vue-router": "^4.0.12",
+    "vuelidate": "^0.7.6",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
