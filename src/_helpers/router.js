@@ -36,12 +36,13 @@ const routes = [
         }
     },
     {
-        path: '/car/:model', component: CarDetail, props: true, meta: {
+        path: '/car', name:'car', component: CarDetail, props: true, meta: {
             requiresAuth: true,
+
         }
     },
     {
-        path: '/track/:name', component: TrackDetail, props: true, meta: {
+        path: '/track', component: TrackDetail, props: true, meta: {
             requiresAuth: true,
         }
     },

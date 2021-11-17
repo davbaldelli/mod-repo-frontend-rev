@@ -6,7 +6,7 @@
     <div class="p-col-12">
       <router-view :key="routerViewKey"></router-view>
       <Dialog header="Login" v-model:visible="display" @hide="resetModal" :modal="true">
-        <div class="card p-py-2">
+        <div class="p-py-2">
           <form v-on:keyup.enter="handleSubmit(!v$.$invalid)" @submit.prevent="handleSubmit(!v$.$invalid)" class="p-fluid">
             <div class="p-field">
               <InputText id="username-1" v-model="v$.username.$model"
@@ -43,6 +43,7 @@ export default {
     Password,
     Button,
   },
+
   setup: () => ({v$: useVuelidate()}),
   data() {
     return {
@@ -139,7 +140,7 @@ export default {
           .then(() => {
             this.$store.dispatch('alert/clear')
             this.$emit("loggedIn");
-            this.toggleDialog();
+            this.closeDialog();
           })
           .catch(() => {
             alert("wrong username or password!")
@@ -147,7 +148,10 @@ export default {
 
     },
     toggleDialog() {
-      this.display = !this.display
+      this.display = true
+    },
+    closeDialog() {
+      this.display = false
     },
     resetModal() {
       if (!this.submitted && this.alert.message && this.alert.message.status === 401) {
@@ -158,6 +162,7 @@ export default {
       this.submitted = false
     },
     async logOut() {
+      this.closeDialog()
       await this.$store.dispatch('authentication/login', {'username': 'base', 'password': 'dumbass'}).then(() =>
           this.$store.dispatch('alert/clear')
       )
