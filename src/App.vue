@@ -1,11 +1,11 @@
 <template>
-  <div class="p-grid">
+  <div class="p-grid p-m-0">
     <div class="p-col-12 p-p-0 sticky-top" >
       <Menubar  :model="menuItems" :end="menuItems"/>
     </div>
     <div class="p-col-12">
       <router-view :key="routerViewKey"></router-view>
-      <Dialog header="Login" v-model:visible="display" @hide="resetModal">
+      <Dialog header="Login" v-model:visible="display" @hide="resetModal" :modal="true">
         <div class="card p-py-2">
           <form v-on:keyup.enter="handleSubmit(!v$.$invalid)" @submit.prevent="handleSubmit(!v$.$invalid)" class="p-fluid">
             <div class="p-field">
@@ -187,6 +187,10 @@ export default {
     position: sticky;
     top: 0;
     z-index: 1020;
+  }
+
+  body{
+    margin: 0!important;
   }
 
 </style>
