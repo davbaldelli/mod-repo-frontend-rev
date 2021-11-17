@@ -8,6 +8,7 @@ export const carsFilters = {
     lastUpdated,
     lastAdded,
     filterByAuthor,
+    filterByBrands
 }
 
 function lastUpdated(n){
@@ -43,6 +44,9 @@ function filterByNation(nation) {
 
 function filterByBrand(brand) {
     return cars => cars.filter(car => car.Brand.Name === brand)
+}
+function filterByBrands(brands) {
+    return cars => cars.filter(car => brands.includes(car.Brand.Name))
 }
 
 function filterByCategory(category) {

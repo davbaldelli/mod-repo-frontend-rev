@@ -1,12 +1,14 @@
 <template>
   <div class="p-grid p-p-2">
-    <div class="p-col-0 p-md-2 p-lg-3">
-      <TreeSelect v-model="selectedBrand" :options="filterOpts" display="chip" selection-mode="checkbox" placeholder="Select Items"></TreeSelect>
+    <div class="p-col-12 text-center">
+      <h1>Cars</h1>
     </div>
+    <div class="p-col-12">
+      <Paginator :rows="pageRows" v-model:first="offset" :total-records="cars.length"></Paginator>
+    </div>
+    <div class="p-col-0 p-md-2 p-lg-3">
+      <Tree @node-select="nodeSelected" @node-unselect="nodeUnSelected" v-model:selection-keys="selectedNodes" :value="filterOpts" selection-mode="checkbox" placeholder="Select Items" :loading = "this.$store.getters['cars/loadingBrands']"></Tree></div>
     <div class="p-col-12 p-md-8 p-lg-6">
-      <div class="col-12">
-        <Paginator :rows="pageRows" v-model:first="offset" :total-records="cars.length"></Paginator>
-      </div>
       <div class="p-col-12">
         <div v-for="car in pageCars" :key="car.ModelName" class="card mb-2">
           <div class="row no-gutters">
@@ -48,23 +50,33 @@
 </template>
 
 <script>
-import TreeSelect from 'primevue/treeselect'
+import Tree from 'primevue/tree'
 import Paginator from 'primevue/paginator';
+import {carsFilters} from "@/_helpers";
+//import {carsFilters} from "@/_helpers";
 export default {
 
   name: "CarList",
   components: {
-    TreeSelect,
+    Tree,
     Paginator
   },
   data() {
     return {
+      selectedBrands : [],
+      selectedNodes : "",
       selector: cars => cars,
-      selectedBrand : "",
       pageRows : 20,
       offset : 0,
     }
   },
+  watch: {
+    selectedNodes(){
+      this.updateSelectedNodes()
+    },
+
+  },
+
   computed: {
     filteredCars() {
       return this.selector(this.cars)
@@ -83,10 +95,16 @@ export default {
     },
     filterOpts() {
       let items = []
+      let i = 0;
       this.brandGrouped.forEach((value, key) => {
-        let opt = {label : key, children : []}
-        value.forEach(brand => opt.children.push({label: brand, data: brand}))
+        let opt = {label : key, children : [] , key : i.toString(), data : key, nation : true}
+        let j = 0;
+        value.forEach(brand => {
+          opt.children.push({label: brand, data: brand, key : `${i}-${j}`})
+          j++
+        })
         items.push(opt)
+        i++
       })
       return items
     },
@@ -98,10 +116,9 @@ export default {
     }
   },
   mounted() {
-
+    this.initiate()
   },
   created() {
-    this.initiate()
     //this.$parent.$on('loggedIn', this.initiate)
     //this.$parent.$on('loggedOut', this.initiate)
   },
@@ -112,8 +129,26 @@ export default {
       this.$store.dispatch('cars/getCarBrands')
       this.$store.dispatch('cars/getCarTypes')
     },
-    getAllCars(){
+    getAllCars() {
       this.$store.dispatch('cars/getAll')
+    },
+    nodeSelected(){
+    },
+    nodeUnSelected(){
+    },
+    async updateSelectedNodes(){
+      this.selectedBrands = []
+      this.filterOpts.forEach(e => {
+        e.children.forEach(c => {
+          if (this.selectedNodes[c.key] && this.selectedNodes[c.key].checked){
+            this.selectedBrands.push(c.data)
+          }
+        })
+      })
+      if(this.selectedBrands.length !== 0)
+        this.selector = carsFilters.filterByBrands(this.selectedBrands)
+      else
+        this.selector = c => c
     }
 
   }
