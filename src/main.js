@@ -20,7 +20,8 @@ app.use(store)
 app.use(VueAxios, axios)
 app.use(PrimeVue)
 
-if (!store.getters["authentication/isLogged"]) {
+let user = JSON.parse(localStorage.getItem('user'));
+if (!user) {
     store.dispatch('authentication/login', {'username': 'base', 'password': 'dumbass'})
 }
 
