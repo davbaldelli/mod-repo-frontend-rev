@@ -4,7 +4,7 @@
       <h1>Cars</h1>
     </div>
     <div class="p-col-12">
-      <Paginator :rows="pageRows" v-model:first="offset" :total-records="cars.length"></Paginator>
+      <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
     </div>
     <div class="p-col-0 p-md-2 p-lg-3">
       <Tree @node-select="nodeSelected" @node-unselect="nodeUnSelected" v-model:selection-keys="selectedNodes" :value="filterOpts" selection-mode="checkbox" placeholder="Select Items" :loading = "this.$store.getters['cars/loadingBrands']"></Tree></div>
@@ -16,12 +16,15 @@
               <img :src="car.Image" alt="Fluid image " class="rounded-4 m-1 card-img">
             </div>
             <div class="mh-100 col-md-8">
-              <div class="card-body p-3 h-100">
-                <h4 class="card-title mb-2">
+              <div class="card-body p-p-3 h-100">
+                <h3 class="card-title p-mb-2">
                   <router-link :to="{name : 'car', query:{}}">{{ `${car.Brand.Name} ${car.ModelName}` }}</router-link>
-                </h4>
-                <h6 class="card-subtitle mb-3 mt-1 text-muted"></h6>
-                <p class="card-text ml-2 mb-1">
+                </h3>
+                <div class="card-subtitle p-ml-1 p-mb-3 p-mt-1 text-muted">
+                  <span class="badge badge-secondary p-mr-1" v-for="category in car.Categories" :key="category.Name">{{category.Name}}</span>
+                  <span class="badge badge-warning" v-if="car.Premium">Premium</span>
+                </div>
+                <p class="card-text p-ml-2 p-mb-1">
                   <strong>Year: </strong>{{ car.Year }}
                   <br>
                   <strong>Author: </strong><a :href="car.Author.Link" rel="noopener" target="_blank">{{
@@ -53,13 +56,12 @@
 import Tree from 'primevue/tree'
 import Paginator from 'primevue/paginator';
 import {carsFilters} from "@/_helpers";
-//import {carsFilters} from "@/_helpers";
 export default {
 
   name: "CarList",
   components: {
     Tree,
-    Paginator
+    Paginator,
   },
   data() {
     return {
@@ -74,10 +76,16 @@ export default {
     selectedNodes(){
       this.updateSelectedNodes()
     },
-
+    userRole(){
+      if(this.userRole){
+        this.initiate()
+      }
+    },
   },
-
   computed: {
+    userRole(){
+      return this.$store.getters['authentication/user'].role
+    },
     filteredCars() {
       return this.selector(this.cars)
     },
@@ -118,10 +126,6 @@ export default {
   mounted() {
     this.initiate()
   },
-  created() {
-    //this.$parent.$on('loggedIn', this.initiate)
-    //this.$parent.$on('loggedOut', this.initiate)
-  },
   methods: {
     initiate() {
       this.getAllCars()
@@ -149,6 +153,7 @@ export default {
         this.selector = carsFilters.filterByBrands(this.selectedBrands)
       else
         this.selector = c => c
+      this.offset = 0
     }
 
   }

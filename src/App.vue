@@ -14,7 +14,7 @@
             </div>
             <div class="p-field">
               <Password id="password" v-model="v$.password.$model"
-                        :class="{'p-invalid':v$.password.$invalid && submitted}" toggleMask></Password>
+                        :class="{'p-invalid':v$.password.$invalid && submitted}" toggleMask :feedback="false"></Password>
             </div>
             <Button type="submit" label="Submit" class="p-mt-2"/>
           </form>
@@ -43,7 +43,7 @@ export default {
     Password,
     Button,
   },
-
+  emits: ['loggedOut', 'loggedIn'],
   setup: () => ({v$: useVuelidate()}),
   data() {
     return {
@@ -197,5 +197,16 @@ export default {
   body{
     margin: 0!important;
   }
+
+  .badge-warning {
+    color: #212529 !important;
+    background-color: #ffc107;
+  }
+
+  .badge-secondary {
+    color: #fff;
+    background-color: #6c757d;
+  }
+
 
 </style>

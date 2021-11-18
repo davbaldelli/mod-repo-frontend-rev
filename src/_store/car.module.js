@@ -27,7 +27,6 @@ export const cars = {
     actions: {
         async getAll({dispatch, commit}) {
             commit('carsFetching')
-
             await carService.getAll()
                 .then(
                     cars => {
