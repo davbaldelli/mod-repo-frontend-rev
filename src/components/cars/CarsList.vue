@@ -7,17 +7,21 @@
       <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
     </div>
     <div class="p-col-12 p-md-2 p-lg-3">
-      <Panel class="p-mb-2" header="Filter By Manufacturer" :toggleable="true" :collapsed="false">
-        <Tree v-model:selection-keys="selectedBrandsNodes"
-              :value="brandsFilterOpts" selection-mode="checkbox" placeholder="Select Items"
-              :loading="this.$store.getters['cars/loadingBrands']"></Tree>
+      <div @click="resetFilters" class="btn btn-primary p-mb-2 d-block">Remove All Filters</div>
+      <Panel class="p-mb-2" header="Filter By Manufacturer" :toggleable="true" :collapsed="true">
+        <Tree v-model:selection-keys="selectedBrandsNodes" selectionMode="single"
+              :value="brandsFilterOpts" placeholder="Select Brand"
+              :loading="this.$store.getters['cars/loadingBrands']" @nodeSelect="brandSelected"></Tree>
       </Panel>
-      <Panel header="Filter By Category" :toggleable="true" :collapsed="false">
-        <ListBox v-model="selectedCategory" :options="categories" option-label="name" list-style="max-height:250px"></ListBox>
+      <Panel header="Filter By Category" :toggleable="true" :collapsed="true">
+        <ListBox :filter="true" v-model="selectedCategory" :options="categories" option-label="name" list-style="max-height:500px"></ListBox>
       </Panel>
     </div>
     <div class="p-col-12 p-md-8 p-lg-6">
       <div class="p-col-12">
+        <div class="p-col-12 p-p-0 text-end">
+          <Dropdown @change="sort" class="p-mr-5 p-mb-2" :options="sortOpts" placeholder="Sort By" option-label="label" option-value="value" ></Dropdown>
+        </div>
         <div v-for="car in pageCars" :key="car.ModelName" class="card mb-2">
           <div class="row no-gutters">
             <div class="d-flex align-items-center col">
@@ -66,13 +70,9 @@ import Tree from 'primevue/tree'
 import Paginator from 'primevue/paginator';
 import Panel from 'primevue/panel';
 import ListBox from 'primevue/listbox';
-import {carsFilters} from "@/_helpers";
+import Dropdown from 'primevue/dropdown';
+import {carsFilters, carSort} from "@/_helpers";
 
-const filterTypes = {
-  None : "none",
-  Brand : "brand",
-  Category : "category",
-}
 
 export default {
 
@@ -82,51 +82,31 @@ export default {
     Paginator,
     Panel,
     ListBox,
+    Dropdown,
   },
   data() {
     return {
-      selectedBrands: [],
+      sortOpts : [
+        {label : 'Name', value : 'name'},
+        {label : 'Submission Date', value: 'submission'}
+      ],
       selectedBrandsNodes: Object(),
       selector: cars => cars,
       pageRows: 20,
       offset: 0,
       selectedCategory : null,
-      activeFilter : filterTypes.None
     }
   },
   watch: {
-    selectedBrandsNodes() {
-      this.updateSelectedNodes()
-    },
     userRole() {
       if (this.userRole) {
         this.initiate()
       }
     },
-    selectedCategory(){
-      const func = async () => {
-        if (this.selectedCategory != null) {
-          if (this.activeFilter !== filterTypes.Category) {
-            this.activeFilter = filterTypes.Category
-            this.selectedBrandsNodes = ""
-          }
-          this.selector = carsFilters.filterByCategory(this.selectedCategory.name)
-          this.offset = 0
-        } else if (this.activeFilter === filterTypes.Category) {
-          this.selector = c => c
-        }
-      }
-      func()
-    },
-    selectedBrands() {
-      if(this.selectedBrands.length !== 0){
-        if (this.activeFilter !== filterTypes.Brand){
-          this.activeFilter = filterTypes.Brand
-          this.selectedCategory = null
-        }
-        this.selector = carsFilters.filterByBrands(this.selectedBrands)
-      } else if(this.activeFilter === filterTypes.Brand){
-        this.selector = c=>c
+    selectedCategory() {
+      if(this.selectedCategory !== "") {
+        this.selectedBrandsNodes = Object()
+        this.selector = carsFilters.filterByCategory(this.selectedCategory.name)
       }
     }
   },
@@ -184,17 +164,25 @@ export default {
     getAllCars() {
       this.$store.dispatch('cars/getAll')
     },
-    async updateSelectedNodes() {
-      this.selectedBrands = []
-      this.brandsFilterOpts.forEach(e => {
-        e.children.forEach(c => {
-          if (this.selectedBrandsNodes[c.key] && this.selectedBrandsNodes[c.key].checked) {
-            this.selectedBrands.push(c.data)
-          }
-        })
-      })
+    brandSelected(node) {
+      if(!node.nation){
+        this.selector = carsFilters.filterByBrand(node.data)
+      } else {
+        this.selector = carsFilters.filterByNation(node.data)
+      }
+      this.selectedCategory = ""
+    },
+    resetFilters(){
+      this.selector = c => c
+    },
+    sort(e){
+      if(e.value === "submission"){
+        carSort.sortByDate(this.cars)
+      }
+      if(e.value === "name"){
+        carSort.sortByName(this.cars)
+      }
     }
-
   }
 }
 </script>
