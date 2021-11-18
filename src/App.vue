@@ -208,5 +208,10 @@ export default {
     background-color: #6c757d;
   }
 
+  .p-tree{
+    border: none !important;
+    padding: 0 !important;
+  }
+
 
 </style>
