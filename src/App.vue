@@ -32,6 +32,8 @@ import Password from 'primevue/password'
 import Button from "primevue/button";
 import useVuelidate from "@vuelidate/core";
 import required from "vuelidate/lib/validators/required";
+import {useHead} from "@vueuse/head";
+import {computed, reactive} from "vue";
 
 
 export default {
@@ -44,7 +46,25 @@ export default {
     Button,
   },
   emits: ['loggedOut', 'loggedIn'],
-  setup: () => ({v$: useVuelidate()}),
+  setup() {
+    const siteData = reactive({
+      title: `AC Mod Repository`,
+      description: `A repository of high quality ac mods`,
+    })
+
+    useHead({
+      // Can be static or computed
+      title: computed(() => siteData.title),
+      meta: [
+        {
+          name: `description`,
+          content: computed(() => siteData.description),
+        },
+      ],
+    })
+
+    return { v$: useVuelidate() }
+  },
   data() {
     return {
       routerViewKey: 0,

@@ -5,6 +5,7 @@ import App from './App.vue'
 import {router} from "@/_helpers";
 import {store} from "@/_store";
 import PrimeVue from 'primevue/config';
+import {createHead} from '@vueuse/head'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -16,8 +17,10 @@ import 'primeflex/primeflex.css'
 
 
 const app = createApp(App)
+const head = createHead()
 app.use(router)
 app.use(store)
+app.use(head)
 app.use(VueAxios, axios)
 app.use(PrimeVue)
 

@@ -8,19 +8,21 @@
     </div>
     <div class="p-col-12 p-md-2 p-lg-3">
       <div @click="resetFilters" class="btn btn-primary p-mb-2 d-block">Remove All Filters</div>
-      <Panel class="p-mb-2" header="Filter By Manufacturer" :toggleable="true" :collapsed="true">
-        <Tree v-model:selection-keys="selectedBrandsNodes" selectionMode="single"
-              :value="brandsFilterOpts" placeholder="Select Brand"
-              :loading="this.$store.getters['cars/loadingBrands']" @nodeSelect="brandSelected"></Tree>
-      </Panel>
-      <Panel header="Filter By Category" :toggleable="true" :collapsed="true">
-        <ListBox :filter="true" v-model="selectedCategory" :options="categories" option-label="name" list-style="max-height:500px"></ListBox>
-      </Panel>
+      <Accordion>
+        <AccordionTab header="Filter By Brand">
+          <Tree v-model:selection-keys="selectedBrandsNodes" selectionMode="single"
+                :value="FilterOpts" placeholder="Select Brand"
+                :loading="this.$store.getters['cars/loadingBrands']" @nodeSelect="brandSelected"></Tree>
+        </AccordionTab>
+        <AccordionTab header="Filter By Category">
+          <ListBox :filter="true" v-model="selectedCategory" :options="categories" option-label="name" list-style="max-height:500px"></ListBox>
+        </AccordionTab>
+      </Accordion>
     </div>
     <div class="p-col-12 p-md-8 p-lg-6">
       <div class="p-col-12">
         <div class="p-col-12 p-p-0 text-end">
-          <Dropdown @change="sort" class="p-mr-5 p-mb-2" :options="sortOpts" placeholder="Sort By" option-label="label" option-value="value" ></Dropdown>
+          <Dropdown @change="e => sort(e.value)" class="p-mr-5 p-mb-2" v-model="selectedSort" :options="sortOpts" placeholder="Sort By" option-label="label" option-value="value" ></Dropdown>
         </div>
         <div v-for="car in pageCars" :key="car.ModelName" class="card mb-2">
           <div class="row no-gutters">
@@ -68,9 +70,10 @@
 <script>
 import Tree from 'primevue/tree'
 import Paginator from 'primevue/paginator';
-import Panel from 'primevue/panel';
 import ListBox from 'primevue/listbox';
 import Dropdown from 'primevue/dropdown';
+import Accordion from 'primevue/accordion';
+import AccordionTab from 'primevue/accordiontab';
 import {carsFilters, carSort} from "@/_helpers";
 
 
@@ -80,18 +83,22 @@ export default {
   components: {
     Tree,
     Paginator,
-    Panel,
     ListBox,
     Dropdown,
+    Accordion,
+    AccordionTab
   },
   data() {
     return {
       sortOpts : [
         {label : 'Name', value : 'name'},
-        {label : 'Submission Date', value: 'submission'}
+        {label : 'Submission Date', value: 'submission'},
+        {label: "Year", value : "year"}
       ],
+      selectedSort : "",
       selectedBrandsNodes: Object(),
       selector: cars => cars,
+      sorter: carSort.sortByName(),
       pageRows: 20,
       offset: 0,
       selectedCategory : null,
@@ -115,7 +122,7 @@ export default {
       return this.$store.getters['authentication/user'].role
     },
     filteredCars() {
-      return this.selector(this.cars)
+      return this.selector(this.cars).sort(this.sorter)
     },
     pageCars() {
       return this.filteredCars.slice(this.offset, this.offset + this.pageRows)
@@ -129,11 +136,11 @@ export default {
         return r
       }, new Map())
     },
-    brandsFilterOpts() {
+    FilterOpts() {
       let items = []
       let i = 0;
       this.brandGrouped.forEach((value, key) => {
-        let opt = {label: key, children: [], key: i.toString(), data: key, nation: true}
+        let opt = {label: key, children: [], key: `${i}`, data: key, nation: true, selectable : false}
         let j = 0;
         value.forEach(brand => {
           opt.children.push({label: brand, data: brand, key: `${i}-${j}`})
@@ -175,12 +182,15 @@ export default {
     resetFilters(){
       this.selector = c => c
     },
-    sort(e){
-      if(e.value === "submission"){
-        carSort.sortByDate(this.cars)
+    sort(value){
+      if(value === "submission"){
+        this.sorter = carSort.sortByDate()
       }
-      if(e.value === "name"){
-        carSort.sortByName(this.cars)
+      if(value === "name"){
+        this.sorter = carSort.sortByName()
+      }
+      if(value === "year"){
+        this.sorter = carSort.sortByYear()
       }
     }
   }
@@ -201,6 +211,14 @@ export default {
 }
 
 .p-listbox{
-  border: none;
+  border: none !important;
+}
+
+.p-listbox .p-listbox-header{
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+.p-accordion .p-accordion-content{
+  padding: 0 !important;
 }
 </style>
