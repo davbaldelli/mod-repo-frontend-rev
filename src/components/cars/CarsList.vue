@@ -1,21 +1,10 @@
 <template>
   <div class="p-grid p-p-2">
     <div class="p-col-12 text-center">
-      <h1>Cars</h1>
-    </div>
-    <div class="p-col-12">
-      <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
+      <h1 class="display-4">Cars</h1>
+      <p class="lead">A collection of quality cars</p>
     </div>
     <div class="p-col-12 p-md-12 p-lg-3">
-      <div class="p-inputgroup p-mb-2">
-        <InputText v-on:keyup.enter="nameFilterClick" v-model="nameFilter" placeholder="Type Car Name"/>
-        <Button @click="nameFilterClick" label="Search"/>
-      </div>
-      <div class="p-mb-2">
-        <Chip :label="selectedCategory.name" v-if="selectedCategory" @remove="resetFilters" removable/>
-        <Chip :label="activeNameFilter" v-if="activeNameFilter" @remove="resetFilters" removable/>
-        <Chip :label="selectedBrand" v-if="selectedBrand" @remove="resetFilters" removable/>
-      </div>
       <Accordion>
         <AccordionTab header="Filter By Brand">
           <Tree v-model:selection-keys="selectedBrandsNodes" selectionMode="single"
@@ -29,47 +18,65 @@
     </div>
     <div class="p-md-12 p-lg-6">
       <div class="p-col-12">
-        <div class="p-col-12 p-p-0 text-end">
-          <Dropdown @change="e => sort(e.value)" class="p-mr-5 p-mb-2" v-model="selectedSort" :options="sortOpts" placeholder="Sort By" option-label="label" option-value="value" ></Dropdown>
-        </div>
-        <div v-for="car in pageCars" :key="car.ModelName" class="card mb-2">
-          <div class="row no-gutters">
-            <div class="d-flex align-items-center col">
-              <img :src="car.Image" alt="Fluid image " class="rounded-4 m-1 card-img">
+        <div class="p-grid">
+          <div class="p-col-12">
+            <div class="p-inputgroup p-mb-2">
+              <InputText v-on:keyup.enter="nameFilterClick" v-model="nameFilter" placeholder="Type Car Name"/>
+              <Button @click="nameFilterClick" label="Search"/>
             </div>
-            <div class="mh-100 col-md-8">
-              <div class="card-body p-p-3 h-100">
-                <h3 class="card-title p-mb-2">
-                  <router-link :to="{name : 'car', query:{}}">{{ `${car.Brand.Name} ${car.ModelName}` }}</router-link>
-                </h3>
-                <div class="card-subtitle p-ml-1 p-mb-3 p-mt-1 text-muted">
+          </div>
+          <div class="p-col-12">
+            <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
+          </div>
+          <div class="p-col-6 d-flex align-items-center">
+            <Chip :label="selectedCategory.name" v-if="selectedCategory" @remove="resetFilters" removable/>
+            <Chip :label="activeNameFilter" v-if="activeNameFilter" @remove="resetFilters" removable/>
+            <Chip :label="selectedBrand" v-if="selectedBrand" @remove="resetFilters" removable/>
+          </div>
+          <div class="p-col-6 text-end">
+            <Dropdown  @change="e => sort(e.value)" class="p-mb-2" v-model="selectedSort" :options="sortOpts" placeholder="Sort By" option-label="label" option-value="value" ></Dropdown>
+          </div>
+          <div class="p-col-12">
+            <div v-for="car in pageCars" :key="car.ModelName" class="card mb-2">
+              <div class="row no-gutters">
+                <div class="d-flex align-items-center col">
+                  <img :src="car.Image" alt="Fluid image " class="rounded-4 m-1 card-img">
+                </div>
+                <div class="mh-100 col-md-8">
+                  <div class="card-body p-p-3 h-100">
+                    <h3 class="card-title p-mb-2">
+                      <router-link :to="{name : 'car', query:{}}">{{ `${car.Brand.Name} ${car.ModelName}` }}</router-link>
+                    </h3>
+                    <div class="card-subtitle p-ml-1 p-mb-3 p-mt-1 text-muted">
                   <span class="badge badge-secondary p-mr-1" v-for="category in car.Categories"
                         :key="category.Name">{{ category.Name }}</span>
-                  <span class="badge badge-warning" v-if="car.Premium">Premium</span>
+                      <span class="badge badge-warning" v-if="car.Premium">Premium</span>
+                    </div>
+                    <p class="card-text p-ml-2 p-mb-1">
+                      <strong>Year: </strong>{{ car.Year }}
+                      <br>
+                      <strong>Author: </strong><a :href="car.Author.Link" rel="noopener" target="_blank">{{
+                        car.Author.Name
+                      }}</a>
+                      <br>
+                      <strong>{{ car.Transmission }}</strong>,
+                      <strong>{{ car.Drivetrain }}</strong>,
+                      <strong>BHP:</strong>{{ car.BHP }},
+                      <strong>Nm: </strong>{{ car.Torque }},
+                      <strong>Kg:</strong>{{ car.Weight }},
+                      <strong>Top Speed:</strong>{{ car.TopSpeed }},
+                    </p>
+                  </div>
                 </div>
-                <p class="card-text p-ml-2 p-mb-1">
-                  <strong>Year: </strong>{{ car.Year }}
-                  <br>
-                  <strong>Author: </strong><a :href="car.Author.Link" rel="noopener" target="_blank">{{
-                    car.Author.Name
-                  }}</a>
-                  <br>
-                  <strong>{{ car.Transmission }}</strong>,
-                  <strong>{{ car.Drivetrain }}</strong>,
-                  <strong>BHP:</strong>{{ car.BHP }},
-                  <strong>Nm: </strong>{{ car.Torque }},
-                  <strong>Kg:</strong>{{ car.Weight }},
-                  <strong>Top Speed:</strong>{{ car.TopSpeed }},
-                </p>
+              </div>
+              <div class="card-footer p-1 text-center">
+                <a :href="car.DownloadLink" class="btn btn-primary"
+                   rel="noopener" target="_blank">Download</a>
               </div>
             </div>
           </div>
-          <div class="card-footer p-1 text-center">
-            <a :href="car.DownloadLink" class="btn btn-primary"
-               rel="noopener" target="_blank">Download</a>
           </div>
         </div>
-      </div>
     </div>
     <div class="p-md-0 p-lg-3"></div>
   </div>
@@ -257,5 +264,9 @@ export default {
 }
 .p-accordion .p-accordion-content{
   padding: 0 !important;
+}
+
+.p-dropdown > span{
+  padding: 0.5rem;
 }
 </style>
