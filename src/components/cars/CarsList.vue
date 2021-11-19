@@ -6,9 +6,9 @@
     <div class="p-col-12">
       <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
     </div>
-    <div class="p-col-12 p-md-2 p-lg-3">
+    <div class="p-col-12 p-md-12 p-lg-3">
       <div class="p-inputgroup p-mb-2">
-        <InputText v-model="nameFilter" placeholder="Type Car Name"/>
+        <InputText v-on:keyup.enter="nameFilterClick" v-model="nameFilter" placeholder="Type Car Name"/>
         <Button @click="nameFilterClick" label="Search"/>
       </div>
       <div class="p-mb-2">
@@ -27,7 +27,7 @@
         </AccordionTab>
       </Accordion>
     </div>
-    <div class="p-col-12 p-md-8 p-lg-6">
+    <div class="p-md-12 p-lg-6">
       <div class="p-col-12">
         <div class="p-col-12 p-p-0 text-end">
           <Dropdown @change="e => sort(e.value)" class="p-mr-5 p-mb-2" v-model="selectedSort" :options="sortOpts" placeholder="Sort By" option-label="label" option-value="value" ></Dropdown>
@@ -71,7 +71,7 @@
         </div>
       </div>
     </div>
-    <div class="p-col-0 p-md-2 p-lg-3"></div>
+    <div class="p-md-0 p-lg-3"></div>
   </div>
 </template>
 

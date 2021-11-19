@@ -1,32 +1,27 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div class="p-grid">
+    <div class="p-md-0 p-lg-3"></div>
+    <div class="p-md-12 p-lg-6 text-center">
+      <h1>AC Mod Repository</h1>
+      <h3 class="p-mt-2"><em>By Davide Baldelli</em></h3>
+
+      <h4 class="p-mt-5"><strong>Benvenuti a tutti</strong></h4>
+      <h5>
+        Questo sito è una raccolta di mod di qualità, un tentativo di riunire nello stesso punto le migliori macchine e
+        piste sparse sul web.<br/>
+        Le mod qui presenti sono rimaste inalterate, e, ove possibile, sono presenti i riferimenti ai rispettivi autori.<br/>
+      </h5>
+      <h5 class="mb-2">
+        Se ti piace il nostro lavoro e vorresti premiarci ti invito a fare una piccola donazione
+        <a href="https://paypal.me/teamItaliaracing?locale.x=it_IT" target="_blank">qui</a>
+      </h5>
+      <h5>
+        Se invece siete in ricerca di una comunità dove poter girare in compagnia vi invitiamo sul nostro gruppo <a
+          href="https://discord.gg/5HTA8xZgTA"
+          target="_blank">discord</a>
+      </h5>
+    </div>
+    <div class="p-md-0 p-lg-3"></div>
   </div>
 </template>
 
