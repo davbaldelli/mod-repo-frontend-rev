@@ -7,7 +7,15 @@
       <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
     </div>
     <div class="p-col-12 p-md-2 p-lg-3">
-      <div @click="resetFilters" class="btn btn-primary p-mb-2 d-block">Remove All Filters</div>
+      <div class="p-inputgroup p-mb-2">
+        <InputText v-model="nameFilter" placeholder="Type Car Name"/>
+        <Button @click="nameFilterClick" label="Search"/>
+      </div>
+      <div class="p-mb-2">
+        <Chip :label="selectedCategory.name" v-if="selectedCategory" @remove="resetFilters" removable/>
+        <Chip :label="activeNameFilter" v-if="activeNameFilter" @remove="resetFilters" removable/>
+        <Chip :label="selectedBrand" v-if="selectedBrand" @remove="resetFilters" removable/>
+      </div>
       <Accordion>
         <AccordionTab header="Filter By Brand">
           <Tree v-model:selection-keys="selectedBrandsNodes" selectionMode="single"
@@ -74,11 +82,13 @@ import ListBox from 'primevue/listbox';
 import Dropdown from 'primevue/dropdown';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
+import Button from 'primevue/button'
+import InputText from "primevue/inputtext";
+import Chip from 'primevue/chip'
 import {carsFilters, carSort} from "@/_helpers";
 
 
 export default {
-
   name: "CarList",
   components: {
     Tree,
@@ -86,7 +96,10 @@ export default {
     ListBox,
     Dropdown,
     Accordion,
-    AccordionTab
+    AccordionTab,
+    Button,
+    InputText,
+    Chip,
   },
   data() {
     return {
@@ -95,13 +108,15 @@ export default {
         {label : 'Submission Date', value: 'submission'},
         {label: "Year", value : "year"}
       ],
-      selectedSort : "",
+      nameFilter : "",
+      activeNameFilter : "",
       selectedBrandsNodes: Object(),
       selector: cars => cars,
       sorter: carSort.sortByName(),
       pageRows: 20,
       offset: 0,
       selectedCategory : null,
+      selectedBrand : ""
     }
   },
   watch: {
@@ -112,6 +127,8 @@ export default {
     },
     selectedCategory() {
       if(this.selectedCategory !== "") {
+        this.clearNameFilter()
+        this.clearBrandFilter()
         this.selectedBrandsNodes = Object()
         this.selector = carsFilters.filterByCategory(this.selectedCategory.name)
       }
@@ -172,15 +189,29 @@ export default {
       this.$store.dispatch('cars/getAll')
     },
     brandSelected(node) {
+      this.selectedBrand = node.data
       if(!node.nation){
         this.selector = carsFilters.filterByBrand(node.data)
       } else {
         this.selector = carsFilters.filterByNation(node.data)
       }
-      this.selectedCategory = ""
+      this.clearCategoryFilter()
+      this.clearNameFilter()
     },
     resetFilters(){
+      this.clearNameFilter()
+      this.clearCategoryFilter()
+      this.clearBrandFilter()
       this.selector = c => c
+    },
+    clearNameFilter(){
+      this.activeNameFilter = ""
+    },
+    clearCategoryFilter(){
+      this.selectedCategory = ""
+    },
+    clearBrandFilter(){
+      this.selectedBrand = ""
     },
     sort(value){
       if(value === "submission"){
@@ -192,6 +223,12 @@ export default {
       if(value === "year"){
         this.sorter = carSort.sortByYear()
       }
+    },
+    nameFilterClick(){
+      this.activeNameFilter = this.nameFilter
+      this.selector = carsFilters.filterByName(this.nameFilter)
+      this.clearCategoryFilter()
+      this.clearBrandFilter()
     }
   }
 }

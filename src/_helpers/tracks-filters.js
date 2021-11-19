@@ -6,49 +6,20 @@ export const tracksFilters = {
 }
 
 function filterByNation(nation) {
-    return tracks => {
-        let fTracks = []
-        tracks.forEach(track => {
-            if (track.Nation.Name === nation) {
-                fTracks.push(track)
-            }
-        })
-        return fTracks
-    }
+    return tracks => tracks.filter(track => track.Nation.Name === nation)
 }
 
 function filterByLayoutCategory(category) {
-    return tracks => {
-        let fTracks = []
-        tracks.forEach(track => {
-            if (track.Layouts) {
-                if (track.Layouts.some(e => e.Category === category)) {
-                    fTracks.push(track)
-                }
-            }
-
-        })
-        return fTracks
-    }
+    return tracks => tracks.filter(track => track.Layouts.some(e => e.Category === category))
 }
 
 function filterByTag(tag) {
-    return tracks => {
-        let fTracks = []
-        tracks.forEach(track => {
-            if (track.Tags) {
-                if (track.Tags.some(e => e === tag)) {
-                    fTracks.push(track)
-                }
-            }
-
-        })
-        return fTracks
-    }
+    return tracks => tracks.filter(track => track.Tags.some(e => e === tag))
 }
 
 function filterByName(name) {
-    return tracks => {
+    return tracks => tracks.filter(track =>track.Name.toLowerCase().includes(name.toLowerCase()))
+}    return tracks => {
         let fTracks = []
         tracks.forEach(track => {
             if (track.Name.toLowerCase().includes(name.toLowerCase())) {
@@ -57,4 +28,3 @@ function filterByName(name) {
         })
         return fTracks
     }
-}
