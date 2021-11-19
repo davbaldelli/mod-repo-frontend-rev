@@ -4,7 +4,7 @@
     <div class="p-md-12 p-lg-6 text-center">
       <h1>AC Mod Repository</h1>
       <h3 class="p-mt-2"><em>By Davide Baldelli</em></h3>
-
+      <Divider/>
       <h4 class="p-mt-5"><strong>Benvenuti a tutti</strong></h4>
       <h5>
         Questo sito è una raccolta di mod di qualità, un tentativo di riunire nello stesso punto le migliori macchine e
@@ -26,28 +26,14 @@
 </template>
 
 <script>
+import Divider from 'primevue/divider';
+
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
+  components: {
+    Divider,
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
 </style>
