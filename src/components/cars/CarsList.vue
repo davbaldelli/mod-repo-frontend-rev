@@ -12,7 +12,10 @@
                 :loading="this.$store.getters['cars/loadingBrands']" @nodeSelect="brandSelected"></Tree>
         </AccordionTab>
         <AccordionTab header="Filter By Category">
-          <ListBox :filter="true" v-model="selectedCategory" :options="categories" option-label="name" list-style="max-height:500px"></ListBox>
+          <ListBox :filter="true" v-model="selectedCategory" @change="onSelectedCategory" :options="categories" option-label="Name" list-style="max-height:500px"></ListBox>
+        </AccordionTab>
+        <AccordionTab header="Filter By Author">
+          <ListBox :filter="true" v-model="selectedAuthor" @change="onSelectedAuthor" :options="authors" option-label="Name" list-style="max-height:500px"></ListBox>
         </AccordionTab>
       </Accordion>
     </div>
@@ -29,9 +32,10 @@
             <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
           </div>
           <div class="p-col-6 d-flex align-items-center">
-            <Chip :label="selectedCategory.name" v-if="selectedCategory" @remove="resetFilters" removable/>
+            <Chip :label="selectedCategory.Name" v-if="selectedCategory" @remove="resetFilters" removable/>
             <Chip :label="activeNameFilter" v-if="activeNameFilter" @remove="resetFilters" removable/>
             <Chip :label="selectedBrand" v-if="selectedBrand" @remove="resetFilters" removable/>
+            <Chip :label="selectedAuthor.Name" v-if="selectedAuthor" @remove="resetFilters" removable/>
           </div>
           <div class="p-col-6 text-end">
             <Dropdown  @change="e => sort(e.value)" class="p-mb-2" v-model="selectedSort" :options="sortOpts" placeholder="Sort By" option-label="label" option-value="value" ></Dropdown>
@@ -122,7 +126,8 @@ export default {
       sorter: carSort.sortByName(),
       pageRows: 20,
       offset: 0,
-      selectedCategory : null,
+      selectedCategory : "",
+      selectedAuthor : "",
       selectedBrand : ""
     }
   },
@@ -132,14 +137,6 @@ export default {
         this.initiate()
       }
     },
-    selectedCategory() {
-      if(this.selectedCategory !== "") {
-        this.clearNameFilter()
-        this.clearBrandFilter()
-        this.selectedBrandsNodes = Object()
-        this.selector = carsFilters.filterByCategory(this.selectedCategory.name)
-      }
-    }
   },
   computed: {
     userRole() {
@@ -179,7 +176,7 @@ export default {
       return this.$store.getters['cars/authors']
     },
     categories() {
-      return this.$store.getters['cars/types'].map(v => { return {name : v.Name} })
+      return this.$store.getters['cars/types']
     }
   },
   mounted() {
@@ -194,31 +191,6 @@ export default {
     },
     getAllCars() {
       this.$store.dispatch('cars/getAll')
-    },
-    brandSelected(node) {
-      this.selectedBrand = node.data
-      if(!node.nation){
-        this.selector = carsFilters.filterByBrand(node.data)
-      } else {
-        this.selector = carsFilters.filterByNation(node.data)
-      }
-      this.clearCategoryFilter()
-      this.clearNameFilter()
-    },
-    resetFilters(){
-      this.clearNameFilter()
-      this.clearCategoryFilter()
-      this.clearBrandFilter()
-      this.selector = c => c
-    },
-    clearNameFilter(){
-      this.activeNameFilter = ""
-    },
-    clearCategoryFilter(){
-      this.selectedCategory = ""
-    },
-    clearBrandFilter(){
-      this.selectedBrand = ""
     },
     sort(value){
       if(value === "submission"){
@@ -236,7 +208,47 @@ export default {
       this.selector = carsFilters.filterByName(this.nameFilter)
       this.clearCategoryFilter()
       this.clearBrandFilter()
-    }
+      this.clearAuthorFilter()
+    },
+    brandSelected(node) {
+      this.selectedBrand = node.data
+      this.selector = carsFilters.filterByBrand(node.data)
+      this.clearCategoryFilter()
+      this.clearNameFilter()
+      this.clearAuthorFilter()
+    },
+    onSelectedAuthor(e){
+      this.clearNameFilter()
+      this.clearBrandFilter()
+      this.clearCategoryFilter()
+      this.selector = carsFilters.filterByAuthor(e.value.Name)
+    },
+    onSelectedCategory(e){
+      this.clearNameFilter()
+      this.clearBrandFilter()
+      this.clearAuthorFilter()
+      this.selector = carsFilters.filterByCategory(e.value.Name)
+    },
+    clearNameFilter(){
+      this.activeNameFilter = ""
+    },
+    clearCategoryFilter(){
+      this.selectedCategory = ""
+    },
+    clearBrandFilter(){
+      this.selectedBrand = ""
+      this.selectedBrandsNodes = Object()
+    },
+    clearAuthorFilter(){
+      this.selectedAuthor = ""
+    },
+    resetFilters(){
+      this.clearNameFilter()
+      this.clearCategoryFilter()
+      this.clearBrandFilter()
+      this.clearAuthorFilter()
+      this.selector = c => c
+    },
   }
 }
 </script>
