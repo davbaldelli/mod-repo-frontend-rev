@@ -129,6 +129,9 @@ export default {
       this.selectedNameFilter = ""
       this.filter = t => t
     },
+    openInNewTab(url) {
+      window.open(url, '_blank').focus();
+    }
   }
 }
 </script>
