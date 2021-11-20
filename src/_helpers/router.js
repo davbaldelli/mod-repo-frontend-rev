@@ -42,7 +42,7 @@ const routes = [
         }
     },
     {
-        path: '/track', component: TrackDetail, props: true, meta: {
+        path: '/track',name : 'track', component: TrackDetail, props: true, meta: {
             requiresAuth: true,
         }
     },

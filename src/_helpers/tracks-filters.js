@@ -19,12 +19,4 @@ function filterByTag(tag) {
 
 function filterByName(name) {
     return tracks => tracks.filter(track =>track.Name.toLowerCase().includes(name.toLowerCase()))
-}    return tracks => {
-        let fTracks = []
-        tracks.forEach(track => {
-            if (track.Name.toLowerCase().includes(name.toLowerCase())) {
-                fTracks.push(track)
-            }
-        })
-        return fTracks
-    }
+}

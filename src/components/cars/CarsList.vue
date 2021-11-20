@@ -1,8 +1,8 @@
 <template>
   <div class="p-grid p-p-2">
     <div class="p-col-12 text-center">
-      <h1 class="display-4">Cars</h1>
-      <p class="lead">A collection of quality cars</p>
+      <h1 class="display-4">AC Cars Repository</h1>
+      <p class="lead"><em>A collection of quality cars</em></p>
     </div>
     <div class="p-col-12 p-md-12 p-lg-3">
       <Accordion>
@@ -47,14 +47,14 @@
             <div class="p-mb-2" v-for="car in pageCars" :key="car.ModelName">
               <div class="p-card container-fluid p-py-2">
                 <div class="row">
-                  <div class="col-md-12 col-lg-4">
-                    <div class="d-flex align-items-center col" style="height: 100%">
+                  <div class="col-lg-12 col-xl-4">
+                    <div class="d-flex align-items-center" style="height: 100%">
                       <img :src="car.Image" alt="Fluid image " class="rounded-4 card-img">
                     </div>
                   </div>
-                  <div class="col-md-12 col-lg-8">
+                  <div class="col-lg-12 col-xl-8 mt-2 d-flex flex-column">
                     <div class="p-card-title">
-                      <h3 class="display-6">
+                      <h3>
                         <router-link :to="{name : 'car', query:{}}">{{ `${car.Brand.Name} ${car.ModelName}` }}</router-link>
                       </h3>
                     </div>
@@ -77,7 +77,7 @@
                       <strong>Kg:</strong>{{ car.Weight }},
                       <strong>Top Speed:</strong>{{ car.TopSpeed }},
                     </div>
-                    <div class="p-card-footer p-text-right">
+                    <div class="p-card-footer p-text-right mt-auto">
                       <Button @click="openInNewTab(car.DownloadLink)" icon="pi pi-download"
                               iconPos="right"></Button>
                     </div>
