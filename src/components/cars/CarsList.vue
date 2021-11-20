@@ -12,10 +12,12 @@
                 :loading="this.$store.getters['cars/loadingBrands']" @nodeSelect="brandSelected"></Tree>
         </AccordionTab>
         <AccordionTab header="Filter By Category">
-          <ListBox :filter="true" v-model="selectedCategory" @change="onSelectedCategory" :options="categories" option-label="Name" list-style="max-height:500px"></ListBox>
+          <ListBox :filter="true" v-model="selectedCategory" @change="onSelectedCategory" :options="categories"
+                   option-label="Name" list-style="max-height:500px"></ListBox>
         </AccordionTab>
         <AccordionTab header="Filter By Author">
-          <ListBox :filter="true" v-model="selectedAuthor" @change="onSelectedAuthor" :options="authors" option-label="Name" list-style="max-height:500px"></ListBox>
+          <ListBox :filter="true" v-model="selectedAuthor" @change="onSelectedAuthor" :options="authors"
+                   option-label="Name" list-style="max-height:500px"></ListBox>
         </AccordionTab>
       </Accordion>
     </div>
@@ -38,25 +40,30 @@
             <Chip :label="selectedAuthor.Name" v-if="selectedAuthor" @remove="resetFilters" removable/>
           </div>
           <div class="p-col-6 text-end">
-            <Dropdown  @change="e => sort(e.value)" class="p-mb-2" v-model="selectedSort" :options="sortOpts" placeholder="Sort By" option-label="label" option-value="value" ></Dropdown>
+            <Dropdown @change="e => sort(e.value)" class="p-mb-2" v-model="selectedSort" :options="sortOpts"
+                      placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
           </div>
           <div class="p-col-12">
-            <div v-for="car in pageCars" :key="car.ModelName" class="card mb-2">
-              <div class="row no-gutters">
-                <div class="d-flex align-items-center col">
-                  <img :src="car.Image" alt="Fluid image " class="rounded-4 m-1 card-img">
-                </div>
-                <div class="mh-100 col-md-8">
-                  <div class="card-body p-p-3 h-100">
-                    <h3 class="card-title p-mb-2">
-                      <router-link :to="{name : 'car', query:{}}">{{ `${car.Brand.Name} ${car.ModelName}` }}</router-link>
-                    </h3>
-                    <div class="card-subtitle p-ml-1 p-mb-3 p-mt-1 text-muted">
-                  <span class="badge badge-secondary p-mr-1" v-for="category in car.Categories"
-                        :key="category.Name">{{ category.Name }}</span>
+            <div class="p-mb-2" v-for="car in pageCars" :key="car.ModelName">
+              <div class="p-card container-fluid p-py-2">
+                <div class="row">
+                  <div class="col-md-12 col-lg-4">
+                    <div class="d-flex align-items-center col" style="height: 100%">
+                      <img :src="car.Image" alt="Fluid image " class="rounded-4 card-img">
+                    </div>
+                  </div>
+                  <div class="col-md-12 col-lg-8">
+                    <div class="p-card-title">
+                      <h3 class="display-6">
+                        <router-link :to="{name : 'car', query:{}}">{{ `${car.Brand.Name} ${car.ModelName}` }}</router-link>
+                      </h3>
+                    </div>
+                    <div class="p-card-subtitle">
+                      <span class="badge badge-secondary p-mr-1" v-for="category in car.Categories"
+                            :key="category.Name">{{ category.Name }}</span>
                       <span class="badge badge-warning" v-if="car.Premium">Premium</span>
                     </div>
-                    <p class="card-text p-ml-2 p-mb-1">
+                    <div class="p-card-body">
                       <strong>Year: </strong>{{ car.Year }}
                       <br>
                       <strong>Author: </strong><a :href="car.Author.Link" rel="noopener" target="_blank">{{
@@ -69,18 +76,18 @@
                       <strong>Nm: </strong>{{ car.Torque }},
                       <strong>Kg:</strong>{{ car.Weight }},
                       <strong>Top Speed:</strong>{{ car.TopSpeed }},
-                    </p>
+                    </div>
+                    <div class="p-card-footer p-text-right">
+                      <Button @click="openInNewTab(car.DownloadLink)" icon="pi pi-download"
+                              iconPos="right"></Button>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="card-footer p-1 text-center">
-                <a :href="car.DownloadLink" class="btn btn-primary"
-                   rel="noopener" target="_blank">Download</a>
-              </div>
             </div>
           </div>
-          </div>
         </div>
+      </div>
     </div>
     <div class="p-md-0 p-lg-3"></div>
   </div>
@@ -114,21 +121,21 @@ export default {
   },
   data() {
     return {
-      sortOpts : [
-        {label : 'Name', value : 'name'},
-        {label : 'Submission Date', value: 'submission'},
-        {label: "Year", value : "year"}
+      sortOpts: [
+        {label: 'Name', value: 'name'},
+        {label: 'Submission Date', value: 'submission'},
+        {label: "Year", value: "year"}
       ],
-      nameFilter : "",
-      activeNameFilter : "",
+      nameFilter: "",
+      activeNameFilter: "",
       selectedBrandsNodes: Object(),
       selector: cars => cars,
       sorter: carSort.sortByName(),
       pageRows: 20,
       offset: 0,
-      selectedCategory : "",
-      selectedAuthor : "",
-      selectedBrand : ""
+      selectedCategory: "",
+      selectedAuthor: "",
+      selectedBrand: ""
     }
   },
   watch: {
@@ -161,7 +168,7 @@ export default {
       let items = []
       let i = 0;
       this.brandGrouped.forEach((value, key) => {
-        let opt = {label: key, children: [], key: `${i}`, data: key, nation: true, selectable : false}
+        let opt = {label: key, children: [], key: `${i}`, data: key, nation: true, selectable: false}
         let j = 0;
         value.forEach(brand => {
           opt.children.push({label: brand, data: brand, key: `${i}-${j}`})
@@ -192,18 +199,18 @@ export default {
     getAllCars() {
       this.$store.dispatch('cars/getAll')
     },
-    sort(value){
-      if(value === "submission"){
+    sort(value) {
+      if (value === "submission") {
         this.sorter = carSort.sortByDate()
       }
-      if(value === "name"){
+      if (value === "name") {
         this.sorter = carSort.sortByName()
       }
-      if(value === "year"){
+      if (value === "year") {
         this.sorter = carSort.sortByYear()
       }
     },
-    nameFilterClick(){
+    nameFilterClick() {
       this.activeNameFilter = this.nameFilter
       this.selector = carsFilters.filterByName(this.nameFilter)
       this.clearCategoryFilter()
@@ -217,38 +224,41 @@ export default {
       this.clearNameFilter()
       this.clearAuthorFilter()
     },
-    onSelectedAuthor(e){
+    onSelectedAuthor(e) {
       this.clearNameFilter()
       this.clearBrandFilter()
       this.clearCategoryFilter()
       this.selector = carsFilters.filterByAuthor(e.value.Name)
     },
-    onSelectedCategory(e){
+    onSelectedCategory(e) {
       this.clearNameFilter()
       this.clearBrandFilter()
       this.clearAuthorFilter()
       this.selector = carsFilters.filterByCategory(e.value.Name)
     },
-    clearNameFilter(){
+    clearNameFilter() {
       this.activeNameFilter = ""
     },
-    clearCategoryFilter(){
+    clearCategoryFilter() {
       this.selectedCategory = ""
     },
-    clearBrandFilter(){
+    clearBrandFilter() {
       this.selectedBrand = ""
       this.selectedBrandsNodes = Object()
     },
-    clearAuthorFilter(){
+    clearAuthorFilter() {
       this.selectedAuthor = ""
     },
-    resetFilters(){
+    resetFilters() {
       this.clearNameFilter()
       this.clearCategoryFilter()
       this.clearBrandFilter()
       this.clearAuthorFilter()
       this.selector = c => c
     },
+    openInNewTab(url) {
+      window.open(url, '_blank').focus();
+    }
   }
 }
 </script>
@@ -262,23 +272,24 @@ export default {
   padding: 0.25rem !important;
 }
 
-.p-panel-content{
+.p-panel-content {
   padding: 0 !important;
 }
 
-.p-listbox{
+.p-listbox {
   border: none !important;
 }
 
-.p-listbox .p-listbox-header{
+.p-listbox .p-listbox-header {
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
 }
-.p-accordion .p-accordion-content{
+
+.p-accordion .p-accordion-content {
   padding: 0 !important;
 }
 
-.p-dropdown > span{
+.p-dropdown > span {
   padding: 0.5rem;
 }
 </style>
