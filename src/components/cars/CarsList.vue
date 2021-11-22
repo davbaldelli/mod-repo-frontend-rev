@@ -78,7 +78,7 @@
                       <strong>Top Speed:</strong>{{ car.TopSpeed }},
                     </div>
                     <div class="p-card-footer p-text-right mt-auto">
-                      <Button v-if="userRole === 'admin'" @click="() => openEditTab(car)" icon="pi pi-pencil" class="p-mr-2"></Button>
+                      <Button v-if="userRole === 'admin'" @click="openEditTab(car)" icon="pi pi-pencil" class="p-mr-2"></Button>
                       <Button @click="openInNewTab(car.DownloadLink)" icon="pi pi-download"></Button>
                     </div>
                   </div>
@@ -261,7 +261,6 @@ export default {
     },
     openEditTab(car) {
       const car_copy = JSON.stringify(car)
-      console.log(car_copy)
       this.$router.push({name : 'CarEdit', params: {initialCar : car_copy}})
     }
   }

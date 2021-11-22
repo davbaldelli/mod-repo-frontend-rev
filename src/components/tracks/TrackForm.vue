@@ -84,7 +84,7 @@
       <Checkbox id="existingAuthorCheck" v-model="existingAuthor" :binary="true"></Checkbox>
       <label for="existingAuthorCheck">Existing</label>
     </div>
-    <div v-for="(layout, index) in form.Layouts" v-bind:key="layout.Name" class="p-formgrid p-grid p-pl-2">
+    <div v-for="(layout, index) in form.Layouts" v-bind:key="index" class="p-formgrid p-grid p-pl-2">
       <div class="p-field p-col-5">
         <label :for="`layoutNameTextField${index}`">Layout Name</label>
         <InputText :id="`layoutNameTextField${index}`" type="text" v-model="layout.Name"></InputText>

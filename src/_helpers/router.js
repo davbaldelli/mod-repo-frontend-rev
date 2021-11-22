@@ -8,8 +8,11 @@ import CarDetail from "@/components/cars/CarDetail";
 import NotFound from "@/components/404"
 import {createRouter, createWebHistory} from "vue-router";
 import CarEdit from "@/components/cars/CarEdit";
+import TrackEdit from "@/components/tracks/TrackEdit";
 
 const initialCar = r => {return {initialCar : JSON.parse(r.params.initialCar)}}
+
+const initialTrack = r => {return {initialTrack : JSON.parse(r.params.initialCar)}}
 
 const routes = [
     {
@@ -27,6 +30,12 @@ const routes = [
     },
     {
         path: '/track/new', component: TrackInput, meta: {
+            requiresAuth: true,
+            is_admin: true
+        }
+    },
+    {
+        path: '/track/update',name : 'TrackEdit', component: TrackEdit, props : initialTrack,meta: {
             requiresAuth: true,
             is_admin: true
         }

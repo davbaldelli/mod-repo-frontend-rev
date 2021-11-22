@@ -56,6 +56,7 @@
                           <a target="_blank" :href="track.Author.Link">{{ track.Author.Name }}</a>
                         </div>
                         <div class="p-card-footer p-text-right mt-auto">
+                          <Button v-if="userRole === 'admin'" @click="openEditTab(track)" icon="pi pi-pencil" class="p-mr-2"></Button>
                           <Button @click="openInNewTab(track.DownloadLink)" icon="pi pi-download"
                                   iconPos="right"></Button>
                         </div>
@@ -102,6 +103,9 @@ export default {
     this.initiate()
   },
   computed: {
+    userRole() {
+      return this.$store.getters['authentication/user'].role
+    },
     tracks() {
       return this.$store.getters['tracks/tracks']
     },
@@ -131,6 +135,9 @@ export default {
     },
     openInNewTab(url) {
       window.open(url, '_blank').focus();
+    },
+    openEditTab(track) {
+      this.$router.push({name : 'TrackEdit', params: {initialCar : JSON.stringify(track)}})
     }
   }
 }

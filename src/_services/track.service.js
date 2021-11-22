@@ -12,7 +12,8 @@ export const trackService = {
     getAll,
     getTracksNations,
     getTracksAuthors,
-    addTrack
+    addTrack,
+    updateTrack
 }
 
 function getAll() {
@@ -38,6 +39,13 @@ function getTracksAuthors() {
 function addTrack(track) {
     return axios
         .post(`${API_URL}/track/new`, track, {headers: authHeader()})
+        .then(res => res.data)
+        .catch(error => Promise.reject(error.response ? error.response : error))
+}
+
+function updateTrack(track) {
+    return axios
+        .post(`${API_URL}/track/update`, track, {headers: authHeader()})
         .then(res => res.data)
         .catch(error => Promise.reject(error.response ? error.response : error))
 }

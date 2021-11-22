@@ -59,6 +59,18 @@ export const tracks = {
                     commit('trackPushError', err)
                     dispatch('alert/error', err, {root: true})
                 })
+        },
+        async updateTrack({dispatch, commit}, track) {
+            commit('trackPushing')
+            await trackService.updateTrack(track)
+                .then(track => {
+                    commit('trackPushed', track)
+                    dispatch('alert/success', track, {root: true})
+                })
+                .catch(err => {
+                    commit('trackPushError', err)
+                    dispatch('alert/error', err, {root: true})
+                })
         }
     },
     mutations: {

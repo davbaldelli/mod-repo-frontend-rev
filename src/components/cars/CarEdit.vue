@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12 col-lg-4"></div>
       <div class="col-12 col-lg-4">
-        <CarForm @submit="onSubmit" :initial-value="car"></CarForm>
+        <CarForm @submit="onSubmit" :initial-value="initialCar"></CarForm>
       </div>
       <div class="col-12 col-lg-4"></div>
     </div>
@@ -19,11 +19,6 @@ export default {
   name: "CarEdit",
   components: {
     CarForm
-  },
-  data() {
-    return {
-      car: this.initialCar,
-    }
   },
   methods:{
     onSubmit(car){
