@@ -175,8 +175,8 @@ export default {
     return {
       form: this.initialValue,
       transmissionOptions: [
-        {value: "Sequential", text: "Sequential"},
-        {value: "Manual", text: "Manual"},
+        {value: "SEQUENTIAL", text: "Sequential"},
+        {value: "MANUAL", text: "Manual"},
       ],
       drivetrainOptions: [
         {value: "AWD", text: "AWD"},
@@ -205,6 +205,7 @@ export default {
     this.$store.dispatch('cars/getCarBrands')
     this.$store.dispatch('cars/getBrandNations')
     this.$store.dispatch('authors/getAll')
+    this.categoryValues = this.form.Categories.map(v => v.Name)
   },
   methods: {
     handleSubmit(isFormValid) {

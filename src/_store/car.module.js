@@ -65,6 +65,20 @@ export const cars = {
                     return Promise.reject(err)
                 })
         },
+        async updateCar({dispatch, commit}, car) {
+            commit('carPushing')
+            return await carService.updateCar(car)
+                .then(car => {
+                    commit('carPushed', car)
+                    dispatch('alert/success', car, {root: true})
+                    return car
+                })
+                .catch(err => {
+                    commit('carPushError', err)
+                    dispatch('alert/error', err, {root: true})
+                    return Promise.reject(err)
+                })
+        },
         async getCarBrands({dispatch, commit}) {
             commit('brandsFetching')
             await carService.getCarBrands()

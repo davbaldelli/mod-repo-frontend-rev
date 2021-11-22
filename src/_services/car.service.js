@@ -14,7 +14,8 @@ export const carService = {
     getCarNations,
     getCarBrands,
     getCarAuthors,
-    addCar
+    addCar,
+    updateCar
 }
 
 
@@ -60,4 +61,10 @@ function addCar(car) {
         .catch(error => {
             return Promise.reject(error.response ? error.response : error)
         })
+}
+
+function updateCar(car){
+    return axios.post(`${API_URL}/car/update`, car, {headers : authHeader()})
+        .then(res => res.data)
+        .catch(error => Promise.reject(error.response ? error.response : error))
 }

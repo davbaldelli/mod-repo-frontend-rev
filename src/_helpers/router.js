@@ -7,7 +7,9 @@ import CarInput from "@/components/cars/CarInput";
 import CarDetail from "@/components/cars/CarDetail";
 import NotFound from "@/components/404"
 import {createRouter, createWebHistory} from "vue-router";
+import CarEdit from "@/components/cars/CarEdit";
 
+const initialCar = r => {return {initialCar : JSON.parse(r.params.initialCar)}}
 
 const routes = [
     {
@@ -36,9 +38,18 @@ const routes = [
         }
     },
     {
+        path: '/car/edit',
+        name: 'CarEdit',
+        component: CarEdit,
+        props : initialCar,
+        meta: {
+            requiresAuth: true,
+            is_admin: true,
+        }
+    },
+    {
         path: '/car', name:'car', component: CarDetail, props: true, meta: {
             requiresAuth: true,
-
         }
     },
     {
