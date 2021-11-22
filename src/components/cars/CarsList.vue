@@ -30,7 +30,7 @@
               <Button @click="nameFilterClick" label="Search"/>
             </div>
           </div>
-          <div class="p-col-12">
+          <div ref="paginatorTop" class="p-col-12">
             <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
           </div>
           <div class="p-col-6 d-flex align-items-center">
@@ -86,6 +86,9 @@
               </div>
             </div>
           </div>
+          <div class="p-col-12">
+            <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
+          </div>
         </div>
       </div>
     </div>
@@ -137,13 +140,6 @@ export default {
       selectedAuthor: "",
       selectedBrand: ""
     }
-  },
-  watch: {
-    userRole() {
-      if (this.userRole) {
-        this.initiate()
-      }
-    },
   },
   computed: {
     userRole() {
@@ -209,6 +205,12 @@ export default {
       if (value === "year") {
         this.sorter = carSort.sortByYear()
       }
+    },
+    scrollToTop(){
+      console.log("change")
+      const element = this.$refs["paginatorTop"];
+      const top = element.offsetTop;
+      window.scrollTo(0, top)
     },
     nameFilterClick() {
       this.activeNameFilter = this.nameFilter

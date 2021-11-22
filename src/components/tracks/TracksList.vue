@@ -66,6 +66,9 @@
                 </div>
               </div>
             </div>
+            <div class="col-12">
+              <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredTracks.length"></Paginator>
+            </div>
           </div>
         </div>
       </div>
