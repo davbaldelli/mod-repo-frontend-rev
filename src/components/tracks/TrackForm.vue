@@ -20,21 +20,28 @@
       <small v-if="(v$.form.Year.$invalid && submitted) || v$.form.Year.$pending.$response"
              class="p-error">{{ v$.form.Year.required.$message.replace('Value', 'Year') }}</small>
     </div>
-    <div v-if="existingNation" class="p-field p-col-6 p-sm-5 p-px-2 p-py-0">
+    <div v-if="existingNation" class="p-field p-col-6 p-px-2 p-py-0">
       <label for="nationDropdown">Nation</label>
       <Dropdown filter id="nationDropdown" :options="nations" option-label="Name" v-model="form.Nation"
                 :class="{'p-invalid':v$.form.Nation.Name.$invalid && submitted}"></Dropdown>
       <small v-if="(v$.form.Nation.Name.$invalid && submitted) || v$.form.Nation.Name.$pending.$response"
              class="p-error">{{ v$.form.Nation.Name.required.$message.replace('Value', 'Nation') }}</small>
     </div>
-    <div v-if="!existingNation" class="p-field p-col-6 p-sm-5 p-px-2 p-py-0">
+    <div v-if="!existingNation" class="p-field p-col-6 p-sm-4 p-px-2 p-py-0">
       <label for="nationNameTextField">Nation Name</label>
       <InputText id="nationNameTextField" type="text" v-model="form.Nation.Name"
                  :class="{'p-invalid':v$.form.Nation.Name.$invalid && submitted}"></InputText>
       <small v-if="(v$.form.Nation.Name.$invalid && submitted) || v$.form.Nation.Name.$pending.$response"
              class="p-error">{{ v$.form.Nation.Name.required.$message.replace('Value', 'Nation Name') }}</small>
     </div>
-    <div class="p-field p-col-6 p-sm-5 p-px-2 p-py-0">
+    <div v-if="!existingNation" class="p-field p-col-6 p-sm-2 p-px-2 p-py-0">
+      <label for="nationCodeTextField">Nation Code</label>
+      <InputText id="nationCodeTextField" v-model="form.Nation.Code"
+                 :class="{'p-invalid':v$.form.Nation.Code.$invalid && submitted}"></InputText>
+      <small v-if="(v$.form.Nation.Code.$invalid && submitted) || v$.form.Nation.Code.$pending.$response"
+             class="p-error">{{ v$.form.Nation.Code.required.$message.replace('Value', 'Nation Code') }}</small>
+    </div>
+    <div class="p-field p-col-6 p-sm-4 p-px-2 p-py-0">
       <label for="locationTextField">Location</label>
       <InputText id="locationTextField" type="text" v-model="form.Location"
                  :class="{'p-invalid':v$.form.Location.$invalid && submitted}"></InputText>
@@ -195,7 +202,6 @@ export default {
         Category: "",
         Name: "",
       })
-      console.log(this.form.Layouts.length)
     }
   },
   validations(){
@@ -203,10 +209,10 @@ export default {
       form: {
         Name: {required},
         Premium: {required},
-        Tags: {required},
         Year: {required, minValueValue: minValue(0), integer},
         Nation: {
           Name: {required},
+          Code: {required}
         },
         Location: {required},
         DownloadLink: {required, url},
