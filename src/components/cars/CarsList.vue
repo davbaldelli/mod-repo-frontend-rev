@@ -44,7 +44,7 @@
                       placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
           </div>
           <div class="p-col-12">
-            <div class="p-mb-2" v-for="car in pageCars" :key="car.ModelName">
+            <div class="p-mb-2" v-for="(car,index) in pageCars" :key="index">
               <div class="p-card container-fluid p-py-2">
                 <div class="row">
                   <div class="col-lg-12 col-xl-4">
@@ -221,10 +221,10 @@ export default {
     },
     brandSelected(node) {
       this.selectedBrand = node.data
-      this.selector = carsFilters.filterByBrand(node.data)
       this.clearCategoryFilter()
       this.clearNameFilter()
       this.clearAuthorFilter()
+      this.selector = carsFilters.filterByBrand(node.data)
     },
     onSelectedAuthor(e) {
       this.clearNameFilter()
