@@ -5,21 +5,6 @@
       <p class="lead"><em>A collection of quality cars</em></p>
     </div>
     <div class="p-col-12 p-md-12 p-lg-3">
-      <Accordion>
-        <AccordionTab header="Filter By Brand">
-          <Tree v-model:selection-keys="selectedBrandsNodes" selectionMode="single"
-                :value="FilterOpts" placeholder="Select Brand"
-                :loading="this.$store.getters['cars/loadingBrands']" @nodeSelect="brandSelected"></Tree>
-        </AccordionTab>
-        <AccordionTab header="Filter By Category">
-          <ListBox :filter="true" v-model="selectedCategory" @change="onSelectedCategory" :options="categories"
-                   option-label="Name" list-style="max-height:500px"></ListBox>
-        </AccordionTab>
-        <AccordionTab header="Filter By Author">
-          <ListBox :filter="true" v-model="selectedAuthor" @change="onSelectedAuthor" :options="authors"
-                   option-label="Name" list-style="max-height:500px"></ListBox>
-        </AccordionTab>
-      </Accordion>
     </div>
     <div class="p-md-12 p-lg-6">
       <div class="p-col-12">
@@ -27,21 +12,34 @@
           <div class="p-col-12">
             <div class="p-inputgroup p-mb-2">
               <InputText v-on:keyup.enter="nameFilterClick" v-model="nameFilter" placeholder="Type Car Name"/>
-              <Button @click="nameFilterClick" label="Search"/>
+              <Button @click="nameFilterClick" icon="pi pi-search"/>
             </div>
           </div>
           <div ref="paginatorTop" class="p-col-12">
             <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
           </div>
-          <div class="p-col-6 d-flex align-items-center">
-            <Chip :label="selectedCategory.Name" v-if="selectedCategory" @remove="resetFilters" removable/>
-            <Chip :label="activeNameFilter" v-if="activeNameFilter" @remove="resetFilters" removable/>
-            <Chip :label="selectedBrand" v-if="selectedBrand" @remove="resetFilters" removable/>
-            <Chip :label="selectedAuthor.Name" v-if="selectedAuthor" @remove="resetFilters" removable/>
+          <div class="p-col-9 p-formgroup-inline">
+            <div class="p-field">
+              <CascadeSelect v-model="selectedBrand" @change="brandSelected" placeholder="Filter by Brand"
+                             :options="brandOpts" option-label="name" option-group-label="nation"
+                             :option-group-children="['brands']" :loading="this.$store.getters['cars/loadingBrands']"/>
+            </div>
+            <div class="p-field">
+              <Dropdown v-model="selectedCategory" :options="categories" option-label="Name" @change="onSelectedCategory" placeholder="Filter by Category"/>
+            </div>
+            <div class="p-field">
+              <Dropdown v-model="selectedAuthor" :options="authors" option-label="Name" @change="onSelectedAuthor" placeholder="Filter by Author"/>
+            </div>
           </div>
-          <div class="p-col-6 text-end">
+          <div class="p-col-3 text-end">
             <Dropdown @change="e => sort(e.value)" class="p-mb-2" v-model="selectedSort" :options="sortOpts"
                       placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
+          </div>
+          <div class="p-col-12 d-flex align-items-center">
+            <Chip class="p-ml-2" :label="`Category: ${selectedCategory.Name}`" v-if="selectedCategory" @remove="clearCategoryFilter" removable/>
+            <Chip class="p-ml-2" :label="`Name: ${activeNameFilter}`" v-if="activeNameFilter" @remove="clearNameFilter" removable/>
+            <Chip class="p-ml-2" :label="`Brand: ${selectedBrand.name}`" v-if="selectedBrand" @remove="clearBrandFilter" removable/>
+            <Chip class="p-ml-2" :label="`Author: ${selectedAuthor.Name}`" v-if="selectedAuthor" @remove="clearAuthorFilter" removable/>
           </div>
           <div class="p-col-12">
             <div class="p-mb-2" v-for="(car,index) in pageCars" :key="index">
@@ -55,7 +53,10 @@
                   <div class="col-lg-12 col-xl-8 mt-2 d-flex flex-column">
                     <div class="p-card-title">
                       <h3>
-                        <router-link :to="{name : 'car', query:{}}">{{ `${car.Brand.Name} ${car.ModelName}` }}</router-link>
+                        <router-link :to="{name : 'car', query:{}}">{{
+                            `${car.Brand.Name} ${car.ModelName}`
+                          }}
+                        </router-link>
                       </h3>
                     </div>
                     <div class="p-card-subtitle">
@@ -78,7 +79,8 @@
                       <strong>Top Speed:</strong>{{ car.TopSpeed }},
                     </div>
                     <div class="p-card-footer p-text-right mt-auto">
-                      <Button v-if="userRole === 'admin'" @click="openEditTab(car)" icon="pi pi-pencil" class="p-mr-2"></Button>
+                      <Button v-if="userRole === 'admin'" @click="openEditTab(car)" icon="pi pi-pencil"
+                              class="p-mr-2"></Button>
                       <Button @click="openInNewTab(car.DownloadLink)" icon="pi pi-download"></Button>
                     </div>
                   </div>
@@ -97,30 +99,27 @@
 </template>
 
 <script>
-import Tree from 'primevue/tree'
 import Paginator from 'primevue/paginator';
-import ListBox from 'primevue/listbox';
 import Dropdown from 'primevue/dropdown';
-import Accordion from 'primevue/accordion';
-import AccordionTab from 'primevue/accordiontab';
 import Button from 'primevue/button'
 import InputText from "primevue/inputtext";
 import Chip from 'primevue/chip'
+import CascadeSelect from 'primevue/cascadeselect';
+//import AutoComplete from 'primevue/autocomplete';
+
 import {carsFilters, carSort} from "@/_helpers";
 
 
 export default {
   name: "CarList",
   components: {
-    Tree,
     Paginator,
-    ListBox,
     Dropdown,
-    Accordion,
-    AccordionTab,
     Button,
     InputText,
     Chip,
+    CascadeSelect,
+    //AutoComplete,
   },
   data() {
     return {
@@ -129,10 +128,13 @@ export default {
         {label: 'Submission Date', value: 'submission'},
         {label: "Year", value: "year"}
       ],
+      brandOpts: [],
       nameFilter: "",
       activeNameFilter: "",
-      selectedBrandsNodes: Object(),
-      selector: cars => cars,
+      categorySelector: c => c,
+      brandSelector: c => c,
+      authorSelector: c => c,
+      nameSelector: c => c,
       sorter: carSort.sortByName(),
       pageRows: 20,
       offset: 0,
@@ -142,6 +144,9 @@ export default {
     }
   },
   computed: {
+    selector(){
+      return c => this.categorySelector(this.authorSelector(this.brandSelector(this.nameSelector(c))))
+    },
     userRole() {
       return this.$store.getters['authentication/user'].role
     },
@@ -156,24 +161,9 @@ export default {
     },
     brandGrouped() {
       return this.$store.getters['cars/brands'].reduce((r, a) => {
-        r.set(a.Nation.Name, [...r.get(a.Nation.Name) || [], a.Name])
+        r.set(a.Nation.Name, [...r.get(a.Nation.Name) || [], {name: a.Name}])
         return r
       }, new Map())
-    },
-    FilterOpts() {
-      let items = []
-      let i = 0;
-      this.brandGrouped.forEach((value, key) => {
-        let opt = {label: key, children: [], key: `${i}`, data: key, nation: true, selectable: false}
-        let j = 0;
-        value.forEach(brand => {
-          opt.children.push({label: brand, data: brand, key: `${i}-${j}`})
-          j++
-        })
-        items.push(opt)
-        i++
-      })
-      return items
     },
     authors() {
       return this.$store.getters['cars/authors']
@@ -181,6 +171,13 @@ export default {
     categories() {
       return this.$store.getters['cars/types']
     }
+  },
+  watch: {
+    brandGrouped() {
+      this.brandGrouped.forEach((value, key) => {
+        this.brandOpts.push({nation: key, brands: value})
+      })
+    },
   },
   mounted() {
     this.initiate()
@@ -206,7 +203,7 @@ export default {
         this.sorter = carSort.sortByYear()
       }
     },
-    scrollToTop(){
+    scrollToTop() {
       console.log("change")
       const element = this.$refs["paginatorTop"];
       const top = element.offsetTop;
@@ -214,56 +211,45 @@ export default {
     },
     nameFilterClick() {
       this.activeNameFilter = this.nameFilter
-      this.selector = carsFilters.filterByName(this.nameFilter)
-      this.clearCategoryFilter()
-      this.clearBrandFilter()
-      this.clearAuthorFilter()
+      this.nameSelector = carsFilters.filterByName(this.nameFilter)
     },
-    brandSelected(node) {
-      this.selectedBrand = node.data
-      this.clearCategoryFilter()
-      this.clearNameFilter()
-      this.clearAuthorFilter()
-      this.selector = carsFilters.filterByBrand(node.data)
+    brandSelected(e) {
+      this.brandSelector = carsFilters.filterByBrand(e.value.name)
     },
     onSelectedAuthor(e) {
-      this.clearNameFilter()
-      this.clearBrandFilter()
-      this.clearCategoryFilter()
-      this.selector = carsFilters.filterByAuthor(e.value.Name)
+      this.authorSelector = carsFilters.filterByAuthor(e.value.Name)
     },
     onSelectedCategory(e) {
-      this.clearNameFilter()
-      this.clearBrandFilter()
-      this.clearAuthorFilter()
-      this.selector = carsFilters.filterByCategory(e.value.Name)
+      this.categorySelector = carsFilters.filterByCategory(e.value.Name)
     },
     clearNameFilter() {
       this.activeNameFilter = ""
+      this.nameSelector = c => c
     },
     clearCategoryFilter() {
       this.selectedCategory = ""
+      this.categorySelector = c => c
     },
     clearBrandFilter() {
       this.selectedBrand = ""
-      this.selectedBrandsNodes = Object()
+      this.brandSelector = c => c
     },
     clearAuthorFilter() {
       this.selectedAuthor = ""
+      this.authorSelector = c => c
     },
     resetFilters() {
       this.clearNameFilter()
       this.clearCategoryFilter()
       this.clearBrandFilter()
       this.clearAuthorFilter()
-      this.selector = c => c
     },
     openInNewTab(url) {
       window.open(url, '_blank').focus();
     },
     openEditTab(car) {
       const car_copy = JSON.stringify(car)
-      this.$router.push({name : 'CarEdit', params: {initialCar : car_copy}})
+      this.$router.push({name: 'CarEdit', params: {initialCar: car_copy}})
     }
   }
 }

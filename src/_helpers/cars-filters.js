@@ -13,7 +13,6 @@ export const carsFilters = {
 
 function lastUpdated(n){
     return cars => {
-        console.log(cars)
         cars.sort((a, b) => {
             let timeA = moment(a.UpdatedAt)
             let timeB = moment(b.UpdatedAt)
