@@ -5,7 +5,7 @@
     </div>
     <div class="p-col-12">
       <router-view :key="routerViewKey" v-slot="{Component}">
-        <keep-alive max="5">
+        <keep-alive :include="['CarList','TracksList']">
         <component :is="Component">
 
         </component>

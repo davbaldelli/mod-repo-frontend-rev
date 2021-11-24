@@ -25,10 +25,12 @@
                              :option-group-children="['brands']" :loading="this.$store.getters['cars/loadingBrands']"/>
             </div>
             <div class="p-field">
-              <Dropdown v-model="selectedCategory" :options="categories" option-label="Name" @change="e => onSelectedCategory(e.value.Name)" placeholder="Category"/>
+              <Dropdown v-model="selectedCategory" :options="categories" option-label="Name"
+                        @change="e => onSelectedCategory(e.value.Name)" placeholder="Category"/>
             </div>
             <div class="p-field">
-              <Dropdown v-model="selectedAuthor" :options="authors" option-label="Name" @change="e => onAuthorSelected(e.value.Name)" placeholder="Author"/>
+              <Dropdown v-model="selectedAuthor" :options="authors" option-label="Name"
+                        @change="e => onAuthorSelected(e.value.Name)" placeholder="Author"/>
             </div>
             <div class="p-field">
               <Dropdown @change="e => sort(e.value)" class="p-mb-2" v-model="selectedSort" :options="sortOpts"
@@ -36,10 +38,14 @@
             </div>
           </div>
           <div class="p-col-12 d-flex align-items-center">
-            <Chip class="p-ml-2" :label="`Category: ${selectedCategory.Name}`" v-if="selectedCategory" @remove="clearCategoryFilter" removable/>
-            <Chip class="p-ml-2" :label="`Name: ${activeNameFilter}`" v-if="activeNameFilter" @remove="clearNameFilter" removable/>
-            <Chip class="p-ml-2" :label="`Brand: ${selectedBrand.name}`" v-if="selectedBrand" @remove="clearBrandFilter" removable/>
-            <Chip class="p-ml-2" :label="`Author: ${selectedAuthor.Name}`" v-if="selectedAuthor" @remove="clearAuthorFilter" removable/>
+            <Chip class="p-ml-2" :label="`Category: ${selectedCategory}`" v-if="selectedCategory"
+                  @remove="clearCategoryFilter" removable/>
+            <Chip class="p-ml-2" :label="`Name: ${activeNameFilter}`" v-if="activeNameFilter" @remove="clearNameFilter"
+                  removable/>
+            <Chip class="p-ml-2" :label="`Brand: ${selectedBrand.name}`" v-if="selectedBrand" @remove="clearBrandFilter"
+                  removable/>
+            <Chip class="p-ml-2" :label="`Author: ${selectedAuthor.Name}`" v-if="selectedAuthor"
+                  @remove="clearAuthorFilter" removable/>
           </div>
           <div class="p-col-12">
             <div class="p-mb-2" v-for="(car,index) in pageCars" :key="index">
@@ -130,6 +136,7 @@ export default {
         {label: "Production Year (Newer)", value: carSort.sortByYear(true)},
         {label: "Production Year (Older)", value: carSort.sortByYear(false)}
       ],
+      categoryOpts: [],
       brandOpts: [],
       nameFilter: "",
       activeNameFilter: "",
@@ -137,16 +144,29 @@ export default {
       brandSelector: c => c,
       authorSelector: c => c,
       nameSelector: c => c,
+      categories : [
+        {Name : "Endurance"},
+        {Name : "Formula"},
+        {Name : "GT"},
+        {Name : "Prototype"},
+        {Name : "Rally"},
+        {Name : "Stock Car"},
+        {Name : "Street"},
+        {Name : "Tuned"},
+        {Name : "Touring"},
+        {Name : "Vintage"},
+      ],
       sorter: carSort.sortByName(true),
       pageRows: 20,
       offset: 0,
+      categorySearch: "",
       selectedCategory: "",
       selectedAuthor: "",
       selectedBrand: ""
     }
   },
   computed: {
-    selector(){
+    selector() {
       return c => this.categorySelector(this.authorSelector(this.brandSelector(this.nameSelector(c))))
     },
     userRole() {
@@ -170,9 +190,6 @@ export default {
     authors() {
       return this.$store.getters['cars/authors']
     },
-    categories() {
-      return this.$store.getters['cars/types']
-    }
   },
   watch: {
     brandGrouped() {
@@ -189,7 +206,6 @@ export default {
       this.getAllCars()
       this.$store.dispatch('cars/getCarAuthors')
       this.$store.dispatch('cars/getCarBrands')
-      this.$store.dispatch('cars/getCarTypes')
       /*
       if(this.$route.query.brandFilter){
         this.onBrandSelected(this.$route.query.brandFilter)
@@ -209,6 +225,9 @@ export default {
     getAllCars() {
       this.$store.dispatch('cars/getAll')
     },
+    searchCategory(e) {
+      this.categoryOpts = this.categories.filter(v => v.Name.toLowerCase().includes(e.query.toLowerCase()))
+    },
     sort(value) {
       this.sorter = value
     },
@@ -221,41 +240,42 @@ export default {
     nameFilterClick() {
       this.onNameSelected(this.nameFilter)
     },
-    onNameSelected(name){
+    onNameSelected(name) {
       this.activeNameFilter = name
-      this.$router.replace({query: {...this.$route.query, nameFilter : name}})
+      this.$router.replace({query: {...this.$route.query, nameFilter: name}})
       this.nameSelector = carsFilters.filterByName(name)
     },
     onBrandSelected(name) {
-      this.$router.replace({query: {...this.$route.query, brandFilter : name}})
+      this.$router.replace({query: {...this.$route.query, brandFilter: name}})
       this.brandSelector = carsFilters.filterByBrand(name)
     },
     onAuthorSelected(name) {
-      this.$router.replace({query: {...this.$route.query, authorFilter : name}})
+      this.$router.replace({query: {...this.$route.query, authorFilter: name}})
       this.authorSelector = carsFilters.filterByAuthor(name)
     },
     onSelectedCategory(name) {
-      this.$router.replace({query: {...this.$route.query, categoryFilter :name}})
+      this.selectedCategory = name
+      this.$router.replace({query: {...this.$route.query, categoryFilter: name}})
       this.categorySelector = carsFilters.filterByCategory(name)
     },
     clearNameFilter() {
       this.activeNameFilter = ""
-      this.$router.replace({query: {...this.$route.query, nameFilter : this.activeNameFilter}})
+      this.$router.replace({query: {...this.$route.query, nameFilter: this.activeNameFilter}})
       this.nameSelector = c => c
     },
     clearCategoryFilter() {
       this.selectedCategory = ""
-      this.$router.replace({query: {...this.$route.query, categoryFilter : this.selectedCategory.Name}})
+      this.$router.replace({query: {...this.$route.query, categoryFilter: this.selectedCategory.Name}})
       this.categorySelector = c => c
     },
     clearBrandFilter() {
       this.selectedBrand = ""
-      this.$router.replace({query: {...this.$route.query, brandFilter : this.selectedBrand.Name}})
+      this.$router.replace({query: {...this.$route.query, brandFilter: this.selectedBrand.Name}})
       this.brandSelector = c => c
     },
     clearAuthorFilter() {
       this.selectedAuthor = ""
-      this.$router.replace({query: {...this.$route.query, authorFilter :this.selectedAuthor.Name}})
+      this.$router.replace({query: {...this.$route.query, authorFilter: this.selectedAuthor.Name}})
       this.authorSelector = c => c
     },
     resetFilters() {

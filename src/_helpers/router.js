@@ -19,12 +19,12 @@ const routes = [
         path: '/', component: HelloWorld,
     },
     {
-        path: '/tracks', component: TrackList, meta: {
+        path: '/tracks', name:"Tracks" ,component: TrackList, meta: {
             requiresAuth: true,
         }
     },
     {
-        path: '/cars', component: CarList, meta: {
+        path: '/cars',name:"Cars", component: CarList, meta: {
             requiresAuth: true,
         }
     },

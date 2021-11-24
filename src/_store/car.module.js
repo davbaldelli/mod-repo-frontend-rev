@@ -55,7 +55,8 @@ export const cars = {
             commit('carPushing')
             return await carService.addCar(car)
                 .then(car => {
-                    commit('carPushed', car)
+                    commit('carPushed')
+                    dispatch('getAll')
                     dispatch('alert/success', car, {root: true})
                     return car
                 })
@@ -69,7 +70,8 @@ export const cars = {
             commit('carPushing')
             return await carService.updateCar(car)
                 .then(car => {
-                    commit('carPushed', car)
+                    commit('carPushed')
+                    dispatch('getAll')
                     dispatch('alert/success', car, {root: true})
                     return car
                 })
@@ -121,9 +123,8 @@ export const cars = {
             delete state.cars.error
             state.cars.pushing = true
         },
-        carPushed(state, car) {
+        carPushed(state) {
             delete state.cars.pushing
-            state.cars.items.push(car)
         },
         carPushError(state, error) {
             delete state.cars.pushing

@@ -140,9 +140,8 @@
       <label for="existingAuthorCheck">Existing</label>
     </div>
     <div class="p-field p-col-12">
-      <label for="categoriesChips">Categories</label>
-      <Chips id="categoriesChips" @add="addCategory" @remove="removeCategory" v-model="categoryValues"
-             :allow-duplicate="false"></Chips>
+      <label :for="'categoriesChips'">Categories</label>
+      <MultiSelect :id="'categoriesChips'" v-model="form.Categories" :options="categories" optionLabel="Name" placeholder="Select Categories"/>
     </div>
     <Button type="submit" label="Submit" class="p-mt-2"/>
   </form>
@@ -154,8 +153,8 @@ import CheckBox from 'primevue/checkbox';
 import InputNumber from 'primevue/inputnumber';
 import Dropdown from 'primevue/dropdown';
 import Button from "primevue/button";
-import Chips from "primevue/chips";
 import useVuelidate from "@vuelidate/core";
+import MultiSelect from "primevue/multiselect";
 import {integer, minValue, required, url} from '@vuelidate/validators'
 
 export default {
@@ -168,7 +167,7 @@ export default {
     InputNumber,
     Dropdown,
     Button,
-    Chips,
+    MultiSelect,
   },
   setup: () => ({v$: useVuelidate()}),
   data() {
@@ -182,6 +181,18 @@ export default {
         {value: "AWD", text: "AWD"},
         {value: "RWD", text: "RWD"},
         {value: "FWD", text: "FWD"},
+      ],
+      categories : [
+        {Name : "Endurance"},
+        {Name : "Formula"},
+        {Name : "GT"},
+        {Name : "Prototype"},
+        {Name : "Rally"},
+        {Name : "Stock Car"},
+        {Name : "Street"},
+        {Name : "Tuned"},
+        {Name : "Touring"},
+        {Name : "Vintage"},
       ],
       existingBrand: true,
       existingNation: true,
