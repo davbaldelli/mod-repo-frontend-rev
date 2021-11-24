@@ -30,8 +30,10 @@
             <div class="p-field">
               <Dropdown v-model="selectedAuthor" :options="authors" option-label="Name" @change="e => onAuthorSelected(e.value.Name)" placeholder="Author"/>
             </div>
-            <Dropdown @change="e => sort(e.value)" class="p-mb-2" v-model="selectedSort" :options="sortOpts"
-                      placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
+            <div class="p-field">
+              <Dropdown @change="e => sort(e.value)" class="p-mb-2" v-model="selectedSort" :options="sortOpts"
+                        placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
+            </div>
           </div>
           <div class="p-col-12 d-flex align-items-center">
             <Chip class="p-ml-2" :label="`Category: ${selectedCategory.Name}`" v-if="selectedCategory" @remove="clearCategoryFilter" removable/>
@@ -188,6 +190,7 @@ export default {
       this.$store.dispatch('cars/getCarAuthors')
       this.$store.dispatch('cars/getCarBrands')
       this.$store.dispatch('cars/getCarTypes')
+      /*
       if(this.$route.query.brandFilter){
         this.onBrandSelected(this.$route.query.brandFilter)
       }
@@ -201,6 +204,7 @@ export default {
       if(this.$route.query.categoryFilter){
         this.onSelectedCategory(this.$route.query.categoryFilter)
       }
+       */
     },
     getAllCars() {
       this.$store.dispatch('cars/getAll')
