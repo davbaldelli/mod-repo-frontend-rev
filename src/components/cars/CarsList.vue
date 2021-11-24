@@ -20,15 +20,15 @@
           </div>
           <div class="p-col-12 p-formgroup-inline">
             <div class="p-field">
-              <CascadeSelect v-model="selectedBrand" @change="brandSelected" placeholder="Brand"
+              <CascadeSelect v-model="selectedBrand" @change="e => onBrandSelected(e.value.name)" placeholder="Brand"
                              :options="brandOpts" option-label="name" option-group-label="nation"
                              :option-group-children="['brands']" :loading="this.$store.getters['cars/loadingBrands']"/>
             </div>
             <div class="p-field">
-              <Dropdown v-model="selectedCategory" :options="categories" option-label="Name" @change="onSelectedCategory" placeholder="Category"/>
+              <Dropdown v-model="selectedCategory" :options="categories" option-label="Name" @change="e => onSelectedCategory(e.value.Name)" placeholder="Category"/>
             </div>
             <div class="p-field">
-              <Dropdown v-model="selectedAuthor" :options="authors" option-label="Name" @change="onSelectedAuthor" placeholder="Author"/>
+              <Dropdown v-model="selectedAuthor" :options="authors" option-label="Name" @change="e => onAuthorSelected(e.value.Name)" placeholder="Author"/>
             </div>
             <Dropdown @change="e => sort(e.value)" class="p-mb-2" v-model="selectedSort" :options="sortOpts"
                       placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
@@ -188,6 +188,19 @@ export default {
       this.$store.dispatch('cars/getCarAuthors')
       this.$store.dispatch('cars/getCarBrands')
       this.$store.dispatch('cars/getCarTypes')
+      if(this.$route.query.brandFilter){
+        this.onBrandSelected(this.$route.query.brandFilter)
+      }
+      if(this.$route.query.nameFilter){
+        this.nameFilter = this.$route.query.nameFilter
+        this.onNameSelected(this.$route.query.nameFilter)
+      }
+      if(this.$route.query.authorFilter){
+        this.onAuthorSelected(this.$route.query.authorFilter)
+      }
+      if(this.$route.query.categoryFilter){
+        this.onSelectedCategory(this.$route.query.categoryFilter)
+      }
     },
     getAllCars() {
       this.$store.dispatch('cars/getAll')
@@ -202,32 +215,43 @@ export default {
       window.scrollTo(0, top)
     },
     nameFilterClick() {
-      this.activeNameFilter = this.nameFilter
-      this.nameSelector = carsFilters.filterByName(this.nameFilter)
+      this.onNameSelected(this.nameFilter)
     },
-    brandSelected(e) {
-      this.brandSelector = carsFilters.filterByBrand(e.value.name)
+    onNameSelected(name){
+      this.activeNameFilter = name
+      this.$router.replace({query: {...this.$route.query, nameFilter : name}})
+      this.nameSelector = carsFilters.filterByName(name)
     },
-    onSelectedAuthor(e) {
-      this.authorSelector = carsFilters.filterByAuthor(e.value.Name)
+    onBrandSelected(name) {
+      this.$router.replace({query: {...this.$route.query, brandFilter : name}})
+      this.brandSelector = carsFilters.filterByBrand(name)
     },
-    onSelectedCategory(e) {
-      this.categorySelector = carsFilters.filterByCategory(e.value.Name)
+    onAuthorSelected(name) {
+      this.$router.replace({query: {...this.$route.query, authorFilter : name}})
+      this.authorSelector = carsFilters.filterByAuthor(name)
+    },
+    onSelectedCategory(name) {
+      this.$router.replace({query: {...this.$route.query, categoryFilter :name}})
+      this.categorySelector = carsFilters.filterByCategory(name)
     },
     clearNameFilter() {
       this.activeNameFilter = ""
+      this.$router.replace({query: {...this.$route.query, nameFilter : this.activeNameFilter}})
       this.nameSelector = c => c
     },
     clearCategoryFilter() {
       this.selectedCategory = ""
+      this.$router.replace({query: {...this.$route.query, categoryFilter : this.selectedCategory.Name}})
       this.categorySelector = c => c
     },
     clearBrandFilter() {
       this.selectedBrand = ""
+      this.$router.replace({query: {...this.$route.query, brandFilter : this.selectedBrand.Name}})
       this.brandSelector = c => c
     },
     clearAuthorFilter() {
       this.selectedAuthor = ""
+      this.$router.replace({query: {...this.$route.query, authorFilter :this.selectedAuthor.Name}})
       this.authorSelector = c => c
     },
     resetFilters() {

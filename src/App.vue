@@ -4,7 +4,13 @@
       <Menubar  :model="menuItems" :end="menuItems"/>
     </div>
     <div class="p-col-12">
-      <router-view :key="routerViewKey"></router-view>
+      <router-view :key="routerViewKey" v-slot="{Component}">
+        <keep-alive max="5">
+        <component :is="Component">
+
+        </component>
+        </keep-alive>
+      </router-view>
       <Dialog header="Login" v-model:visible="display" @hide="resetModal" :modal="true">
         <div class="p-py-2">
           <form v-on:keyup.enter="handleSubmit(!v$.$invalid)" @submit.prevent="handleSubmit(!v$.$invalid)" class="p-fluid">
