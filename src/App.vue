@@ -1,7 +1,7 @@
 <template>
   <div class="p-grid p-m-0">
     <div class="p-col-12 p-p-0 sticky-top" >
-      <Menubar  :model="menuItems" :end="menuItems"/>
+      <Menubar  :model="menuItems"/>
     </div>
     <div class="p-col-12">
       <router-view :key="routerViewKey" v-slot="{Component}">
@@ -81,7 +81,7 @@ export default {
           label: 'Home', icon: 'pi pi-fw pi-home', to: '/',
         },
         {
-          label: 'Cars', to: '/cars',
+          label: 'Cars', to: '/cars'
         },
         {
           label: 'Tracks', to: '/tracks',
@@ -96,13 +96,13 @@ export default {
           label: 'User', icon: 'pi pi-fw pi-user', visible : () => this.logged,
           items : [
             {
-              label: 'Add Car',to : '/car/new', visible : () => this.loggedUsername === "admin"
+              label: 'Add Car',to : '/car/new', visible : () => this.loggedUsername === "admin", icon: 'pi pi-plus-circle'
             },
             {
-              label: 'Add Track',to : '/track/new', visible : () => this.loggedUsername === "admin"
+              label: 'Add Track',to : '/track/new', visible : () => this.loggedUsername === "admin", icon: 'pi pi-plus-circle'
             },
             {
-              label: 'Logout', command : this.logOut
+              label: 'Logout', command : this.logOut, icon:'pi pi-sign-out'
             },
           ]
         },
@@ -165,7 +165,7 @@ export default {
       this.$store.dispatch('authentication/login', {username: this.username, password: this.password})
           .then(() => {
             this.$store.dispatch('alert/clear')
-            this.$emit("loggedIn");
+            this.$emit("logged");
             this.closeDialog();
           })
           .catch(() => {

@@ -166,6 +166,9 @@ export default {
     }
   },
   computed: {
+    loggedIn(){
+      return this.$store.getters['authentication/loggedIn']
+    },
     selector() {
       return c => this.categorySelector(this.authorSelector(this.brandSelector(this.nameSelector(c))))
     },
@@ -197,6 +200,11 @@ export default {
         this.brandOpts.push({nation: key, brands: value})
       })
     },
+    loggedIn(){
+      if(this.loggedIn){
+        this.initiate()
+      }
+    }
   },
   mounted() {
     this.initiate()

@@ -106,6 +106,9 @@ export default {
     this.initiate()
   },
   computed: {
+    loggedIn(){
+      return this.$store.getters['authentication/loggedIn']
+    },
     userRole() {
       return this.$store.getters['authentication/user'].role
     },
@@ -118,6 +121,13 @@ export default {
     pageTracks() {
       return this.filteredTracks.slice(this.offset, this.offset + this.pageRows)
     },
+  },
+  watch:{
+    loggedIn(){
+      if(this.loggedIn){
+        this.initiate()
+      }
+    }
   },
   methods: {
     nameFilterClick() {

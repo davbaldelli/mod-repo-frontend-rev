@@ -9,6 +9,9 @@ export const authentication = {
     namespaced: true,
     state: initialState,
     getters: {
+        loggedIn: state => {
+            return state.status.loggedIn
+        },
         isLogged: state => {
             return state.user.role !== "base"
         },
