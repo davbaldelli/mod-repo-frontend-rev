@@ -14,11 +14,14 @@ function sortByDate(){
     }
 }
 
-function sortByName(){
-    return (a,b) => `${a.Brand.Name}${a.ModelName}`.toLowerCase() > `${b.Brand.Name}${b.ModelName}`.toLowerCase() ? 1 : -1
+function sortByName(desc){
+    return (a,b) => XOR(desc, `${a.Brand.Name}${a.ModelName}${a.Year}`.toLowerCase() < `${b.Brand.Name}${b.ModelName}${b.Year}`.toLowerCase()) ? 1 : -1
 }
 
-function sortByYear(){
-    return (a, b) =>  b.Year - a.Year
+function sortByYear(desc){
+    return (a, b) =>  XOR(desc,b.Year < a.Year) ? 1 : -1
 }
 
+function XOR(a,b){
+    return ( a || b ) && !( a && b );
+}

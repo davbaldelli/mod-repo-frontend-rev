@@ -18,7 +18,7 @@
           <div ref="paginatorTop" class="p-col-12">
             <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
           </div>
-          <div class="p-col-9 p-formgroup-inline">
+          <div class="p-col-12 p-formgroup-inline">
             <div class="p-field">
               <CascadeSelect v-model="selectedBrand" @change="brandSelected" placeholder="Brand"
                              :options="brandOpts" option-label="name" option-group-label="nation"
@@ -30,8 +30,6 @@
             <div class="p-field">
               <Dropdown v-model="selectedAuthor" :options="authors" option-label="Name" @change="onSelectedAuthor" placeholder="Author"/>
             </div>
-          </div>
-          <div class="p-col-3 text-end">
             <Dropdown @change="e => sort(e.value)" class="p-mb-2" v-model="selectedSort" :options="sortOpts"
                       placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
           </div>
@@ -124,9 +122,11 @@ export default {
   data() {
     return {
       sortOpts: [
-        {label: 'Name', value: 'name'},
-        {label: 'Submission Date', value: 'submission'},
-        {label: "Year", value: "year"}
+        {label: 'Name (A-Z)', value: carSort.sortByName(true)},
+        {label: 'Name (Z-A)', value: carSort.sortByName(false)},
+        {label: 'Latest Submitted', value: carSort.sortByDate()},
+        {label: "Production Year (Newer)", value: carSort.sortByYear(true)},
+        {label: "Production Year (Older)", value: carSort.sortByYear(false)}
       ],
       brandOpts: [],
       nameFilter: "",
@@ -135,7 +135,7 @@ export default {
       brandSelector: c => c,
       authorSelector: c => c,
       nameSelector: c => c,
-      sorter: carSort.sortByName(),
+      sorter: carSort.sortByName(true),
       pageRows: 20,
       offset: 0,
       selectedCategory: "",
@@ -193,15 +193,7 @@ export default {
       this.$store.dispatch('cars/getAll')
     },
     sort(value) {
-      if (value === "submission") {
-        this.sorter = carSort.sortByDate()
-      }
-      if (value === "name") {
-        this.sorter = carSort.sortByName()
-      }
-      if (value === "year") {
-        this.sorter = carSort.sortByYear()
-      }
+      this.sorter = value
     },
     scrollToTop() {
       console.log("change")
