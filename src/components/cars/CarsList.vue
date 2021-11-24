@@ -20,15 +20,15 @@
           </div>
           <div class="p-col-9 p-formgroup-inline">
             <div class="p-field">
-              <CascadeSelect v-model="selectedBrand" @change="brandSelected" placeholder="Filter by Brand"
+              <CascadeSelect v-model="selectedBrand" @change="brandSelected" placeholder="Brand"
                              :options="brandOpts" option-label="name" option-group-label="nation"
                              :option-group-children="['brands']" :loading="this.$store.getters['cars/loadingBrands']"/>
             </div>
             <div class="p-field">
-              <Dropdown v-model="selectedCategory" :options="categories" option-label="Name" @change="onSelectedCategory" placeholder="Filter by Category"/>
+              <Dropdown v-model="selectedCategory" :options="categories" option-label="Name" @change="onSelectedCategory" placeholder="Category"/>
             </div>
             <div class="p-field">
-              <Dropdown v-model="selectedAuthor" :options="authors" option-label="Name" @change="onSelectedAuthor" placeholder="Filter by Author"/>
+              <Dropdown v-model="selectedAuthor" :options="authors" option-label="Name" @change="onSelectedAuthor" placeholder="Author"/>
             </div>
           </div>
           <div class="p-col-3 text-end">
