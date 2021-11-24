@@ -14,7 +14,7 @@
             <div class="row">
               <div class="col-12">
                 <div class="p-inputgroup p-mb-2">
-                  <InputText v-on:keyup.enter="nameFilterClick" v-model="nameFilter" placeholder="Type Car Name"/>
+                  <InputText v-on:keyup.enter="nameFilterClick" v-model="nameFilter" placeholder="Type Track Name"/>
                   <Button @click="nameFilterClick" label="Search"/>
                 </div>
               </div>
