@@ -1,6 +1,6 @@
 <template>
   <div class="p-grid">
-    <div class="p-col-12 text-center">
+    <div class="p-col-12 p-mt-4 text-center">
       <h1 class="display-4">AC Tracks Repository</h1>
       <p class="lead"><em>A collection of quality tracks</em></p>
     </div>
@@ -62,7 +62,7 @@
                 </div>
               </div>
               <div class="col-lg-12 col-xl-8 p-mt-2 d-flex flex-column">
-                <div class="p-card-title">
+                <div class="p-card-title p-mt-2 p-mb-0">
                   <h3>
                     <router-link :to="{name : 'track', query:{}}">{{ track.Name }}</router-link>
                   </h3>

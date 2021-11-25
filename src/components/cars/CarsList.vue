@@ -1,6 +1,6 @@
 <template>
   <div class="p-grid">
-    <div class="p-col-12 text-center">
+    <div class="p-col-12 text-center p-mt-4">
       <h1 class="display-4">AC Cars Repository</h1>
       <p class="lead"><em>A collection of quality cars</em></p>
     </div>
@@ -16,21 +16,19 @@
         <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
       </div>
       <div class="p-col-12">
-          <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedBrand" :options="brandOpts" :filter="true"
-                    @change="e => onBrandSelected(e.value.name)" placeholder="Brand"
-                    optionLabel="name" optionGroupLabel="nation" optionGroupChildren="brands"
-                    :loading="this.$store.getters['cars/loadingBrands']">
-          </Dropdown>
-
-
-          <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedCategory" :options="categories" option-label="Name"
-          @change="e => onSelectedCategory(e.value.Name)" placeholder="Category"/>
-
-          <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedAuthor" :options="authors" option-label="Name" :filter="true"
-                    @change="e => onAuthorSelected(e.value.Name)" placeholder="Author"/>
-
-          <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" @change="e => sort(e.value)" v-model="selectedSort" :options="sortOpts"
-                    placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
+        <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedBrand" :options="brandOpts" :filter="true"
+                  @change="e => onBrandSelected(e.value.name)" placeholder="Brand"
+                  optionLabel="name" optionGroupLabel="nation" optionGroupChildren="brands"
+                  :loading="this.$store.getters['cars/loadingBrands']">
+        </Dropdown>
+        <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedCategory" :options="categories" option-label="Name"
+                  @change="e => onSelectedCategory(e.value.Name)" placeholder="Category"/>
+        <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedAuthor" :options="authors" option-label="Name"
+                  :filter="true"
+                  @change="e => onAuthorSelected(e.value.Name)" placeholder="Author"/>
+        <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" @change="e => sort(e.value)" v-model="selectedSort"
+                  :options="sortOpts"
+                  placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
       </div>
       <div class="p-col-12">
         <Chip class="p-mr-2" :label="`Category: ${selectedCategory.Name}`" v-if="selectedCategory"
@@ -66,7 +64,8 @@
           </div>
         </div>
       </div>
-      <div v-if="filteredCars.length === 0 && !this.$store.getters['cars/loadingCars']" class="p-mt-3 text-center p-col-12">
+      <div v-if="filteredCars.length === 0 && !this.$store.getters['cars/loadingCars']"
+           class="p-mt-3 text-center p-col-12">
         <h3 class="display-6">I'm sorry, no car match your request</h3>
       </div>
       <div v-else class="p-col-12">
@@ -79,7 +78,7 @@
                 </div>
               </div>
               <div class="col-lg-12 col-xl-8 mt-2 d-flex flex-column">
-                <div class="p-card-title">
+                <div class="p-card-title p-mt-2 p-mb-0">
                   <h3>
                     <router-link :to="{name : 'car', query:{}}">{{
                         `${car.Brand.Name} ${car.ModelName}`
