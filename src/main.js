@@ -8,6 +8,8 @@ import PrimeVue from 'primevue/config';
 import {createHead} from '@vueuse/head'
 import ConfirmationService from 'primevue/confirmationservice';
 import ToastService from 'primevue/toastservice';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCar, faRoad} from '@fortawesome/free-solid-svg-icons'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -16,6 +18,7 @@ import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
 
+library.add(faCar, faRoad)
 const app = createApp(App)
 const head = createHead()
 app.use(ConfirmationService)
