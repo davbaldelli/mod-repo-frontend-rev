@@ -1,79 +1,80 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-12 text-center">
-        <h1 class="display-4">AC Tracks Repository</h1>
-        <p class="lead"><em>A collection of quality tracks</em></p>
-      </div>
+  <div class="p-grid">
+    <div class="p-col-12 text-center">
+      <h1 class="display-4">AC Tracks Repository</h1>
+      <p class="lead"><em>A collection of quality tracks</em></p>
     </div>
-    <div class="row">
-      <div class="col-12 col-lg-3"></div>
-      <div class="col-12 col-lg-6">
-        <div class="row">
-          <div class="col-12">
+    <div class="p-col-12 p-lg-3"></div>
+    <div class="p-col-12 p-lg-6">
+      <div class="p-col-12">
+        <div class="p-inputgroup p-mb-2">
+          <InputText v-on:keyup.enter="nameFilterClick" v-model="nameFilter" placeholder="Type Track Name"/>
+          <Button @click="nameFilterClick" label="Search"/>
+        </div>
+      </div>
+      <div class="p-col-12">
+        <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredTracks.length"></Paginator>
+      </div>
+      <div class="p-col-12">
+        <div class="p-formgroup-inline">
+          <div class="p-field">
+            <Dropdown v-model="selectedNation" @change="e => onNationSelected(e.value)" :options="nations" :filter="true" option-label="Name" option-value="Name" placeholder="Nation"></Dropdown>
+          </div>
+          <div class="p-field">
+            <Dropdown v-model="selectedLayoutType" @change="e => onLayoutCategorySelected(e.value)" :options="categoryOpts" option-label="text" option-value="value" placeholder="Layout Category"></Dropdown>
+          </div>
+          <div class="p-field">
+            <Dropdown v-model="selectedTag" @change="e => onTagSelected(e.value)" :options="tagsOpts" option-label="text" option-value="value" placeholder="Tag"></Dropdown>
+          </div>
+        </div>
+      </div>
+      <div class="p-col-12 p-my-2">
+        <Chip :label="`Name: ${selectedNameFilter}`" v-if="selectedNameFilter" @remove="clearNameFilter" class="p-ml-2" removable/>
+        <Chip :label="`Nation: ${selectedNation}`" v-if="selectedNation" @remove="clearNationFilter" class="p-ml-2" removable/>
+        <Chip :label="`Category: ${selectedLayoutType}`" v-if="selectedLayoutType" @remove="clearLayoutFilter" class="p-ml-2" removable/>
+        <Chip :label="`Tag: ${selectedTag}`" v-if="selectedTag" @remove="clearTagFilter" class="p-ml-2" removable/>
+      </div>
+      <div class="p-col-12">
+        <div class="p-mb-2" v-for="track in pageTracks" :key="track.Name">
+          <div class="p-card container-fluid p-py-2">
             <div class="row">
-              <div class="col-12">
-                <div class="p-inputgroup p-mb-2">
-                  <InputText v-on:keyup.enter="nameFilterClick" v-model="nameFilter" placeholder="Type Track Name"/>
-                  <Button @click="nameFilterClick" label="Search"/>
+              <div class="col-lg-12 col-xl-4">
+                <div class="d-flex align-items-center" style="height: 100%">
+                  <img :src="track.Image" alt="Fluid image " class="rounded-4 card-img">
                 </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredTracks.length"></Paginator>
-              </div>
-            </div>
-            <div class="row p-my-2">
-              <div class="col-12">
-                <Chip :label="selectedNameFilter" v-if="selectedNameFilter" @remove="clearAllFilters" removable/>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <div class="p-mb-2" v-for="track in pageTracks" :key="track.Name">
-                  <div class="p-card container-fluid p-py-2">
-                    <div class="row p-p-0">
-                      <div class="col-lg-12 col-xl-4 p-p-0">
-                        <div class="d-flex align-items-center" style="height: 100%">
-                          <img :src="track.Image" alt="Fluid image " class="rounded-4 card-img">
-                        </div>
-                      </div>
-                      <div class="col-lg-12 col-xl-8 p-mt-2 p-pr-0 d-flex flex-column">
-                        <div class="p-card-title">
-                          <h3>
-                            <router-link :to="{name : 'track', query:{}}">{{ track.Name }}</router-link>
-                          </h3>
-                        </div>
-                        <div class="p-card-subtitle">
+              <div class="col-lg-12 col-xl-8 p-mt-2 d-flex flex-column">
+                <div class="p-card-title">
+                  <h3>
+                    <router-link :to="{name : 'track', query:{}}">{{ track.Name }}</router-link>
+                  </h3>
+                </div>
+                <div class="p-card-subtitle">
                         <span class="badge badge-secondary p-mr-1" v-for="tag in track.Tags"
                               :key="tag">{{ tag }}</span>
-                          <span class="badge badge-warning" v-if="track.Premium">Premium</span>
-                        </div>
-                        <div class="p-card-body">
-                          <strong>Location: </strong>{{ track.Location }}, {{ track.Nation.Name }}<br/>
-                          <strong>Author: </strong>
-                          <a target="_blank" :href="track.Author.Link">{{ track.Author.Name }}</a>
-                        </div>
-                        <div class="p-card-footer p-text-right mt-auto">
-                          <Button v-if="userRole === 'admin'" @click="openEditTab(track)" icon="pi pi-pencil" class="p-mr-2"></Button>
-                          <Button @click="openInNewTab(track.DownloadLink)" icon="pi pi-download"
-                                  iconPos="right"></Button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <span class="badge badge-warning" v-if="track.Premium">Premium</span>
+                </div>
+                <div class="p-card-body">
+                  <strong>Location: </strong>{{ track.Location }}, {{ track.Nation.Name }}<br/>
+                  <strong>Author: </strong>
+                  <a target="_blank" :href="track.Author.Link">{{ track.Author.Name }}</a>
+                </div>
+                <div class="p-card-footer p-text-right mt-auto">
+                  <Button v-if="userRole === 'admin'" @click="openEditTab(track)" icon="pi pi-pencil"
+                          class="p-mr-2"></Button>
+                  <Button @click="openInNewTab(track.DownloadLink)" icon="pi pi-download"
+                          iconPos="right"></Button>
                 </div>
               </div>
-            </div>
-            <div class="col-12">
-              <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredTracks.length"></Paginator>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-0 col-lg-3"></div>
+      <div class="col-12">
+        <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredTracks.length"></Paginator>
+      </div>
     </div>
+    <div class="col-0 col-lg-3"></div>
   </div>
 </template>
 
@@ -83,6 +84,7 @@ import InputText from "primevue/inputtext";
 import Button from "primevue/button";
 import Paginator from "primevue/paginator";
 import Chip from "primevue/chip";
+import Dropdown from "primevue/dropdown";
 import {tracksFilters} from "@/_helpers/tracks-filters";
 
 export default {
@@ -91,22 +93,49 @@ export default {
     InputText,
     Button,
     Paginator,
-    Chip
+    Chip,
+    Dropdown,
   },
   data() {
     return {
       nameFilter: "",
-      selectedNameFilter : "",
+      selectedNameFilter: "",
       pageRows: 25,
       offset: 0,
-      filter: t => t,
+      tagsOpts: [{text: "F1", value: "F1"},
+        {text: "NASCAR", value: "NASCAR"},
+        {text: "Historic", value: "Historic"},
+        {text: "Rally", value: "Rally"},
+        {text: "Drift", value: "Drift"},
+        {text: "Open World", value: "Open World"},
+        {text: "City Track", value: "City Track"},
+        {text: "Touge", value: "Touge"},
+        {text: "Endurance", value: "Endurance"},
+        {text: "Street Circuit", value: "Street Track"},
+        {text: "Fictional", value: "Fictional"},
+        {text: "Karting", value: "Karting"},],
+      categoryOpts: [
+        {text: "Oval", value: "Oval"},
+        {text: "Road Course", value: "Road Course"},
+        {text: "A to B", value: "A to B"},
+      ],
+      nameSelector: t => t,
+      layoutTypeSelector: t => t,
+      selectedLayoutType : "",
+      nationSelector: t => t,
+      selectedNation : "",
+      trackTagsSelector: t => t,
+      selectedTag: "",
     }
   },
   mounted() {
     this.initiate()
   },
   computed: {
-    loggedIn(){
+    filter(){
+      return t => this.nameSelector(this.layoutTypeSelector(this.trackTagsSelector(this.nationSelector(t))))
+    },
+    loggedIn() {
       return this.$store.getters['authentication/loggedIn']
     },
     userRole() {
@@ -115,6 +144,9 @@ export default {
     tracks() {
       return this.$store.getters['tracks/tracks']
     },
+    nations() {
+      return this.$store.getters['tracks/nations']
+    },
     filteredTracks() {
       return this.filter(this.tracks)
     },
@@ -122,17 +154,16 @@ export default {
       return this.filteredTracks.slice(this.offset, this.offset + this.pageRows)
     },
   },
-  watch:{
-    loggedIn(){
-      if(this.loggedIn){
+  watch: {
+    loggedIn() {
+      if (this.loggedIn) {
         this.initiate()
       }
     }
   },
   methods: {
     nameFilterClick() {
-      this.selectedNameFilter = this.nameFilter
-      this.filter = tracksFilters.filterByName(this.nameFilter)
+      this.onNameSelected(this.nameFilter)
     },
     initiate() {
       this.getAllTracks()
@@ -142,7 +173,36 @@ export default {
     getAllTracks() {
       this.$store.dispatch('tracks/getAllTracks')
     },
-    clearAllFilters(){
+    onNameSelected(name) {
+      this.selectedNameFilter = name
+      this.nameSelector = tracksFilters.filterByName(name)
+    },
+    clearNameFilter(){
+      this.selectedNameFilter = ""
+      this.nameSelector = t =>t
+    },
+    onLayoutCategorySelected(name) {
+      this.layoutTypeSelector = tracksFilters.filterByLayoutCategory(name)
+    },
+    clearLayoutFilter(){
+      this.selectedLayoutType = ""
+      this.layoutTypeSelector = t =>t
+    },
+    onTagSelected(name) {
+      this.trackTagsSelector = tracksFilters.filterByTag(name)
+    },
+    clearTagFilter(){
+      this.selectedTag = ""
+      this.trackTagsSelector = t =>t
+    },
+    onNationSelected(name) {
+      this.nationSelector = tracksFilters.filterByNation(name)
+    },
+    clearNationFilter(){
+      this.selectedNation = ""
+      this.nationSelector = t => t
+    },
+    clearAllFilters() {
       this.selectedNameFilter = ""
       this.filter = t => t
     },
@@ -150,7 +210,7 @@ export default {
       window.open(url, '_blank').focus();
     },
     openEditTab(track) {
-      this.$router.push({name : 'TrackEdit', params: {initialCar : JSON.stringify(track)}})
+      this.$router.push({name: 'TrackEdit', params: {initialCar: JSON.stringify(track)}})
     }
   }
 }

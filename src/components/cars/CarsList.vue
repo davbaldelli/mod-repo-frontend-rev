@@ -29,7 +29,7 @@
                         @change="e => onSelectedCategory(e.value.Name)" placeholder="Category"/>
             </div>
             <div class="p-field">
-              <Dropdown v-model="selectedAuthor" :options="authors" option-label="Name"
+              <Dropdown v-model="selectedAuthor" :options="authors" option-label="Name" :filter="true"
                         @change="e => onAuthorSelected(e.value.Name)" placeholder="Author"/>
             </div>
             <div class="p-field">
@@ -38,7 +38,7 @@
             </div>
           </div>
           <div class="p-col-12 d-flex align-items-center">
-            <Chip class="p-ml-2" :label="`Category: ${selectedCategory}`" v-if="selectedCategory"
+            <Chip class="p-ml-2" :label="`Category: ${selectedCategory.Name}`" v-if="selectedCategory"
                   @remove="clearCategoryFilter" removable/>
             <Chip class="p-ml-2" :label="`Name: ${activeNameFilter}`" v-if="activeNameFilter" @remove="clearNameFilter"
                   removable/>
@@ -200,8 +200,8 @@ export default {
         this.brandOpts.push({nation: key, brands: value})
       })
     },
-    loggedIn(){
-      if(this.loggedIn){
+    loggedIn() {
+      if (this.loggedIn) {
         this.initiate()
       }
     }
@@ -214,21 +214,6 @@ export default {
       this.getAllCars()
       this.$store.dispatch('cars/getCarAuthors')
       this.$store.dispatch('cars/getCarBrands')
-      /*
-      if(this.$route.query.brandFilter){
-        this.onBrandSelected(this.$route.query.brandFilter)
-      }
-      if(this.$route.query.nameFilter){
-        this.nameFilter = this.$route.query.nameFilter
-        this.onNameSelected(this.$route.query.nameFilter)
-      }
-      if(this.$route.query.authorFilter){
-        this.onAuthorSelected(this.$route.query.authorFilter)
-      }
-      if(this.$route.query.categoryFilter){
-        this.onSelectedCategory(this.$route.query.categoryFilter)
-      }
-       */
     },
     getAllCars() {
       this.$store.dispatch('cars/getAll')
@@ -250,20 +235,19 @@ export default {
     },
     onNameSelected(name) {
       this.activeNameFilter = name
-      this.$router.replace({query: {...this.$route.query, nameFilter: name}})
+      //this.$router.replace({query: {...this.$route.query, nameFilter: name}})
       this.nameSelector = carsFilters.filterByName(name)
     },
     onBrandSelected(name) {
-      this.$router.replace({query: {...this.$route.query, brandFilter: name}})
+      //this.$router.replace({query: {...this.$route.query, brandFilter: name}})
       this.brandSelector = carsFilters.filterByBrand(name)
     },
     onAuthorSelected(name) {
-      this.$router.replace({query: {...this.$route.query, authorFilter: name}})
+      //this.$router.replace({query: {...this.$route.query, authorFilter: name}})
       this.authorSelector = carsFilters.filterByAuthor(name)
     },
     onSelectedCategory(name) {
-      this.selectedCategory = name
-      this.$router.replace({query: {...this.$route.query, categoryFilter: name}})
+      //this.$router.replace({query: {...this.$route.query, categoryFilter: name}})
       this.categorySelector = carsFilters.filterByCategory(name)
     },
     clearNameFilter() {

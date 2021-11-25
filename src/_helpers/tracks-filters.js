@@ -14,7 +14,7 @@ function filterByLayoutCategory(category) {
 }
 
 function filterByTag(tag) {
-    return tracks => tracks.filter(track => track.Tags.some(e => e === tag))
+    return tracks => tracks.filter(track => track.Tags && track.Tags.some(e => e === tag))
 }
 
 function filterByName(name) {
