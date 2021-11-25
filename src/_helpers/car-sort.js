@@ -8,8 +8,8 @@ export const carSort = {
 
 function sortByDate() {
     return (a, b) => {
-        let timeA = moment(a.UpdatedAt)
-        let timeB = moment(b.UpdatedAt)
+        let timeA = moment(a.CreatedAt)
+        let timeB = moment(b.CreatedAt)
         return timeA.isBefore(timeB) ? 1 : -1
     }
 }
