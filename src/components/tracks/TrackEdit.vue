@@ -23,8 +23,8 @@ export default {
   methods:{
     onSubmit(track){
       this.$store.dispatch('tracks/updateTrack', track)
-          .then(() => alert(`Pista inserita correttamente: ${JSON.stringify(this.$store.getters["alert/alert"].message.data)}`))
-          .catch(() => alert(`Errore nell'inserimento della pista: ${JSON.stringify(this.$store.getters["alert/alert"].message.data)}`))
+          .then(() => this.$toast.add({severity:'success', summary: 'Track edited successfully', detail:'Car created', life: 3000}))
+          .catch((e) => this.$toast.add({severity:'error', summary: 'Error editing the track', detail:e.data.error, life: 7000}))
     }
   }
 }

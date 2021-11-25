@@ -7,15 +7,19 @@
         </div>
         <div class="col-12 col-lg-4"></div>
       </div>
+    <Toast position="center"/>
   </div>
 </template>
 
 <script>
 import CarForm from '@/components/cars/CarForm'
+import Toast from 'primevue/toast';
+
 export default {
   name: "CarInput",
   components : {
-    CarForm
+    CarForm,
+    Toast,
   },
   data() {
     return {
@@ -49,8 +53,8 @@ export default {
   methods: {
     onSubmit(car){
       this.$store.dispatch('cars/addCar', car)
-          .then(() => alert(`Macchina inserita correttamente: ${JSON.stringify(this.$store.getters["alert/alert"].message.data)}`))
-          .catch(() => alert(`Errore nell'inserimento dell'auto : ${JSON.stringify(this.$store.getters["alert/alert"].message.data)}`))
+          .then(() => this.$toast.add({severity:'success', summary: 'Car created successfully', detail:'Car created', life: 3000}))
+          .catch((e) => this.$toast.add({severity:'error', summary: 'Error crating the car', detail:e.data.error, life: 7000}))
     }
   }
 }

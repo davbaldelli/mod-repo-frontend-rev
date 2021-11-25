@@ -141,13 +141,15 @@
     </div>
     <div class="p-field p-col-12">
       <label :for="'categoriesChips'">Categories</label>
-      <MultiSelect :id="'categoriesChips'" v-model="form.Categories" :options="categories" optionLabel="Name" placeholder="Select Categories"/>
+      <MultiSelect :id="'categoriesChips'" v-model="form.Categories" :options="categories" optionLabel="Name" placeholder="Select Categories" display="chip"/>
     </div>
     <Button type="submit" label="Submit" class="p-mt-2"/>
   </form>
+  <ConfirmDialog/>
 </template>
 
 <script>
+import ConfirmDialog from 'primevue/confirmdialog';
 import InputText from "primevue/inputtext";
 import CheckBox from 'primevue/checkbox';
 import InputNumber from 'primevue/inputnumber';
@@ -168,6 +170,7 @@ export default {
     Dropdown,
     Button,
     MultiSelect,
+    ConfirmDialog
   },
   setup: () => ({v$: useVuelidate()}),
   data() {
@@ -222,8 +225,18 @@ export default {
     handleSubmit(isFormValid) {
       this.submitted = true;
       if (isFormValid) {
-        this.$emit("submit", this.form)
-        this.resetForm()
+        this.$confirm.require({
+          message: 'Are you sure you want to proceed?',
+          header: 'Confirmation',
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+            this.$emit("submit", this.form)
+            this.resetForm()
+          },
+          reject: () => {
+            //callback to execute when user rejects the action
+          }
+        })
       }
     },
     addCategory(e) {

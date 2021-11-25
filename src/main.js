@@ -6,6 +6,8 @@ import {router} from "@/_helpers";
 import {store} from "@/_store";
 import PrimeVue from 'primevue/config';
 import {createHead} from '@vueuse/head'
+import ConfirmationService from 'primevue/confirmationservice';
+import ToastService from 'primevue/toastservice';
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -14,9 +16,10 @@ import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
 
-
 const app = createApp(App)
 const head = createHead()
+app.use(ConfirmationService)
+app.use(ToastService)
 app.use(router)
 app.use(store)
 app.use(head)

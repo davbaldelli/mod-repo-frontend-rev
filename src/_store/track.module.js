@@ -49,28 +49,36 @@ export const tracks = {
                 })
         },
         async addTrack({dispatch, commit}, track) {
-            commit('trackPushing')
-            await trackService.addTrack(track)
-                .then(track => {
-                    commit('trackPushed', track)
-                    dispatch('alert/success', track, {root: true})
-                })
-                .catch(err => {
-                    commit('trackPushError', err)
-                    dispatch('alert/error', err, {root: true})
-                })
+            return new Promise((res,rej) => {
+                commit('trackPushing')
+                trackService.addTrack(track)
+                    .then(track => {
+                        commit('trackPushed', track)
+                        dispatch('alert/success', track, {root: true})
+                        res(track)
+                    })
+                    .catch(err => {
+                        commit('trackPushError', err)
+                        dispatch('alert/error', err, {root: true})
+                        rej(err)
+                    })
+            })
         },
         async updateTrack({dispatch, commit}, track) {
-            commit('trackPushing')
-            await trackService.updateTrack(track)
-                .then(track => {
-                    commit('trackPushed', track)
-                    dispatch('alert/success', track, {root: true})
-                })
-                .catch(err => {
-                    commit('trackPushError', err)
-                    dispatch('alert/error', err, {root: true})
-                })
+            return new Promise((res,rej) => {
+                commit('trackPushing')
+                trackService.updateTrack(track)
+                    .then(track => {
+                        commit('trackPushed', track)
+                        dispatch('alert/success', track, {root: true})
+                        res(track)
+                    })
+                    .catch(err => {
+                        commit('trackPushError', err)
+                        dispatch('alert/error', err, {root: true})
+                        rej(err)
+                    })
+            })
         }
     },
     mutations: {

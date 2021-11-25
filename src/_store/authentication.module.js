@@ -36,10 +36,10 @@ export const authentication = {
                             res(user)
                         }
                     ).catch(
-                    error => {
-                        commit('loginFailure');
-                        dispatch('alert/error', error, {root: true});
-                        rej(error)
+                        error => {
+                            commit('loginFailure');
+                            dispatch('alert/error', error, {root: true});
+                            rej(error)
                     }
                 );
             })

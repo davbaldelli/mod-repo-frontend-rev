@@ -69,49 +69,47 @@
         <h3 class="display-6">I'm sorry, no car match your request</h3>
       </div>
       <div v-else class="p-col-12">
-        <div class="p-mb-2" v-for="(car,index) in pageCars" :key="index">
-          <div class="p-card container-fluid p-py-2">
-            <div class="row">
-              <div class="col-lg-12 col-xl-4">
-                <div class="d-flex align-items-center" style="height: 100%">
-                  <img :src="car.Image" alt="Fluid image " class="rounded-4 card-img">
-                </div>
+        <div  v-for="(car,index) in pageCars" :key="index" class="p-card container-fluid p-py-2 p-mb-2" >
+          <div class="row">
+            <div class="col-lg-12 col-xl-4">
+              <div class="d-flex align-items-center" style="height: 100%">
+                <img :src="car.Image" alt="Fluid image " class="rounded-4 card-img">
               </div>
-              <div class="col-lg-12 col-xl-8 mt-2 d-flex flex-column">
-                <div class="p-card-title p-mt-2 p-mb-0">
-                  <h3>
-                    <router-link :to="{name : 'car', query:{}}">{{
-                        `${car.Brand.Name} ${car.ModelName}`
-                      }}
-                    </router-link>
-                  </h3>
-                </div>
-                <div class="p-card-subtitle">
-                  <span class="badge badge-secondary p-mr-1" v-for="category in car.Categories"
-                        :key="category.Name">{{ category.Name }}</span>
-                  <span class="badge badge-warning" v-if="car.Premium">Premium</span>
-                </div>
-                <div class="p-card-body">
-                  <p>
-                    <strong>Year: </strong>{{ car.Year }}
-                    <br>
-                    <strong>Author: </strong><a :href="car.Author.Link" rel="noopener" target="_blank">{{
-                      car.Author.Name
-                    }}</a>
-                    <br>
-                    <strong>{{ car.Transmission }}</strong>,
-                    <strong>{{ car.Drivetrain }}</strong>,
-                    <strong>BHP:</strong>{{ car.BHP }},
-                    <strong>Nm: </strong>{{ car.Torque }},
-                    <strong>Kg:</strong>{{ car.Weight }},
-                    <strong>Top Speed:</strong>{{ car.TopSpeed }},
-                  </p>
-                </div>
-                <div class="p-card-footer p-text-right mt-auto">
-                  <Button v-if="userRole === 'admin'" @click="openEditTab(car)" icon="pi pi-pencil"
-                          class="p-mr-2"></Button>
-                  <Button @click="openInNewTab(car.DownloadLink)" icon="pi pi-download"></Button>
-                </div>
+            </div>
+            <div class="col-lg-12 col-xl-8 mt-2 d-flex flex-column">
+              <div class="p-card-title p-mt-2 p-mb-0">
+                <h3>
+                  <router-link :to="{name : 'car', query:{}}">{{
+                      `${car.Brand.Name} ${car.ModelName}`
+                    }}
+                  </router-link>
+                </h3>
+              </div>
+              <div class="p-card-subtitle">
+                <span class="badge badge-secondary p-mr-1" v-for="category in car.Categories"
+                      :key="category.Name">{{ category.Name }}</span>
+                <span class="badge badge-warning" v-if="car.Premium">Premium</span>
+              </div>
+              <div class="p-card-body">
+                <p>
+                  <strong>Year: </strong>{{ car.Year }}
+                  <br>
+                  <strong>Author: </strong><a :href="car.Author.Link" rel="noopener" target="_blank">{{
+                    car.Author.Name
+                  }}</a>
+                  <br>
+                  <strong>{{ car.Transmission }}</strong>,
+                  <strong>{{ car.Drivetrain }}</strong>,
+                  <strong>BHP:</strong>{{ car.BHP }},
+                  <strong>Nm: </strong>{{ car.Torque }},
+                  <strong>Kg:</strong>{{ car.Weight }},
+                  <strong>Top Speed:</strong>{{ car.TopSpeed }},
+                </p>
+              </div>
+              <div class="p-card-footer p-text-right mt-auto">
+                <Button v-if="userRole === 'admin'" @click="openEditTab(car)" icon="pi pi-pencil"
+                        class="p-mr-2"></Button>
+                <Button @click="openInNewTab(car.DownloadLink)" icon="pi pi-download"></Button>
               </div>
             </div>
           </div>

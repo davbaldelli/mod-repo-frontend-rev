@@ -117,9 +117,11 @@
       <Button type="submit" label="Submit" class="p-mt-2"/>
     </div>
   </form>
+  <ConfirmDialog/>
 </template>
 
 <script>
+import ConfirmDialog from 'primevue/confirmdialog';
 import InputText from "primevue/inputtext";
 import Checkbox from "primevue/checkbox"
 import Dropdown from "primevue/dropdown";
@@ -140,6 +142,7 @@ export default {
     InputNumber,
     MultiSelect,
     Button,
+    ConfirmDialog,
   },
   setup: () => ({v$: useVuelidate()}),
   data() {
@@ -185,8 +188,18 @@ export default {
     handleSubmit(isValid){
       this.submitted = true
       if(isValid){
-        this.$emit('submit', this.form)
-        this.resetForm()
+        this.$confirm.require({
+          message: 'Are you sure you want to proceed?',
+          header: 'Confirmation',
+          icon: 'pi pi-exclamation-triangle',
+          accept: () => {
+            this.$emit("submit", this.form)
+            this.resetForm()
+          },
+          reject: () => {
+            //callback to execute when user rejects the action
+          }
+        })
       }
     },
     resetForm(){

@@ -52,34 +52,38 @@ export const cars = {
                 })
         },
         async addCar({dispatch, commit}, car) {
-            commit('carPushing')
-            return await carService.addCar(car)
-                .then(car => {
-                    commit('carPushed')
-                    dispatch('getAll')
-                    dispatch('alert/success', car, {root: true})
-                    return car
-                })
-                .catch(err => {
-                    commit('carPushError', err)
-                    dispatch('alert/error', err, {root: true})
-                    return Promise.reject(err)
-                })
+            return new Promise((res, rej) => {
+                commit('carPushing')
+                carService.addCar(car)
+                    .then(car => {
+                        commit('carPushed')
+                        dispatch('getAll')
+                        dispatch('alert/success', car, {root: true})
+                        res(car)
+                    })
+                    .catch(err => {
+                        commit('carPushError', err)
+                        dispatch('alert/error', err, {root: true})
+                        rej(err)
+                    })
+            })
         },
         async updateCar({dispatch, commit}, car) {
-            commit('carPushing')
-            return await carService.updateCar(car)
-                .then(car => {
-                    commit('carPushed')
-                    dispatch('getAll')
-                    dispatch('alert/success', car, {root: true})
-                    return car
-                })
-                .catch(err => {
-                    commit('carPushError', err)
-                    dispatch('alert/error', err, {root: true})
-                    return Promise.reject(err)
-                })
+            return new Promise((res, rej) => {
+                commit('carPushing')
+                carService.updateCar(car)
+                    .then(car => {
+                        commit('carPushed')
+                        dispatch('getAll')
+                        dispatch('alert/success', car, {root: true})
+                        res(car)
+                    })
+                    .catch(err => {
+                        commit('carPushError', err)
+                        dispatch('alert/error', err, {root: true})
+                        rej(err)
+                    })
+            })
         },
         async getCarBrands({dispatch, commit}) {
             commit('brandsFetching')
