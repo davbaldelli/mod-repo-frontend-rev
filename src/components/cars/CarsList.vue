@@ -1,12 +1,11 @@
 <template>
-  <div class="p-grid p-p-2">
+  <div class="p-grid">
     <div class="p-col-12 text-center">
       <h1 class="display-4">AC Cars Repository</h1>
       <p class="lead"><em>A collection of quality cars</em></p>
     </div>
-    <div class="p-col-12 p-md-12 p-lg-3">
-    </div>
-    <div class="p-md-12 p-lg-6">
+    <div class="p-col-12 p-lg-3"></div>
+    <div class="p-col-12 p-lg-6">
       <div class="p-col-12">
         <div class="p-inputgroup p-mb-2">
           <InputText v-on:keyup.enter="nameFilterClick" v-model="nameFilter" placeholder="Type Car Name"/>
@@ -16,7 +15,8 @@
       <div ref="paginatorTop" class="p-col-12">
         <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
       </div>
-      <div class="p-col-12 p-d-flex">
+      <div class="p-col-12">
+        <div class="p-d-flex">
           <Dropdown class="p-mr-2" v-model="selectedBrand" :options="brandOpts" :filter="true"
                     @change="e => onBrandSelected(e.value.name)" placeholder="Brand"
                     optionLabel="name" optionGroupLabel="nation" optionGroupChildren="brands"
@@ -28,8 +28,9 @@
                     @change="e => onAuthorSelected(e.value.Name)" placeholder="Author"/>
           <Dropdown class="p-mr-2" @change="e => sort(e.value)" v-model="selectedSort" :options="sortOpts"
                     placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
+        </div>
       </div>
-      <div class="p-col-12 d-flex align-items-center">
+      <div class="p-col-12">
         <Chip class="p-mr-2" :label="`Category: ${selectedCategory.Name}`" v-if="selectedCategory"
               @remove="clearCategoryFilter" removable/>
         <Chip class="p-mr-2" :label="`Name: ${activeNameFilter}`" v-if="activeNameFilter" @remove="clearNameFilter"
@@ -119,7 +120,7 @@
         <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
       </div>
     </div>
-    <div class="p-md-0 p-lg-3"></div>
+    <div class="p-col-0 p-lg-3"></div>
   </div>
 </template>
 
