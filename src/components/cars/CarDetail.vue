@@ -14,7 +14,27 @@
 
 <script>
 export default {
-  name: "CarDetail"
+  name: "CarDetail",
+  data(){
+    return{
+      model : this.$route.params.model,
+      brand : this.$route.params.brand,
+      year : this.$route.params.year
+    }
+  },
+  computed :{
+    car(){
+      return this.$store.getters['cars/getCarByModel'](this.model, this.year, this.brand)
+    },
+  },
+  mounted() {
+    this.init()
+  },
+  methods: {
+    init() {
+      this.$store.dispatch('cars/getAll')
+    },
+  },
 }
 </script>
 

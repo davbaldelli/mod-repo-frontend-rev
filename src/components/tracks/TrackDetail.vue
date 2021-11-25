@@ -14,7 +14,25 @@
 
 <script>
 export default {
-  name: "TrackDetail"
+  name: "TrackDetail",
+  data() {
+    return{
+      name : this.$route.params.name
+    }
+  },
+  computed:{
+    track(){
+      return this.$store.getters['tracks/getTrackByName'](this.name)
+    }
+  },
+  mounted() {
+    this.init()
+  },
+  methods:{
+    init(){
+      this.$store.dispatch('tracks/getAllTracks')
+    }
+  },
 }
 </script>
 

@@ -79,7 +79,7 @@
             <div class="col-lg-12 col-xl-8 mt-2 d-flex flex-column">
               <div class="p-card-title p-mt-2 p-mb-0">
                 <h3>
-                  <router-link :to="{name : 'car', query:{}}">{{
+                  <router-link :to="{name : 'car', params:{brand : car.Brand.Name, model : car.ModelName, year : car.Year}}">{{
                       `${car.Brand.Name} ${car.ModelName}`
                     }}
                   </router-link>

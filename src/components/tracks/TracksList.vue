@@ -63,7 +63,7 @@
             <div class="col-lg-12 col-xl-8 p-mt-2 d-flex flex-column">
               <div class="p-card-title p-mt-2 p-mb-0">
                 <h3>
-                  <router-link :to="{name : 'track', query:{}}">{{ track.Name }}</router-link>
+                  <router-link :to="{name : 'track', params:{name : track.Name}}">{{ track.Name }}</router-link>
                 </h3>
               </div>
               <div class="p-card-subtitle">
