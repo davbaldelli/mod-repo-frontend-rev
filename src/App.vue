@@ -1,28 +1,30 @@
 <template>
   <div class="p-grid p-m-0">
-    <div class="p-col-12 p-p-0 sticky-top" >
-      <Menubar  :model="menuItems"/>
+    <div class="p-col-12 p-p-0 sticky-top">
+      <Menubar :model="menuItems"/>
     </div>
     <div class="p-col-12">
       <router-view :key="routerViewKey" v-slot="{Component}">
         <keep-alive :include="['CarList','TracksList']">
-        <component :is="Component">
+          <component :is="Component">
 
-        </component>
+          </component>
         </keep-alive>
       </router-view>
-      <Dialog header="Login" v-model:visible="display" @hide="resetModal" :modal="true">
+      <Dialog v-model:visible="display" :modal="true" header="Login" @hide="resetModal">
         <div class="p-py-2">
-          <form v-on:keyup.enter="handleSubmit(!v$.$invalid)" @submit.prevent="handleSubmit(!v$.$invalid)" class="p-fluid">
+          <form class="p-fluid" v-on:keyup.enter="handleSubmit(!v$.$invalid)"
+                @submit.prevent="handleSubmit(!v$.$invalid)">
             <div class="p-field">
               <InputText id="username-1" v-model="v$.username.$model"
                          :class="{'p-invalid':v$.username.$invalid && submitted}"/>
             </div>
             <div class="p-field">
               <Password id="password" v-model="v$.password.$model"
-                        :class="{'p-invalid':v$.password.$invalid && submitted}" toggleMask :feedback="false"></Password>
+                        :class="{'p-invalid':v$.password.$invalid && submitted}" :feedback="false"
+                        toggleMask></Password>
             </div>
-            <Button type="submit" label="Submit" class="p-mt-2"/>
+            <Button class="p-mt-2" label="Submit" type="submit"/>
           </form>
         </div>
       </Dialog>
@@ -69,7 +71,7 @@ export default {
       ],
     })
 
-    return { v$: useVuelidate() }
+    return {v$: useVuelidate()}
   },
   data() {
     return {
@@ -87,22 +89,28 @@ export default {
           label: 'Tracks', to: '/tracks',
         },
         {
-          separator: true, style:'width = 100%'
+          separator: true, style: 'width = 100%'
         },
         {
-          label: 'Login', icon: 'pi pi-fw pi-user', command : this.toggleDialog, visible : () => !this.logged,
+          label: 'Login', icon: 'pi pi-fw pi-user', command: this.toggleDialog, visible: () => !this.logged,
         },
         {
-          label: 'User', icon: 'pi pi-fw pi-user', visible : () => this.logged,
-          items : [
+          label: 'User', icon: 'pi pi-fw pi-user', visible: () => this.logged,
+          items: [
             {
-              label: 'Add Car',to : '/car/new', visible : () => this.loggedUsername === "admin", icon: 'pi pi-plus-circle'
+              label: 'Add Car',
+              to: '/car/new',
+              visible: () => this.loggedUsername === "admin",
+              icon: 'pi pi-plus-circle'
             },
             {
-              label: 'Add Track',to : '/track/new', visible : () => this.loggedUsername === "admin", icon: 'pi pi-plus-circle'
+              label: 'Add Track',
+              to: '/track/new',
+              visible: () => this.loggedUsername === "admin",
+              icon: 'pi pi-plus-circle'
             },
             {
-              label: 'Logout', command : this.logOut, icon:'pi pi-sign-out'
+              label: 'Logout', command: this.logOut, icon: 'pi pi-sign-out'
             },
           ]
         },
@@ -198,46 +206,47 @@ export default {
 }
 </script>
 <style>
-  .p-menu-separator {
-    width: 100%;
-  }
+.p-menu-separator {
+  width: 100%;
+}
 
-  .p-menubar-root-list{
-    width: 99%;
-  }
-  .p-menubar .p-submenu-list{
-    width: 100% !important;
-  }
+.p-menubar-root-list {
+  width: 99%;
+}
 
-  .responsive-image{
-    max-width:100%;
-  }
+.p-menubar .p-submenu-list {
+  width: 100% !important;
+}
 
-  .sticky-top{
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-    z-index: 1020;
-  }
+.responsive-image {
+  max-width: 100%;
+}
 
-  body{
-    margin: 0!important;
-  }
+.sticky-top {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
 
-  .badge-warning {
-    color: #212529 !important;
-    background-color: #ffc107;
-  }
+body {
+  margin: 0 !important;
+}
 
-  .badge-secondary {
-    color: #fff;
-    background-color: #6c757d;
-  }
+.badge-warning {
+  color: #212529 !important;
+  background-color: #ffc107;
+}
 
-  .p-tree{
-    border: none !important;
-    padding: 0 !important;
-  }
+.badge-secondary {
+  color: #fff;
+  background-color: #6c757d;
+}
+
+.p-tree {
+  border: none !important;
+  padding: 0 !important;
+}
 
 
 </style>

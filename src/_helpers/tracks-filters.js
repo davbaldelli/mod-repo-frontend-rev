@@ -18,5 +18,5 @@ function filterByTag(tag) {
 }
 
 function filterByName(name) {
-    return tracks => tracks.filter(track =>track.Name.toLowerCase().includes(name.toLowerCase()))
+    return tracks => tracks.filter(track => track.Name.toLowerCase().includes(name.toLowerCase()))
 }

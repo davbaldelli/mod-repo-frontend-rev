@@ -27,7 +27,7 @@ export const authentication = {
     },
     actions: {
         login({dispatch, commit}, {username, password}) {
-            return new Promise( (res, rej) => {
+            return new Promise((res, rej) => {
                 commit('loginRequest', {username});
                 userService.login(username, password)
                     .then(
@@ -36,12 +36,12 @@ export const authentication = {
                             res(user)
                         }
                     ).catch(
-                        error => {
-                            commit('loginFailure');
-                            dispatch('alert/error', error, {root: true});
-                            rej(error)
-                        }
-                    );
+                    error => {
+                        commit('loginFailure');
+                        dispatch('alert/error', error, {root: true});
+                        rej(error)
+                    }
+                );
             })
 
         },
@@ -61,7 +61,7 @@ export const authentication = {
         },
         loginFailure(state) {
             state.status = {};
-            state.user = {username : "base"}
+            state.user = {username: "base"}
         },
         logout(state) {
             state.status = {};

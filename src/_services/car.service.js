@@ -63,8 +63,8 @@ function addCar(car) {
         })
 }
 
-function updateCar(car){
-    return axios.post(`${API_URL}/car/update`, car, {headers : authHeader()})
+function updateCar(car) {
+    return axios.post(`${API_URL}/car/update`, car, {headers: authHeader()})
         .then(res => res.data)
         .catch(error => Promise.reject(error.response ? error.response : error))
 }

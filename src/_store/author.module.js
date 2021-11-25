@@ -1,17 +1,17 @@
 import {authorService} from "@/_services"
 
 const initialState = {
-    authors: {items:[]}
+    authors: {items: []}
 }
 
 export const authors = {
-    namespaced : true,
-    state : initialState,
-    getters : {
-        authors : state => state.authors.items,
-        loadingAuthors : state => state.authors.fetching
+    namespaced: true,
+    state: initialState,
+    getters: {
+        authors: state => state.authors.items,
+        loadingAuthors: state => state.authors.fetching
     },
-    actions :{
+    actions: {
         async getAll({dispatch, commit}) {
             commit('authorsFetching')
             await authorService.getAll()
@@ -22,7 +22,7 @@ export const authors = {
                 })
         }
     },
-    mutations :{
+    mutations: {
         authorsFetching(state) {
             state.authors = {items: [], fetching: true}
         },

@@ -4,7 +4,8 @@
     <div class="p-col-12 p-md-12 p-lg-6 text-center">
       <h1 class="display-6 p-mt-6">Per questo contenuto ti tocca aspettare ancora un po'...</h1>
       <h1 class="display-6">
-        Nel frattempo fatti un giro sul mio profilo <a target="_blank" href="https://www.instagram.com/driving.sim.pic/">instagram</a>
+        Nel frattempo fatti un giro sul mio profilo <a href="https://www.instagram.com/driving.sim.pic/"
+                                                       target="_blank">instagram</a>
       </h1>
       <h1 class="display-6">Ci vediamo presto!</h1>
     </div>

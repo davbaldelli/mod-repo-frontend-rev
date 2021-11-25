@@ -8,54 +8,62 @@
     <div class="p-col-12 p-lg-6">
       <div class="p-col-12">
         <div class="p-inputgroup p-mb-2">
-          <InputText v-on:keyup.enter="nameFilterClick" v-model="nameFilter" placeholder="Type Track Name"/>
-          <Button @click="nameFilterClick" label="Search"/>
+          <InputText v-model="nameFilter" placeholder="Type Track Name" v-on:keyup.enter="nameFilterClick"/>
+          <Button label="Search" @click="nameFilterClick"/>
         </div>
       </div>
       <div class="p-col-12">
-        <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredTracks.length"></Paginator>
+        <Paginator v-model:first="offset" :rows="pageRows" :total-records="filteredTracks.length"></Paginator>
       </div>
       <div class="p-col-12">
         <div class="p-formgroup-inline p-d-flex">
-            <Dropdown class="p-mr-2" v-model="selectedNation" @change="e => onNationSelected(e.value)" :options="nations" :filter="true" option-label="Name" option-value="Name" placeholder="Nation"></Dropdown>
-            <Dropdown class="p-mr-2" v-model="selectedLayoutType" @change="e => onLayoutCategorySelected(e.value)" :options="categoryOpts" option-label="text" option-value="value" placeholder="Layout Category"></Dropdown>
-            <Dropdown class="p-mr-2" v-model="selectedTag" @change="e => onTagSelected(e.value)" :options="tagsOpts" option-label="text" option-value="value" placeholder="Tag"></Dropdown>
+          <Dropdown v-model="selectedNation" :filter="true" :options="nations" class="p-mr-2"
+                    option-label="Name" option-value="Name" placeholder="Nation" @change="e => onNationSelected(e.value)"></Dropdown>
+          <Dropdown v-model="selectedLayoutType" :options="categoryOpts" class="p-mr-2"
+                    option-label="text" option-value="value" placeholder="Layout Category"
+                    @change="e => onLayoutCategorySelected(e.value)"></Dropdown>
+          <Dropdown v-model="selectedTag" :options="tagsOpts" class="p-mr-2" option-label="text"
+                    option-value="value" placeholder="Tag" @change="e => onTagSelected(e.value)"></Dropdown>
         </div>
       </div>
       <div class="p-col-12 p-my-2">
-        <Chip :label="`Name: ${selectedNameFilter}`" v-if="selectedNameFilter" @remove="clearNameFilter" class="p-ml-2" removable/>
-        <Chip :label="`Nation: ${selectedNation}`" v-if="selectedNation" @remove="clearNationFilter" class="p-ml-2" removable/>
-        <Chip :label="`Category: ${selectedLayoutType}`" v-if="selectedLayoutType" @remove="clearLayoutFilter" class="p-ml-2" removable/>
-        <Chip :label="`Tag: ${selectedTag}`" v-if="selectedTag" @remove="clearTagFilter" class="p-ml-2" removable/>
+        <Chip v-if="selectedNameFilter" :label="`Name: ${selectedNameFilter}`" class="p-ml-2" removable
+              @remove="clearNameFilter"/>
+        <Chip v-if="selectedNation" :label="`Nation: ${selectedNation}`" class="p-ml-2" removable
+              @remove="clearNationFilter"/>
+        <Chip v-if="selectedLayoutType" :label="`Category: ${selectedLayoutType}`" class="p-ml-2"
+              removable @remove="clearLayoutFilter"/>
+        <Chip v-if="selectedTag" :label="`Tag: ${selectedTag}`" class="p-ml-2" removable @remove="clearTagFilter"/>
       </div>
-      <div v-if="this.$store.getters['tracks/loadingTracks']"  class="p-col-12">
+      <div v-if="this.$store.getters['tracks/loadingTracks']" class="p-col-12">
         <div v-for="i in 5" :key="i" class="p-mb-2">
           <div class="custom-skeleton p-card container-fluid p-py-2">
             <div class="row">
               <div class="col-lg-12 col-xl-4">
-                <Skeleton width="100%" height="200px" shape="rectangle"></Skeleton>
+                <Skeleton height="200px" shape="rectangle" width="100%"></Skeleton>
               </div>
               <div class="col-lg-12 col-xl-8 mt-2 d-flex flex-column">
                 <div class="p-card-title">
-                  <Skeleton width="100%" height="40px"></Skeleton>
+                  <Skeleton height="40px" width="100%"></Skeleton>
                 </div>
                 <div class="p-card-subtitle">
-                  <Skeleton width="20%" height="20px"></Skeleton>
+                  <Skeleton height="20px" width="20%"></Skeleton>
                 </div>
                 <div class="p-card-body p-my-2">
-                  <Skeleton class="p-mb-1" width="30%" height="15px"></Skeleton>
-                  <Skeleton class="p-mb-1" width="30%" height="15px"></Skeleton>
+                  <Skeleton class="p-mb-1" height="15px" width="30%"></Skeleton>
+                  <Skeleton class="p-mb-1" height="15px" width="30%"></Skeleton>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div v-if="filteredTracks.length === 0 && !this.$store.getters['tracks/loadingTracks']" class="text-center p-col-12 p-my-3">
+      <div v-if="filteredTracks.length === 0 && !this.$store.getters['tracks/loadingTracks']"
+           class="text-center p-col-12 p-my-3">
         <h3 class="display-6">I'm sorry, no track match your request</h3>
       </div>
       <div class="p-col-12">
-        <div class="p-mb-2" v-for="track in pageTracks" :key="track.Name">
+        <div v-for="track in pageTracks" :key="track.Name" class="p-mb-2">
           <div class="p-card container-fluid p-py-2">
             <div class="row">
               <div class="col-lg-12 col-xl-4">
@@ -70,20 +78,20 @@
                   </h3>
                 </div>
                 <div class="p-card-subtitle">
-                        <span class="badge badge-secondary p-mr-1" v-for="tag in track.Tags"
-                              :key="tag">{{ tag }}</span>
-                  <span class="badge badge-warning" v-if="track.Premium">Premium</span>
+                        <span v-for="tag in track.Tags" :key="tag"
+                              class="badge badge-secondary p-mr-1">{{ tag }}</span>
+                  <span v-if="track.Premium" class="badge badge-warning">Premium</span>
                 </div>
                 <div class="p-card-body">
                   <strong>Location: </strong>{{ track.Location }}, {{ track.Nation.Name }}<br/>
                   <strong>Author: </strong>
-                  <a target="_blank" :href="track.Author.Link">{{ track.Author.Name }}</a>
+                  <a :href="track.Author.Link" target="_blank">{{ track.Author.Name }}</a>
                 </div>
                 <div class="p-card-footer p-text-right mt-auto">
-                  <Button v-if="userRole === 'admin'" @click="openEditTab(track)" icon="pi pi-pencil"
-                          class="p-mr-2"></Button>
-                  <Button @click="openInNewTab(track.DownloadLink)" icon="pi pi-download"
-                          iconPos="right"></Button>
+                  <Button v-if="userRole === 'admin'" class="p-mr-2" icon="pi pi-pencil"
+                          @click="openEditTab(track)"></Button>
+                  <Button icon="pi pi-download" iconPos="right"
+                          @click="openInNewTab(track.DownloadLink)"></Button>
                 </div>
               </div>
             </div>
@@ -91,7 +99,7 @@
         </div>
       </div>
       <div class="col-12">
-        <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredTracks.length"></Paginator>
+        <Paginator v-model:first="offset" :rows="pageRows" :total-records="filteredTracks.length"></Paginator>
       </div>
     </div>
     <div class="col-0 col-lg-3"></div>
@@ -143,9 +151,9 @@ export default {
       ],
       nameSelector: t => t,
       layoutTypeSelector: t => t,
-      selectedLayoutType : "",
+      selectedLayoutType: "",
       nationSelector: t => t,
-      selectedNation : "",
+      selectedNation: "",
       trackTagsSelector: t => t,
       selectedTag: "",
     }
@@ -154,7 +162,7 @@ export default {
     this.initiate()
   },
   computed: {
-    filter(){
+    filter() {
       return t => this.nameSelector(this.layoutTypeSelector(this.trackTagsSelector(this.nationSelector(t))))
     },
     loggedIn() {
@@ -199,28 +207,28 @@ export default {
       this.selectedNameFilter = name
       this.nameSelector = tracksFilters.filterByName(name)
     },
-    clearNameFilter(){
+    clearNameFilter() {
       this.selectedNameFilter = ""
-      this.nameSelector = t =>t
+      this.nameSelector = t => t
     },
     onLayoutCategorySelected(name) {
       this.layoutTypeSelector = tracksFilters.filterByLayoutCategory(name)
     },
-    clearLayoutFilter(){
+    clearLayoutFilter() {
       this.selectedLayoutType = ""
-      this.layoutTypeSelector = t =>t
+      this.layoutTypeSelector = t => t
     },
     onTagSelected(name) {
       this.trackTagsSelector = tracksFilters.filterByTag(name)
     },
-    clearTagFilter(){
+    clearTagFilter() {
       this.selectedTag = ""
-      this.trackTagsSelector = t =>t
+      this.trackTagsSelector = t => t
     },
     onNationSelected(name) {
       this.nationSelector = tracksFilters.filterByNation(name)
     },
-    clearNationFilter(){
+    clearNationFilter() {
       this.selectedNation = ""
       this.nationSelector = t => t
     },

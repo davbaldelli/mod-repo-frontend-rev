@@ -10,21 +10,25 @@ import {createRouter, createWebHistory} from "vue-router";
 import CarEdit from "@/components/cars/CarEdit";
 import TrackEdit from "@/components/tracks/TrackEdit";
 
-const initialCar = r => {return {initialCar : JSON.parse(r.params.initialCar)}}
+const initialCar = r => {
+    return {initialCar: JSON.parse(r.params.initialCar)}
+}
 
-const initialTrack = r => {return {initialTrack : JSON.parse(r.params.initialCar)}}
+const initialTrack = r => {
+    return {initialTrack: JSON.parse(r.params.initialCar)}
+}
 
 const routes = [
     {
         path: '/', component: HelloWorld,
     },
     {
-        path: '/tracks', name:"Tracks" ,component: TrackList, meta: {
+        path: '/tracks', name: "Tracks", component: TrackList, meta: {
             requiresAuth: true,
         }
     },
     {
-        path: '/cars',name:"Cars", component: CarList, meta: {
+        path: '/cars', name: "Cars", component: CarList, meta: {
             requiresAuth: true,
         }
     },
@@ -35,7 +39,7 @@ const routes = [
         }
     },
     {
-        path: '/track/update',name : 'TrackEdit', component: TrackEdit, props : initialTrack,meta: {
+        path: '/track/update', name: 'TrackEdit', component: TrackEdit, props: initialTrack, meta: {
             requiresAuth: true,
             is_admin: true
         }
@@ -50,24 +54,24 @@ const routes = [
         path: '/car/edit',
         name: 'CarEdit',
         component: CarEdit,
-        props : initialCar,
+        props: initialCar,
         meta: {
             requiresAuth: true,
             is_admin: true,
         }
     },
     {
-        path: '/car', name:'car', component: CarDetail, props: true, meta: {
+        path: '/car', name: 'car', component: CarDetail, props: true, meta: {
             requiresAuth: true,
         }
     },
     {
-        path: '/track',name : 'track', component: TrackDetail, props: true, meta: {
+        path: '/track', name: 'track', component: TrackDetail, props: true, meta: {
             requiresAuth: true,
         }
     },
     {
-      path: '/404', component: NotFound
+        path: '/404', component: NotFound
     },
 ]
 

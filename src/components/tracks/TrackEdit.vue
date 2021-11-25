@@ -16,12 +16,12 @@ import TrackForm from "@/components/tracks/TrackForm";
 
 export default {
   name: "TrackEdit",
-  props : ["initialTrack"],
-  components : {
+  props: ["initialTrack"],
+  components: {
     TrackForm,
   },
-  methods:{
-    onSubmit(track){
+  methods: {
+    onSubmit(track) {
       this.$store.dispatch('tracks/updateTrack', track)
           .then(() => alert(`Pista inserita correttamente: ${JSON.stringify(this.$store.getters["alert/alert"].message.data)}`))
           .catch(() => alert(`Errore nell'inserimento della pista: ${JSON.stringify(this.$store.getters["alert/alert"].message.data)}`))

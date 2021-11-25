@@ -1,27 +1,31 @@
 <template>
-  <form @submit.prevent="handleSubmit(!v$.$invalid)" class="p-fluid p-formgrid p-grid">
+  <form class="p-fluid p-formgrid p-grid" @submit.prevent="handleSubmit(!v$.$invalid)">
     <div class="p-field p-col-12 p-sm-10">
       <label for="modelTextField">Model Name</label>
-      <InputText id="modelTextField" type="text" v-model="form.ModelName"
-                 :class="{'p-invalid':v$.form.ModelName.$invalid && submitted}"></InputText>
+      <InputText id="modelTextField" v-model="form.ModelName" :class="{'p-invalid':v$.form.ModelName.$invalid && submitted}"
+                 type="text"></InputText>
       <small v-if="(v$.form.ModelName.$invalid && submitted) || v$.form.ModelName.$pending.$response"
              class="p-error">{{ v$.form.ModelName.required.$message.replace('Value', 'Model Name') }}</small>
     </div>
     <div class="p-field-checkbox p-col-12 p-sm-2 p-pt-sm-5">
-      <CheckBox id="premiumCheck" name="premiumCheck" v-model="form.Premium" :binary="true"/>
+      <CheckBox id="premiumCheck" v-model="form.Premium" :binary="true" name="premiumCheck"/>
       <label for="premiumCheck">Premium</label>
     </div>
     <div v-if="existingBrand" class="p-field p-col-12 p-sm-10">
       <label for="brandDropbox">Brand</label>
-      <Dropdown filter id="brandDropbox" :options="brands" option-label="Name" v-model="form.Brand"
-                :class="{'p-invalid':v$.form.Brand.Name.$invalid && submitted}"></Dropdown>
-      <small v-if="(v$.form.Brand.Name.$invalid && submitted) || v$.form.Brand.Name.$pending.$response" class="p-error">{{ v$.form.Brand.Name.required.$message.replace('Value', 'Brand') }}</small>
+      <Dropdown id="brandDropbox" v-model="form.Brand" :class="{'p-invalid':v$.form.Brand.Name.$invalid && submitted}" :options="brands" filter
+                option-label="Name"></Dropdown>
+      <small v-if="(v$.form.Brand.Name.$invalid && submitted) || v$.form.Brand.Name.$pending.$response" class="p-error">{{
+          v$.form.Brand.Name.required.$message.replace('Value', 'Brand')
+        }}</small>
     </div>
     <div v-if="!existingBrand" class="p-field p-col-12 p-sm-10">
       <label for="brandTextField">Brand</label>
       <InputText id="brandTextField" v-model="form.Brand.Name"
                  :class="{'p-invalid':v$.form.Brand.Name.$invalid && submitted}"></InputText>
-      <small v-if="(v$.form.Brand.Name.$invalid && submitted) || v$.form.Brand.Name.$pending.$response" class="p-error">{{ v$.form.Brand.Name.required.$message.replace('Value', 'Brand Name') }}</small>
+      <small v-if="(v$.form.Brand.Name.$invalid && submitted) || v$.form.Brand.Name.$pending.$response" class="p-error">{{
+          v$.form.Brand.Name.required.$message.replace('Value', 'Brand Name')
+        }}</small>
     </div>
     <div class="p-field-checkbox p-sm-2 p-col-12 p-pt-sm-5">
       <CheckBox id="existingBrandCheck" v-model="existingBrand" :binary="true"></CheckBox>
@@ -29,8 +33,8 @@
     </div>
     <div v-if="!existingBrand && existingNation" class="p-field p-col-12 p-sm-10">
       <label for="nationDropbox">Nation</label>
-      <Dropdown filter id="nationDropbox" :options="nations" option-label="Name" v-model="form.Brand.Nation"
-                :class="{'p-invalid':v$.form.Brand.Nation.Name.$invalid && submitted}"></Dropdown>
+      <Dropdown id="nationDropbox" v-model="form.Brand.Nation" :class="{'p-invalid':v$.form.Brand.Nation.Name.$invalid && submitted}" :options="nations" filter
+                option-label="Name"></Dropdown>
       <small v-if="(v$.form.Brand.Nation.Name.$invalid && submitted) || v$.form.Brand.Nation.Name.$pending.$response"
              class="p-error">{{ v$.form.Brand.Nation.Name.required.$message.replace('Value', 'Nation') }}</small>
     </div>
@@ -54,84 +58,90 @@
     </div>
     <div class="p-field p-col-12">
       <label for="yearTextField">Year</label>
-      <InputNumber v-model="form.Year" :use-grouping="false" show-buttons id="yearTextField" :min="0"
-                   :class="{'p-invalid':v$.form.Year.$invalid && submitted}"></InputNumber>
+      <InputNumber id="yearTextField" v-model="form.Year" :class="{'p-invalid':v$.form.Year.$invalid && submitted}" :min="0" :use-grouping="false"
+                   show-buttons></InputNumber>
       <small v-if="(v$.form.Year.$invalid && submitted) || v$.form.Year.$pending.$response"
              class="p-error">{{ v$.form.Year.required.$message.replace('Value', 'Year') }}</small>
     </div>
     <div class="p-field p-col-12">
       <label for="powerTextField">Horsepower</label>
-      <InputNumber v-model="form.BHP" show-buttons id="powerTextField" suffix="BHP" :min="0"
-                   :class="{'p-invalid':v$.form.BHP.$invalid && submitted}"></InputNumber>
+      <InputNumber id="powerTextField" v-model="form.BHP" :class="{'p-invalid':v$.form.BHP.$invalid && submitted}" :min="0" show-buttons
+                   suffix="BHP"></InputNumber>
       <small v-if="(v$.form.BHP.$invalid && submitted) || v$.form.BHP.$pending.$response"
              class="p-error">{{ v$.form.BHP.required.$message.replace('Value', 'Car Power') }}</small>
     </div>
     <div class="p-field p-col-12">
       <label for="torqueTextField">Torque</label>
-      <InputNumber v-model="form.Torque" show-buttons id="torqueTextField" suffix="Nm" :min="0"
-                   :class="{'p-invalid':v$.form.Torque.$invalid && submitted}"></InputNumber>
+      <InputNumber id="torqueTextField" v-model="form.Torque" :class="{'p-invalid':v$.form.Torque.$invalid && submitted}" :min="0" show-buttons
+                   suffix="Nm"></InputNumber>
       <small v-if="(v$.form.Torque.$invalid && submitted) || v$.form.Torque.$pending.$response"
              class="p-error">{{ v$.form.Torque.required.$message.replace('Value', 'Torque') }}</small>
     </div>
     <div class="p-field p-col-12">
       <label for="weightTextField">Weight</label>
-      <InputNumber v-model="form.Weight" show-buttons id="weightTextField" suffix="Kg" :min="0"
-                   :class="{'p-invalid':v$.form.Weight.$invalid && submitted}"></InputNumber>
+      <InputNumber id="weightTextField" v-model="form.Weight" :class="{'p-invalid':v$.form.Weight.$invalid && submitted}" :min="0" show-buttons
+                   suffix="Kg"></InputNumber>
       <small v-if="(v$.form.Weight.$invalid && submitted) || v$.form.Weight.$pending.$response"
              class="p-error">{{ v$.form.Weight.required.$message.replace('Value', 'Weight') }}</small>
     </div>
     <div class="p-field p-col-12">
       <label for="topSpeedTextField">Top Speed</label>
-      <InputNumber v-model="form.TopSpeed" show-buttons id="topSpeedTextField" suffix="Km/h" :min="0"
-                   :class="{'p-invalid':v$.form.TopSpeed.$invalid && submitted}"></InputNumber>
+      <InputNumber id="topSpeedTextField" v-model="form.TopSpeed" :class="{'p-invalid':v$.form.TopSpeed.$invalid && submitted}" :min="0" show-buttons
+                   suffix="Km/h"></InputNumber>
       <small v-if="(v$.form.TopSpeed.$invalid && submitted) || v$.form.TopSpeed.$pending.$response"
              class="p-error">{{ v$.form.TopSpeed.required.$message.replace('Value', 'Top Speed') }}</small>
     </div>
     <div class="p-field p-col-6 p-pr-1">
       <label for="drivetrainDropdown">Drivetrain</label>
-      <Dropdown id="drivetrainDropdown" :options="drivetrainOptions" optionLabel="text" optionValue="value"
-                v-model="form.Drivetrain" placeholder="Select Drivetrain"
-                :class="{'p-invalid':v$.form.Drivetrain.$invalid && submitted}"></Dropdown>
-      <small v-if="(v$.form.Drivetrain.$invalid && submitted) || v$.form.Drivetrain.$pending.$response" class="p-error">{{ v$.form.Drivetrain.required.$message.replace('Value', 'Drivetrain') }}</small>
+      <Dropdown id="drivetrainDropdown" v-model="form.Drivetrain" :class="{'p-invalid':v$.form.Drivetrain.$invalid && submitted}" :options="drivetrainOptions"
+                optionLabel="text" optionValue="value"
+                placeholder="Select Drivetrain"></Dropdown>
+      <small v-if="(v$.form.Drivetrain.$invalid && submitted) || v$.form.Drivetrain.$pending.$response" class="p-error">{{
+          v$.form.Drivetrain.required.$message.replace('Value', 'Drivetrain')
+        }}</small>
     </div>
     <div class="p-field p-col-6 p-pl-1">
       <label for="transmissionDropdown">Transmission</label>
-      <Dropdown id="transmissionDropdown" :options="transmissionOptions" optionLabel="text" optionValue="value"
-                v-model="form.Transmission" placeholder="Select Transmission Type"
-                :class="{'p-invalid':v$.form.Transmission.$invalid && submitted}"></Dropdown>
+      <Dropdown id="transmissionDropdown" v-model="form.Transmission" :class="{'p-invalid':v$.form.Transmission.$invalid && submitted}" :options="transmissionOptions"
+                optionLabel="text" optionValue="value"
+                placeholder="Select Transmission Type"></Dropdown>
       <small v-if="(v$.form.Transmission.$invalid && submitted) || v$.form.Transmission.$pending.$response"
              class="p-error">{{ v$.form.Transmission.required.$message.replace('Value', 'Transmission') }}</small>
     </div>
     <div class="p-field p-col-12">
       <label for="downloadLinkTextField">Download Link</label>
-      <InputText id="downloadLinkTextField" type="url" v-model="form.DownloadLink" :class="{'p-invalid':v$.form.DownloadLink.$invalid && submitted}"></InputText>
+      <InputText id="downloadLinkTextField" v-model="form.DownloadLink" :class="{'p-invalid':v$.form.DownloadLink.$invalid && submitted}"
+                 type="url"></InputText>
       <small v-if="(v$.form.DownloadLink.$invalid && submitted) || v$.form.DownloadLink.$pending.$response"
              class="p-error">{{ v$.form.DownloadLink.required.$message.replace('Value', 'Download Link') }}
         {{ `, ${v$.form.DownloadLink.url.$message}` }}</small>
     </div>
     <div class="p-field p-col-12">
       <label for="imageLinkTextField">Image Link</label>
-      <InputText id="imageLinkTextField" type="url" v-model="form.Image" :class="{'p-invalid':v$.form.Image.$invalid && submitted}"></InputText>
+      <InputText id="imageLinkTextField" v-model="form.Image" :class="{'p-invalid':v$.form.Image.$invalid && submitted}"
+                 type="url"></InputText>
       <small v-if="(v$.form.Image.$invalid && submitted) || v$.form.Image.$pending.$response"
              class="p-error">{{ v$.form.Image.required.$message.replace('Value', 'Download Link') }}
         {{ `, ${v$.form.Image.url.$message}` }}</small>
     </div>
     <div v-if="existingAuthor" class="p-field p-col-12 p-sm-10">
       <label for="authorDropdown">Author</label>
-      <Dropdown id="authorDropdown" :options="authors" filter optionLabel="Name" v-model="form.Author"
-                placeholder="Select Author" :class="{'p-invalid':v$.form.Author.Name.$invalid && submitted}"></Dropdown>
+      <Dropdown id="authorDropdown" v-model="form.Author" :class="{'p-invalid':v$.form.Author.Name.$invalid && submitted}" :options="authors" filter
+                optionLabel="Name" placeholder="Select Author"></Dropdown>
       <small v-if="(v$.form.Author.Name.$invalid && submitted) || v$.form.Author.Name.$pending.$response"
              class="p-error">{{ v$.form.Author.Name.required.$message.replace('Value', 'Author') }}</small>
     </div>
     <div v-if="!existingAuthor" class="p-field p-col-6 p-sm-5 p-px-2 p-py-0">
       <label for="authorNameTextField">Author Name</label>
-      <InputText id="authorNameTextField" v-model="form.Author.Name" :class="{'p-invalid':v$.form.Author.Name.$invalid && submitted}"></InputText>
+      <InputText id="authorNameTextField" v-model="form.Author.Name"
+                 :class="{'p-invalid':v$.form.Author.Name.$invalid && submitted}"></InputText>
       <small v-if="(v$.form.Author.Name.$invalid && submitted) || v$.form.Author.Name.$pending.$response"
              class="p-error">{{ v$.form.Author.Name.required.$message.replace('Value', 'Author Name') }}</small>
     </div>
     <div v-if="!existingAuthor" class="p-field p-col-6 p-sm-5 p-px-2 p-py-0">
       <label for="authorLinkTextField">Author Link</label>
-      <InputText id="authorLinkTextField" v-model="form.Author.Link" :class="{'p-invalid':v$.form.Author.Link.$invalid && submitted}"></InputText>
+      <InputText id="authorLinkTextField" v-model="form.Author.Link"
+                 :class="{'p-invalid':v$.form.Author.Link.$invalid && submitted}"></InputText>
       <small v-if="(v$.form.Author.Link.$invalid && submitted) || v$.form.Author.Link.$pending.$response"
              class="p-error">{{ v$.form.Author.Link.required.$message.replace('Value', 'Author Link') }}</small>
     </div>
@@ -141,9 +151,10 @@
     </div>
     <div class="p-field p-col-12">
       <label :for="'categoriesChips'">Categories</label>
-      <MultiSelect :id="'categoriesChips'" v-model="form.Categories" :options="categories" optionLabel="Name" placeholder="Select Categories"/>
+      <MultiSelect :id="'categoriesChips'" v-model="form.Categories" :options="categories" optionLabel="Name"
+                   placeholder="Select Categories"/>
     </div>
-    <Button type="submit" label="Submit" class="p-mt-2"/>
+    <Button class="p-mt-2" label="Submit" type="submit"/>
   </form>
 </template>
 
@@ -182,17 +193,17 @@ export default {
         {value: "RWD", text: "RWD"},
         {value: "FWD", text: "FWD"},
       ],
-      categories : [
-        {Name : "Endurance"},
-        {Name : "Formula"},
-        {Name : "GT"},
-        {Name : "Prototype"},
-        {Name : "Rally"},
-        {Name : "Stock Car"},
-        {Name : "Street"},
-        {Name : "Tuned"},
-        {Name : "Touring"},
-        {Name : "Vintage"},
+      categories: [
+        {Name: "Endurance"},
+        {Name: "Formula"},
+        {Name: "GT"},
+        {Name: "Prototype"},
+        {Name: "Rally"},
+        {Name: "Stock Car"},
+        {Name: "Street"},
+        {Name: "Tuned"},
+        {Name: "Touring"},
+        {Name: "Vintage"},
       ],
       existingBrand: true,
       existingNation: true,

@@ -11,7 +11,7 @@ export const carsFilters = {
     filterByBrands
 }
 
-function lastUpdated(n){
+function lastUpdated(n) {
     return cars => {
         cars.sort((a, b) => {
             let timeA = moment(a.UpdatedAt)
@@ -22,7 +22,7 @@ function lastUpdated(n){
     }
 }
 
-function lastAdded(n){
+function lastAdded(n) {
     return cars => {
         cars.sort((a, b) => {
             let timeA = moment(a.CreatedAt)
@@ -44,6 +44,7 @@ function filterByNation(nation) {
 function filterByBrand(brand) {
     return cars => cars.filter(car => car.Brand.Name === brand)
 }
+
 function filterByBrands(brands) {
     return cars => cars.filter(car => brands.includes(car.Brand.Name))
 }
