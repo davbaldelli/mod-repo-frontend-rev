@@ -93,18 +93,20 @@
                   <span class="badge badge-warning" v-if="car.Premium">Premium</span>
                 </div>
                 <div class="p-card-body">
-                  <strong>Year: </strong>{{ car.Year }}
-                  <br>
-                  <strong>Author: </strong><a :href="car.Author.Link" rel="noopener" target="_blank">{{
-                    car.Author.Name
-                  }}</a>
-                  <br>
-                  <strong>{{ car.Transmission }}</strong>,
-                  <strong>{{ car.Drivetrain }}</strong>,
-                  <strong>BHP:</strong>{{ car.BHP }},
-                  <strong>Nm: </strong>{{ car.Torque }},
-                  <strong>Kg:</strong>{{ car.Weight }},
-                  <strong>Top Speed:</strong>{{ car.TopSpeed }},
+                  <p>
+                    <strong>Year: </strong>{{ car.Year }}
+                    <br>
+                    <strong>Author: </strong><a :href="car.Author.Link" rel="noopener" target="_blank">{{
+                      car.Author.Name
+                    }}</a>
+                    <br>
+                    <strong>{{ car.Transmission }}</strong>,
+                    <strong>{{ car.Drivetrain }}</strong>,
+                    <strong>BHP:</strong>{{ car.BHP }},
+                    <strong>Nm: </strong>{{ car.Torque }},
+                    <strong>Kg:</strong>{{ car.Weight }},
+                    <strong>Top Speed:</strong>{{ car.TopSpeed }},
+                  </p>
                 </div>
                 <div class="p-card-footer p-text-right mt-auto">
                   <Button v-if="userRole === 'admin'" @click="openEditTab(car)" icon="pi pi-pencil"
