@@ -12,23 +12,25 @@
           <Button @click="nameFilterClick" icon="pi pi-search"/>
         </div>
       </div>
-      <div ref="paginatorTop" class="p-col-12">
+      <div class="p-col-12">
         <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
       </div>
       <div class="p-col-12">
-        <div class="p-d-flex">
-          <Dropdown class="p-mr-2" v-model="selectedBrand" :options="brandOpts" :filter="true"
+          <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedBrand" :options="brandOpts" :filter="true"
                     @change="e => onBrandSelected(e.value.name)" placeholder="Brand"
                     optionLabel="name" optionGroupLabel="nation" optionGroupChildren="brands"
                     :loading="this.$store.getters['cars/loadingBrands']">
           </Dropdown>
-          <Dropdown class="p-mr-2" v-model="selectedCategory" :options="categories" option-label="Name"
-                    @change="e => onSelectedCategory(e.value.Name)" placeholder="Category"/>
-          <Dropdown class="p-mr-2" v-model="selectedAuthor" :options="authors" option-label="Name" :filter="true"
+
+
+          <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedCategory" :options="categories" option-label="Name"
+          @change="e => onSelectedCategory(e.value.Name)" placeholder="Category"/>
+
+          <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedAuthor" :options="authors" option-label="Name" :filter="true"
                     @change="e => onAuthorSelected(e.value.Name)" placeholder="Author"/>
-          <Dropdown class="p-mr-2" @change="e => sort(e.value)" v-model="selectedSort" :options="sortOpts"
+
+          <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" @change="e => sort(e.value)" v-model="selectedSort" :options="sortOpts"
                     placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
-        </div>
       </div>
       <div class="p-col-12">
         <Chip class="p-mr-2" :label="`Category: ${selectedCategory.Name}`" v-if="selectedCategory"

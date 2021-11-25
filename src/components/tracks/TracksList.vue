@@ -16,11 +16,9 @@
         <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredTracks.length"></Paginator>
       </div>
       <div class="p-col-12">
-        <div class="p-d-flex">
-            <Dropdown class="p-mr-2" v-model="selectedNation" @change="e => onNationSelected(e.value)" :options="nations" :filter="true" option-label="Name" option-value="Name" placeholder="Nation"></Dropdown>
-            <Dropdown class="p-mr-2" v-model="selectedLayoutType" @change="e => onLayoutCategorySelected(e.value)" :options="categoryOpts" option-label="text" option-value="value" placeholder="Layout Category"></Dropdown>
-            <Dropdown class="p-mr-2" v-model="selectedTag" @change="e => onTagSelected(e.value)" :options="tagsOpts" option-label="text" option-value="value" placeholder="Tag"></Dropdown>
-        </div>
+            <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedNation" @change="e => onNationSelected(e.value)" :options="nations" :filter="true" option-label="Name" option-value="Name" placeholder="Nation"></Dropdown>
+            <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedLayoutType" @change="e => onLayoutCategorySelected(e.value)" :options="categoryOpts" option-label="text" option-value="value" placeholder="Layout Category"></Dropdown>
+            <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedTag" @change="e => onTagSelected(e.value)" :options="tagsOpts" option-label="text" option-value="value" placeholder="Tag"></Dropdown>
       </div>
       <div class="p-col-12">
         <Chip :label="`Name: ${selectedNameFilter}`" v-if="selectedNameFilter" @remove="clearNameFilter" class="p-ml-2" removable/>
