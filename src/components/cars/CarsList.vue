@@ -8,96 +8,116 @@
     </div>
     <div class="p-md-12 p-lg-6">
       <div class="p-col-12">
-        <div class="p-grid">
-          <div class="p-col-12">
-            <div class="p-inputgroup p-mb-2">
-              <InputText v-on:keyup.enter="nameFilterClick" v-model="nameFilter" placeholder="Type Car Name"/>
-              <Button @click="nameFilterClick" icon="pi pi-search"/>
-            </div>
-          </div>
-          <div ref="paginatorTop" class="p-col-12">
-            <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
-          </div>
-          <div class="p-col-12 p-formgroup-inline">
-            <div class="p-field">
-              <CascadeSelect v-model="selectedBrand" @change="e => onBrandSelected(e.value.name)" placeholder="Brand"
-                             :options="brandOpts" option-label="name" option-group-label="nation"
-                             :option-group-children="['brands']" :loading="this.$store.getters['cars/loadingBrands']"/>
-            </div>
-            <div class="p-field">
-              <Dropdown v-model="selectedCategory" :options="categories" option-label="Name"
-                        @change="e => onSelectedCategory(e.value.Name)" placeholder="Category"/>
-            </div>
-            <div class="p-field">
-              <Dropdown v-model="selectedAuthor" :options="authors" option-label="Name" :filter="true"
-                        @change="e => onAuthorSelected(e.value.Name)" placeholder="Author"/>
-            </div>
-            <div class="p-field">
-              <Dropdown @change="e => sort(e.value)" class="p-mb-2" v-model="selectedSort" :options="sortOpts"
-                        placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
-            </div>
-          </div>
-          <div class="p-col-12 d-flex align-items-center">
-            <Chip class="p-ml-2" :label="`Category: ${selectedCategory.Name}`" v-if="selectedCategory"
-                  @remove="clearCategoryFilter" removable/>
-            <Chip class="p-ml-2" :label="`Name: ${activeNameFilter}`" v-if="activeNameFilter" @remove="clearNameFilter"
-                  removable/>
-            <Chip class="p-ml-2" :label="`Brand: ${selectedBrand.name}`" v-if="selectedBrand" @remove="clearBrandFilter"
-                  removable/>
-            <Chip class="p-ml-2" :label="`Author: ${selectedAuthor.Name}`" v-if="selectedAuthor"
-                  @remove="clearAuthorFilter" removable/>
-          </div>
-          <div class="p-col-12">
-            <div class="p-mb-2" v-for="(car,index) in pageCars" :key="index">
-              <div class="p-card container-fluid p-py-2">
-                <div class="row">
-                  <div class="col-lg-12 col-xl-4">
-                    <div class="d-flex align-items-center" style="height: 100%">
-                      <img :src="car.Image" alt="Fluid image " class="rounded-4 card-img">
-                    </div>
-                  </div>
-                  <div class="col-lg-12 col-xl-8 mt-2 d-flex flex-column">
-                    <div class="p-card-title">
-                      <h3>
-                        <router-link :to="{name : 'car', query:{}}">{{
-                            `${car.Brand.Name} ${car.ModelName}`
-                          }}
-                        </router-link>
-                      </h3>
-                    </div>
-                    <div class="p-card-subtitle">
-                      <span class="badge badge-secondary p-mr-1" v-for="category in car.Categories"
-                            :key="category.Name">{{ category.Name }}</span>
-                      <span class="badge badge-warning" v-if="car.Premium">Premium</span>
-                    </div>
-                    <div class="p-card-body">
-                      <strong>Year: </strong>{{ car.Year }}
-                      <br>
-                      <strong>Author: </strong><a :href="car.Author.Link" rel="noopener" target="_blank">{{
-                        car.Author.Name
-                      }}</a>
-                      <br>
-                      <strong>{{ car.Transmission }}</strong>,
-                      <strong>{{ car.Drivetrain }}</strong>,
-                      <strong>BHP:</strong>{{ car.BHP }},
-                      <strong>Nm: </strong>{{ car.Torque }},
-                      <strong>Kg:</strong>{{ car.Weight }},
-                      <strong>Top Speed:</strong>{{ car.TopSpeed }},
-                    </div>
-                    <div class="p-card-footer p-text-right mt-auto">
-                      <Button v-if="userRole === 'admin'" @click="openEditTab(car)" icon="pi pi-pencil"
-                              class="p-mr-2"></Button>
-                      <Button @click="openInNewTab(car.DownloadLink)" icon="pi pi-download"></Button>
-                    </div>
-                  </div>
+        <div class="p-inputgroup p-mb-2">
+          <InputText v-on:keyup.enter="nameFilterClick" v-model="nameFilter" placeholder="Type Car Name"/>
+          <Button @click="nameFilterClick" icon="pi pi-search"/>
+        </div>
+      </div>
+      <div ref="paginatorTop" class="p-col-12">
+        <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
+      </div>
+      <div class="p-col-12 p-formgroup-inline">
+        <div class="p-field">
+          <CascadeSelect v-model="selectedBrand" @change="e => onBrandSelected(e.value.name)" placeholder="Brand"
+                         :options="brandOpts" option-label="name" option-group-label="nation"
+                         :option-group-children="['brands']" :loading="this.$store.getters['cars/loadingBrands']"/>
+        </div>
+        <div class="p-field">
+          <Dropdown v-model="selectedCategory" :options="categories" option-label="Name"
+                    @change="e => onSelectedCategory(e.value.Name)" placeholder="Category"/>
+        </div>
+        <div class="p-field">
+          <Dropdown v-model="selectedAuthor" :options="authors" option-label="Name" :filter="true"
+                    @change="e => onAuthorSelected(e.value.Name)" placeholder="Author"/>
+        </div>
+        <div class="p-field">
+          <Dropdown @change="e => sort(e.value)" class="p-mb-2" v-model="selectedSort" :options="sortOpts"
+                    placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
+        </div>
+      </div>
+      <div class="p-col-12 d-flex align-items-center">
+        <Chip class="p-ml-2" :label="`Category: ${selectedCategory.Name}`" v-if="selectedCategory"
+              @remove="clearCategoryFilter" removable/>
+        <Chip class="p-ml-2" :label="`Name: ${activeNameFilter}`" v-if="activeNameFilter" @remove="clearNameFilter"
+              removable/>
+        <Chip class="p-ml-2" :label="`Brand: ${selectedBrand.name}`" v-if="selectedBrand" @remove="clearBrandFilter"
+              removable/>
+        <Chip class="p-ml-2" :label="`Author: ${selectedAuthor.Name}`" v-if="selectedAuthor"
+              @remove="clearAuthorFilter" removable/>
+      </div>
+      <div v-if="this.$store.getters['cars/loadingCars']"  class="p-col-12">
+        <div v-for="i in 5" :key="i" class="p-mb-2">
+          <div class="custom-skeleton p-card container-fluid p-py-2">
+            <div class="row">
+              <div class="col-lg-12 col-xl-4">
+                <Skeleton width="100%" height="200px" shape="rectangle"></Skeleton>
+              </div>
+              <div class="col-lg-12 col-xl-8 mt-2 d-flex flex-column">
+                <div class="p-card-title">
+                  <Skeleton width="100%" height="40px"></Skeleton>
+                </div>
+                <div class="p-card-subtitle">
+                  <Skeleton width="20%" height="20px"></Skeleton>
+                </div>
+                <div class="p-card-body p-my-2">
+                  <Skeleton class="p-mb-1" width="10%" height="15px"></Skeleton>
+                  <Skeleton class="p-mb-1" width="30%" height="15px"></Skeleton>
+                  <Skeleton width="80%" height="15px"></Skeleton>
                 </div>
               </div>
             </div>
           </div>
-          <div class="p-col-12">
-            <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
+        </div>
+      </div>
+      <div class="p-col-12">
+        <div class="p-mb-2" v-for="(car,index) in pageCars" :key="index">
+          <div class="p-card container-fluid p-py-2">
+            <div class="row">
+              <div class="col-lg-12 col-xl-4">
+                <div class="d-flex align-items-center" style="height: 100%">
+                  <img :src="car.Image" alt="Fluid image " class="rounded-4 card-img">
+                </div>
+              </div>
+              <div class="col-lg-12 col-xl-8 mt-2 d-flex flex-column">
+                <div class="p-card-title">
+                  <h3>
+                    <router-link :to="{name : 'car', query:{}}">{{
+                        `${car.Brand.Name} ${car.ModelName}`
+                      }}
+                    </router-link>
+                  </h3>
+                </div>
+                <div class="p-card-subtitle">
+                  <span class="badge badge-secondary p-mr-1" v-for="category in car.Categories"
+                        :key="category.Name">{{ category.Name }}</span>
+                  <span class="badge badge-warning" v-if="car.Premium">Premium</span>
+                </div>
+                <div class="p-card-body">
+                  <strong>Year: </strong>{{ car.Year }}
+                  <br>
+                  <strong>Author: </strong><a :href="car.Author.Link" rel="noopener" target="_blank">{{
+                    car.Author.Name
+                  }}</a>
+                  <br>
+                  <strong>{{ car.Transmission }}</strong>,
+                  <strong>{{ car.Drivetrain }}</strong>,
+                  <strong>BHP:</strong>{{ car.BHP }},
+                  <strong>Nm: </strong>{{ car.Torque }},
+                  <strong>Kg:</strong>{{ car.Weight }},
+                  <strong>Top Speed:</strong>{{ car.TopSpeed }},
+                </div>
+                <div class="p-card-footer p-text-right mt-auto">
+                  <Button v-if="userRole === 'admin'" @click="openEditTab(car)" icon="pi pi-pencil"
+                          class="p-mr-2"></Button>
+                  <Button @click="openInNewTab(car.DownloadLink)" icon="pi pi-download"></Button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
+      <div class="p-col-12">
+        <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
       </div>
     </div>
     <div class="p-md-0 p-lg-3"></div>
@@ -111,7 +131,7 @@ import Button from 'primevue/button'
 import InputText from "primevue/inputtext";
 import Chip from 'primevue/chip'
 import CascadeSelect from 'primevue/cascadeselect';
-//import AutoComplete from 'primevue/autocomplete';
+import Skeleton from 'primevue/skeleton'
 
 import {carsFilters, carSort} from "@/_helpers";
 
@@ -125,7 +145,7 @@ export default {
     InputText,
     Chip,
     CascadeSelect,
-    //AutoComplete,
+    Skeleton,
   },
   data() {
     return {
@@ -315,5 +335,14 @@ export default {
 
 .p-dropdown > span {
   padding: 0.5rem;
+}
+
+.custom-skeleton {
+  border: 1px solid var(--surface-d);
+  border-radius: 4px;
+}
+
+.custom-skeleton ul {
+  list-style: none;
 }
 </style>
