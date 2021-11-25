@@ -1,21 +1,20 @@
 <template>
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-12 col-lg-4"></div>
-      <div class="col-12 col-lg-4">
-        <CarForm :initial-value="form" @submit="onSubmit"></CarForm>
+      <div class="row">
+        <div class="col-12 col-lg-4"></div>
+        <div class="col-12 col-lg-4">
+          <CarForm @submit="onSubmit" :initial-value="form"></CarForm>
+        </div>
+        <div class="col-12 col-lg-4"></div>
       </div>
-      <div class="col-12 col-lg-4"></div>
-    </div>
   </div>
 </template>
 
 <script>
 import CarForm from '@/components/cars/CarForm'
-
 export default {
   name: "CarInput",
-  components: {
+  components : {
     CarForm
   },
   data() {
@@ -48,7 +47,7 @@ export default {
     }
   },
   methods: {
-    onSubmit(car) {
+    onSubmit(car){
       this.$store.dispatch('cars/addCar', car)
           .then(() => alert(`Macchina inserita correttamente: ${JSON.stringify(this.$store.getters["alert/alert"].message.data)}`))
           .catch(() => alert(`Errore nell'inserimento dell'auto : ${JSON.stringify(this.$store.getters["alert/alert"].message.data)}`))

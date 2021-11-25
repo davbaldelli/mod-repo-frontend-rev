@@ -9,66 +9,65 @@
     <div class="p-md-12 p-lg-6">
       <div class="p-col-12">
         <div class="p-inputgroup p-mb-2">
-          <InputText v-model="nameFilter" placeholder="Type Car Name" v-on:keyup.enter="nameFilterClick"/>
-          <Button icon="pi pi-search" @click="nameFilterClick"/>
+          <InputText v-on:keyup.enter="nameFilterClick" v-model="nameFilter" placeholder="Type Car Name"/>
+          <Button @click="nameFilterClick" icon="pi pi-search"/>
         </div>
       </div>
       <div ref="paginatorTop" class="p-col-12">
-        <Paginator v-model:first="offset" :rows="pageRows" :total-records="filteredCars.length"></Paginator>
+        <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
       </div>
       <div class="p-col-12 p-d-flex">
-        <Dropdown v-model="selectedBrand" :filter="true" :loading="this.$store.getters['cars/loadingBrands']" :options="brandOpts"
-                  class="p-mr-2" optionGroupChildren="brands"
-                  optionGroupLabel="nation" optionLabel="name" placeholder="Brand"
-                  @change="e => onBrandSelected(e.value.name)">
-        </Dropdown>
-        <Dropdown v-model="selectedCategory" :options="categories" class="p-mr-2" option-label="Name"
-                  placeholder="Category" @change="e => onSelectedCategory(e.value.Name)"/>
-        <Dropdown v-model="selectedAuthor" :filter="true" :options="authors" class="p-mr-2" option-label="Name"
-                  placeholder="Author" @change="e => onAuthorSelected(e.value.Name)"/>
-        <Dropdown v-model="selectedSort" :options="sortOpts" class="p-mr-2" option-label="label"
-                  option-value="value" placeholder="Sort By" @change="e => sort(e.value)"></Dropdown>
+          <Dropdown class="p-mr-2" v-model="selectedBrand" :options="brandOpts" :filter="true"
+                    @change="e => onBrandSelected(e.value.name)" placeholder="Brand"
+                    optionLabel="name" optionGroupLabel="nation" optionGroupChildren="brands"
+                    :loading="this.$store.getters['cars/loadingBrands']">
+          </Dropdown>
+          <Dropdown class="p-mr-2" v-model="selectedCategory" :options="categories" option-label="Name"
+                    @change="e => onSelectedCategory(e.value.Name)" placeholder="Category"/>
+          <Dropdown class="p-mr-2" v-model="selectedAuthor" :options="authors" option-label="Name" :filter="true"
+                    @change="e => onAuthorSelected(e.value.Name)" placeholder="Author"/>
+          <Dropdown class="p-mr-2" @change="e => sort(e.value)" v-model="selectedSort" :options="sortOpts"
+                    placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
       </div>
       <div class="p-col-12 d-flex align-items-center">
-        <Chip v-if="selectedCategory" :label="`Category: ${selectedCategory.Name}`" class="p-mr-2"
-              removable @remove="clearCategoryFilter"/>
-        <Chip v-if="activeNameFilter" :label="`Name: ${activeNameFilter}`" class="p-mr-2" removable
-              @remove="clearNameFilter"/>
-        <Chip v-if="selectedBrand" :label="`Brand: ${selectedBrand.name}`" class="p-mr-2" removable
-              @remove="clearBrandFilter"/>
-        <Chip v-if="selectedAuthor" :label="`Author: ${selectedAuthor.Name}`" class="p-mr-2"
-              removable @remove="clearAuthorFilter"/>
+        <Chip class="p-mr-2" :label="`Category: ${selectedCategory.Name}`" v-if="selectedCategory"
+              @remove="clearCategoryFilter" removable/>
+        <Chip class="p-mr-2" :label="`Name: ${activeNameFilter}`" v-if="activeNameFilter" @remove="clearNameFilter"
+              removable/>
+        <Chip class="p-mr-2" :label="`Brand: ${selectedBrand.name}`" v-if="selectedBrand" @remove="clearBrandFilter"
+              removable/>
+        <Chip class="p-mr-2" :label="`Author: ${selectedAuthor.Name}`" v-if="selectedAuthor"
+              @remove="clearAuthorFilter" removable/>
       </div>
       <div v-if="this.$store.getters['cars/loadingCars']" class="p-col-12">
         <div v-for="i in 5" :key="i" class="p-mb-2">
           <div class="custom-skeleton p-card container-fluid p-py-2">
             <div class="row">
               <div class="col-lg-12 col-xl-4">
-                <Skeleton height="200px" shape="rectangle" width="100%"></Skeleton>
+                <Skeleton width="100%" height="200px" shape="rectangle"></Skeleton>
               </div>
               <div class="col-lg-12 col-xl-8 mt-2 d-flex flex-column">
                 <div class="p-card-title">
-                  <Skeleton height="40px" width="100%"></Skeleton>
+                  <Skeleton width="100%" height="40px"></Skeleton>
                 </div>
                 <div class="p-card-subtitle">
-                  <Skeleton height="20px" width="20%"></Skeleton>
+                  <Skeleton width="20%" height="20px"></Skeleton>
                 </div>
                 <div class="p-card-body p-my-2">
-                  <Skeleton class="p-mb-1" height="15px" width="10%"></Skeleton>
-                  <Skeleton class="p-mb-1" height="15px" width="30%"></Skeleton>
-                  <Skeleton height="15px" width="80%"></Skeleton>
+                  <Skeleton class="p-mb-1" width="10%" height="15px"></Skeleton>
+                  <Skeleton class="p-mb-1" width="30%" height="15px"></Skeleton>
+                  <Skeleton width="80%" height="15px"></Skeleton>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div v-if="filteredCars.length === 0 && !this.$store.getters['cars/loadingCars']"
-           class="p-mt-3 text-center p-col-12">
+      <div v-if="filteredCars.length === 0 && !this.$store.getters['cars/loadingCars']" class="p-mt-3 text-center p-col-12">
         <h3 class="display-6">I'm sorry, no car match your request</h3>
       </div>
       <div v-else class="p-col-12">
-        <div v-for="(car,index) in pageCars" :key="index" class="p-mb-2">
+        <div class="p-mb-2" v-for="(car,index) in pageCars" :key="index">
           <div class="p-card container-fluid p-py-2">
             <div class="row">
               <div class="col-lg-12 col-xl-4">
@@ -86,9 +85,9 @@
                   </h3>
                 </div>
                 <div class="p-card-subtitle">
-                  <span v-for="category in car.Categories" :key="category.Name"
-                        class="badge badge-secondary p-mr-1">{{ category.Name }}</span>
-                  <span v-if="car.Premium" class="badge badge-warning">Premium</span>
+                  <span class="badge badge-secondary p-mr-1" v-for="category in car.Categories"
+                        :key="category.Name">{{ category.Name }}</span>
+                  <span class="badge badge-warning" v-if="car.Premium">Premium</span>
                 </div>
                 <div class="p-card-body">
                   <p>
@@ -107,9 +106,9 @@
                   </p>
                 </div>
                 <div class="p-card-footer p-text-right mt-auto">
-                  <Button v-if="userRole === 'admin'" class="p-mr-2" icon="pi pi-pencil"
-                          @click="openEditTab(car)"></Button>
-                  <Button icon="pi pi-download" @click="openInNewTab(car.DownloadLink)"></Button>
+                  <Button v-if="userRole === 'admin'" @click="openEditTab(car)" icon="pi pi-pencil"
+                          class="p-mr-2"></Button>
+                  <Button @click="openInNewTab(car.DownloadLink)" icon="pi pi-download"></Button>
                 </div>
               </div>
             </div>
@@ -117,7 +116,7 @@
         </div>
       </div>
       <div class="p-col-12">
-        <Paginator v-model:first="offset" :rows="pageRows" :total-records="filteredCars.length"></Paginator>
+        <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
       </div>
     </div>
     <div class="p-md-0 p-lg-3"></div>

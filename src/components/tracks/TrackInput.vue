@@ -45,8 +45,8 @@ export default {
       },
     }
   },
-  methods: {
-    onSubmit(track) {
+  methods:{
+    onSubmit(track){
       this.$store.dispatch('tracks/addTrack', track)
           .then(() => alert(`Pista inserita correttamente: ${JSON.stringify(this.$store.getters["alert/alert"].message.data)}`))
           .catch(() => alert(`Errore nell'inserimento della pista: ${JSON.stringify(this.$store.getters["alert/alert"].message.data)}`))

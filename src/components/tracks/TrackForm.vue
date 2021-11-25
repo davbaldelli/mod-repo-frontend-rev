@@ -1,8 +1,8 @@
 <template>
-  <form class="p-fluid p-formgrid p-grid" @submit.prevent="handleSubmit(!v$.$invalid)">
+  <form @submit.prevent="handleSubmit(!v$.$invalid)" class="p-fluid p-formgrid p-grid">
     <div class="p-field p-col-12 p-sm-10"><label for="nameTextField">Name</label>
-      <InputText id="nameTextField" v-model="form.Name" :class="{'p-invalid':v$.form.Name.$invalid && submitted}"
-                 type="text"></InputText>
+      <InputText id="nameTextField" type="text" v-model="form.Name"
+                 :class="{'p-invalid':v$.form.Name.$invalid && submitted}"></InputText>
       <small v-if="(v$.form.Name.$invalid && submitted) || v$.form.Name.$pending.$response"
              class="p-error">{{ v$.form.Name.required.$message.replace('Value', 'Name') }}</small></div>
     <div class="p-field-checkbox p-col-12 p-sm-2 p-pt-sm-5">
@@ -11,27 +11,26 @@
     </div>
     <div class="p-field p-col-12">
       <label for="tagsMultiselect">Tags</label>
-      <MultiSelect id="tagsMultiselect" v-model="form.Tags" :filter="true" :options="trackTags"
-                   display="chip" option-label="text" option-value="value" placeholder="Select Tags"></MultiSelect>
+      <MultiSelect id="tagsMultiselect" v-model="form.Tags" :options="trackTags" option-label="text" option-value="value" display="chip" :filter="true" placeholder="Select Tags"></MultiSelect>
     </div>
     <div class="p-field p-col-12">
       <label for="yearTextField">Year</label>
-      <InputNumber id="yearTextField" v-model="form.Year" :class="{'p-invalid':v$.form.Year.$invalid && submitted}" :min="0" :use-grouping="false"
-                   show-buttons></InputNumber>
+      <InputNumber v-model="form.Year" :use-grouping="false" show-buttons id="yearTextField" :min="0"
+                   :class="{'p-invalid':v$.form.Year.$invalid && submitted}"></InputNumber>
       <small v-if="(v$.form.Year.$invalid && submitted) || v$.form.Year.$pending.$response"
              class="p-error">{{ v$.form.Year.required.$message.replace('Value', 'Year') }}</small>
     </div>
     <div v-if="existingNation" class="p-field p-col-6 p-px-2 p-py-0">
       <label for="nationDropdown">Nation</label>
-      <Dropdown id="nationDropdown" v-model="form.Nation" :class="{'p-invalid':v$.form.Nation.Name.$invalid && submitted}" :options="nations" filter
-                option-label="Name"></Dropdown>
+      <Dropdown filter id="nationDropdown" :options="nations" option-label="Name" v-model="form.Nation"
+                :class="{'p-invalid':v$.form.Nation.Name.$invalid && submitted}"></Dropdown>
       <small v-if="(v$.form.Nation.Name.$invalid && submitted) || v$.form.Nation.Name.$pending.$response"
              class="p-error">{{ v$.form.Nation.Name.required.$message.replace('Value', 'Nation') }}</small>
     </div>
     <div v-if="!existingNation" class="p-field p-col-6 p-sm-4 p-px-2 p-py-0">
       <label for="nationNameTextField">Nation Name</label>
-      <InputText id="nationNameTextField" v-model="form.Nation.Name" :class="{'p-invalid':v$.form.Nation.Name.$invalid && submitted}"
-                 type="text"></InputText>
+      <InputText id="nationNameTextField" type="text" v-model="form.Nation.Name"
+                 :class="{'p-invalid':v$.form.Nation.Name.$invalid && submitted}"></InputText>
       <small v-if="(v$.form.Nation.Name.$invalid && submitted) || v$.form.Nation.Name.$pending.$response"
              class="p-error">{{ v$.form.Nation.Name.required.$message.replace('Value', 'Nation Name') }}</small>
     </div>
@@ -44,8 +43,8 @@
     </div>
     <div class="p-field p-col-6 p-sm-4 p-px-2 p-py-0">
       <label for="locationTextField">Location</label>
-      <InputText id="locationTextField" v-model="form.Location" :class="{'p-invalid':v$.form.Location.$invalid && submitted}"
-                 type="text"></InputText>
+      <InputText id="locationTextField" type="text" v-model="form.Location"
+                 :class="{'p-invalid':v$.form.Location.$invalid && submitted}"></InputText>
       <small v-if="(v$.form.Location.$invalid && submitted) || v$.form.Location.$pending.$response"
              class="p-error">{{ v$.form.Location.required.$message.replace('Value', 'Location') }}</small>
     </div>
@@ -55,40 +54,36 @@
     </div>
     <div class="p-field p-col-12">
       <label for="downloadTextField">Download Link</label>
-      <InputText id="downloadTextField" v-model="form.DownloadLink" :class="{'p-invalid':v$.form.DownloadLink.$invalid && submitted}"
-                 type="url"></InputText>
+      <InputText id="downloadTextField" type="url" v-model="form.DownloadLink"
+                 :class="{'p-invalid':v$.form.DownloadLink.$invalid && submitted}"></InputText>
       <small v-if="(v$.form.DownloadLink.$invalid && submitted) || v$.form.DownloadLink.$pending.$response"
-             class="p-error">{{
-          v$.form.DownloadLink.required.$message.replace('Value', 'Download Link')
-        }}{{ `, ${v$.form.DownloadLink.url.$message}` }}</small>
+             class="p-error">{{ v$.form.DownloadLink.required.$message.replace('Value', 'Download Link') }}{{ `, ${v$.form.DownloadLink.url.$message}` }}</small>
     </div>
     <div class="p-field p-col-12">
       <label for="imageTextField">Image</label>
-      <InputText id="imageTextField" v-model="form.Image" :class="{'p-invalid':v$.form.Image.$invalid && submitted}"
-                 type="url"></InputText>
+      <InputText id="imageTextField" type="url" v-model="form.Image"
+                 :class="{'p-invalid':v$.form.Image.$invalid && submitted}"></InputText>
       <small v-if="(v$.form.Image.$invalid && submitted) || v$.form.Image.$pending.$response"
-             class="p-error">{{
-          v$.form.Image.required.$message.replace('Value', 'Image')
-        }}{{ `, ${v$.form.Image.url.$message}` }}</small>
+             class="p-error">{{ v$.form.Image.required.$message.replace('Value', 'Image') }}{{ `, ${v$.form.Image.url.$message}` }}</small>
     </div>
     <div v-if="existingAuthor" class="p-field p-col-12 p-sm-10">
       <label for="authorDropdown">Author</label>
-      <Dropdown id="authorDropdown" v-model="form.Author" :class="{'p-invalid':v$.form.Author.Name.$invalid && submitted}" :options="authors" filter
-                optionLabel="Name" placeholder="Select Author"></Dropdown>
+      <Dropdown id="authorDropdown" :options="authors" filter optionLabel="Name" v-model="form.Author"
+                placeholder="Select Author" :class="{'p-invalid':v$.form.Author.Name.$invalid && submitted}"></Dropdown>
       <small v-if="(v$.form.Author.Name.$invalid && submitted) || v$.form.Author.Name.$pending.$response"
              class="p-error">{{ v$.form.Author.Name.required.$message.replace('Value', 'Author') }}</small>
     </div>
     <div v-if="!existingAuthor" class="p-field p-col-6 p-sm-5 p-px-2 p-py-0">
       <label for="authorNameTextField">Author Name</label>
-      <InputText id="authorNameTextField" v-model="form.Author.Name" :class="{'p-invalid':v$.form.Author.Name.$invalid && submitted}"
-                 type="text"></InputText>
+      <InputText id="authorNameTextField" type="text" v-model="form.Author.Name"
+                 :class="{'p-invalid':v$.form.Author.Name.$invalid && submitted}"></InputText>
       <small v-if="(v$.form.Author.Name.$invalid && submitted) || v$.form.Author.Name.$pending.$response"
              class="p-error">{{ v$.form.Author.Name.required.$message.replace('Value', 'Author Name') }}</small>
     </div>
     <div v-if="!existingAuthor" class="p-field p-col-6 p-sm-5 p-px-2 p-py-0">
       <label for="authorLinkTextField">Author Link</label>
-      <InputText id="authorLinkTextField" v-model="form.Author.Link" :class="{'p-invalid':v$.form.Author.Link.$invalid && submitted}"
-                 type="text"></InputText>
+      <InputText id="authorLinkTextField" type="text" v-model="form.Author.Link"
+                 :class="{'p-invalid':v$.form.Author.Link.$invalid && submitted}"></InputText>
       <small v-if="(v$.form.Author.Link.$invalid && submitted) || v$.form.Author.Link.$pending.$response"
              class="p-error">{{ v$.form.Author.Link.required.$message.replace('Value', 'Author Link') }}</small>
     </div>
@@ -99,29 +94,27 @@
     <div v-for="(layout, index) in form.Layouts" v-bind:key="index" class="p-formgrid p-grid p-pl-2">
       <div class="p-field p-col-5">
         <label :for="`layoutNameTextField${index}`">Layout Name</label>
-        <InputText :id="`layoutNameTextField${index}`" v-model="layout.Name" type="text"></InputText>
+        <InputText :id="`layoutNameTextField${index}`" type="text" v-model="layout.Name"></InputText>
       </div>
       <div class="p-field p-col-3">
         <label :for="`layoutLengthTextField${index}`">Layout Length</label>
-        <InputNumber :id="`layoutLengthTextField${index}`" v-model="layout.LengthM" :min="0" show-buttons
-                     suffix="m"></InputNumber>
+        <InputNumber v-model="layout.LengthM" suffix="m" show-buttons :id="`layoutLengthTextField${index}`" :min="0"></InputNumber>
       </div>
       <div class="p-field p-col-3">
         <label :for="`layoutCategoryDropdown${index}`">Layout Category</label>
-        <Dropdown :id="`layoutCategoryDropdown${index}`" v-model="layout.Category" :options="layoutTypeOptions" filter
-                  option-value="value" optionLabel="text"
+        <Dropdown :id="`layoutCategoryDropdown${index}`" :options="layoutTypeOptions" filter optionLabel="text" option-value="value" v-model="layout.Category"
                   placeholder="Select Category"></Dropdown>
       </div>
       <div class="p-field p-col-1 p-pt-5">
-        <Button class="p-button-danger" icon="pi pi-minus" @click="removeLayout(index)"></Button>
+        <Button @click="removeLayout(index)" icon="pi pi-minus" class="p-button-danger"></Button>
       </div>
     </div>
     <div class="p-field p-col-11"></div>
     <div class="p-field p-col-1 p-pl-3">
-      <Button icon="pi pi-plus" @click="addLayout"></Button>
+      <Button @click="addLayout" icon="pi pi-plus"></Button>
     </div>
     <div class="p-field p-col-12">
-      <Button class="p-mt-2" label="Submit" type="submit"/>
+      <Button type="submit" label="Submit" class="p-mt-2"/>
     </div>
   </form>
 </template>
@@ -140,7 +133,7 @@ export default {
   name: "TrackForm",
   props: ["initialValue"],
   emits: ["submit"],
-  components: {
+  components:{
     InputText,
     Checkbox,
     Dropdown,
@@ -151,10 +144,10 @@ export default {
   setup: () => ({v$: useVuelidate()}),
   data() {
     return {
-      form: this.initialValue,
-      existingAuthor: true,
-      existingNation: true,
-      submitted: false,
+      form : this.initialValue,
+      existingAuthor : true,
+      existingNation : true,
+      submitted : false,
       trackTags: [
         {text: "F1", value: "F1"},
         {text: "NASCAR", value: "NASCAR"},
@@ -176,11 +169,11 @@ export default {
       ],
     }
   },
-  computed: {
-    nations() {
+  computed:{
+    nations(){
       return this.$store.getters['tracks/nations']
     },
-    authors() {
+    authors(){
       return this.$store.getters['authors/authors']
     },
   },
@@ -188,22 +181,22 @@ export default {
     this.$store.dispatch('tracks/getAllNations')
     this.$store.dispatch('authors/getAll')
   },
-  methods: {
-    handleSubmit(isValid) {
+  methods:{
+    handleSubmit(isValid){
       this.submitted = true
-      if (isValid) {
+      if(isValid){
         this.$emit('submit', this.form)
         this.resetForm()
       }
     },
-    resetForm() {
+    resetForm(){
       this.form = this.initialValue
       this.submitted = false
     },
-    removeLayout(index) {
-      this.form.Layouts.splice(index, 1)
+    removeLayout(index){
+      this.form.Layouts.splice(index,1)
     },
-    addLayout() {
+    addLayout(){
       this.form.Layouts.push({
         LengthM: 0,
         Category: "",
@@ -211,7 +204,7 @@ export default {
       })
     }
   },
-  validations() {
+  validations(){
     return {
       form: {
         Name: {required},
