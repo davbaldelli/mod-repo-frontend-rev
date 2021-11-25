@@ -16,36 +16,30 @@
       <div ref="paginatorTop" class="p-col-12">
         <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredCars.length"></Paginator>
       </div>
-      <div class="p-col-12 p-formgroup-inline">
-        <div class="p-field">
-          <CascadeSelect v-model="selectedBrand" @change="e => onBrandSelected(e.value.name)" placeholder="Brand"
-                         :options="brandOpts" option-label="name" option-group-label="nation"
-                         :option-group-children="['brands']" :loading="this.$store.getters['cars/loadingBrands']"/>
-        </div>
-        <div class="p-field">
-          <Dropdown v-model="selectedCategory" :options="categories" option-label="Name"
+      <div class="p-col-12 p-d-flex">
+          <Dropdown class="p-mr-2" v-model="selectedBrand" :options="brandOpts" :filter="true"
+                    @change="e => onBrandSelected(e.value.name)" placeholder="Brand"
+                    optionLabel="name" optionGroupLabel="nation" optionGroupChildren="brands"
+                    :loading="this.$store.getters['cars/loadingBrands']">
+          </Dropdown>
+          <Dropdown class="p-mr-2" v-model="selectedCategory" :options="categories" option-label="Name"
                     @change="e => onSelectedCategory(e.value.Name)" placeholder="Category"/>
-        </div>
-        <div class="p-field">
-          <Dropdown v-model="selectedAuthor" :options="authors" option-label="Name" :filter="true"
+          <Dropdown class="p-mr-2" v-model="selectedAuthor" :options="authors" option-label="Name" :filter="true"
                     @change="e => onAuthorSelected(e.value.Name)" placeholder="Author"/>
-        </div>
-        <div class="p-field">
-          <Dropdown @change="e => sort(e.value)" class="p-mb-2" v-model="selectedSort" :options="sortOpts"
+          <Dropdown class="p-mr-2" @change="e => sort(e.value)" v-model="selectedSort" :options="sortOpts"
                     placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
-        </div>
       </div>
       <div class="p-col-12 d-flex align-items-center">
-        <Chip class="p-ml-2" :label="`Category: ${selectedCategory.Name}`" v-if="selectedCategory"
+        <Chip class="p-mr-2" :label="`Category: ${selectedCategory.Name}`" v-if="selectedCategory"
               @remove="clearCategoryFilter" removable/>
-        <Chip class="p-ml-2" :label="`Name: ${activeNameFilter}`" v-if="activeNameFilter" @remove="clearNameFilter"
+        <Chip class="p-mr-2" :label="`Name: ${activeNameFilter}`" v-if="activeNameFilter" @remove="clearNameFilter"
               removable/>
-        <Chip class="p-ml-2" :label="`Brand: ${selectedBrand.name}`" v-if="selectedBrand" @remove="clearBrandFilter"
+        <Chip class="p-mr-2" :label="`Brand: ${selectedBrand.name}`" v-if="selectedBrand" @remove="clearBrandFilter"
               removable/>
-        <Chip class="p-ml-2" :label="`Author: ${selectedAuthor.Name}`" v-if="selectedAuthor"
+        <Chip class="p-mr-2" :label="`Author: ${selectedAuthor.Name}`" v-if="selectedAuthor"
               @remove="clearAuthorFilter" removable/>
       </div>
-      <div v-if="this.$store.getters['cars/loadingCars']"  class="p-col-12">
+      <div v-if="this.$store.getters['cars/loadingCars']" class="p-col-12">
         <div v-for="i in 5" :key="i" class="p-mb-2">
           <div class="custom-skeleton p-card container-fluid p-py-2">
             <div class="row">
@@ -69,7 +63,10 @@
           </div>
         </div>
       </div>
-      <div class="p-col-12">
+      <div v-if="filteredCars.length === 0 && !this.$store.getters['cars/loadingCars']" class="p-mt-3 text-center p-col-12">
+        <h3 class="display-6">I'm sorry, no car match your request</h3>
+      </div>
+      <div v-else class="p-col-12">
         <div class="p-mb-2" v-for="(car,index) in pageCars" :key="index">
           <div class="p-card container-fluid p-py-2">
             <div class="row">
@@ -132,7 +129,6 @@ import Dropdown from 'primevue/dropdown';
 import Button from 'primevue/button'
 import InputText from "primevue/inputtext";
 import Chip from 'primevue/chip'
-import CascadeSelect from 'primevue/cascadeselect';
 import Skeleton from 'primevue/skeleton'
 
 import {carsFilters, carSort} from "@/_helpers";
@@ -146,7 +142,6 @@ export default {
     Button,
     InputText,
     Chip,
-    CascadeSelect,
     Skeleton,
   },
   data() {
@@ -166,17 +161,17 @@ export default {
       brandSelector: c => c,
       authorSelector: c => c,
       nameSelector: c => c,
-      categories : [
-        {Name : "Endurance"},
-        {Name : "Formula"},
-        {Name : "GT"},
-        {Name : "Prototype"},
-        {Name : "Rally"},
-        {Name : "Stock Car"},
-        {Name : "Street"},
-        {Name : "Tuned"},
-        {Name : "Touring"},
-        {Name : "Vintage"},
+      categories: [
+        {Name: "Endurance"},
+        {Name: "Formula"},
+        {Name: "GT"},
+        {Name: "Prototype"},
+        {Name: "Rally"},
+        {Name: "Stock Car"},
+        {Name: "Street"},
+        {Name: "Tuned"},
+        {Name: "Touring"},
+        {Name: "Vintage"},
       ],
       sorter: carSort.sortByName(true),
       pageRows: 20,
@@ -184,11 +179,12 @@ export default {
       categorySearch: "",
       selectedCategory: "",
       selectedAuthor: "",
-      selectedBrand: ""
+      selectedBrand: "",
+      selectedSort: "",
     }
   },
   computed: {
-    loggedIn(){
+    loggedIn() {
       return this.$store.getters['authentication/loggedIn']
     },
     selector() {

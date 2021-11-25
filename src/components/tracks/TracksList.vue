@@ -16,16 +16,10 @@
         <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredTracks.length"></Paginator>
       </div>
       <div class="p-col-12">
-        <div class="p-formgroup-inline">
-          <div class="p-field">
-            <Dropdown v-model="selectedNation" @change="e => onNationSelected(e.value)" :options="nations" :filter="true" option-label="Name" option-value="Name" placeholder="Nation"></Dropdown>
-          </div>
-          <div class="p-field">
-            <Dropdown v-model="selectedLayoutType" @change="e => onLayoutCategorySelected(e.value)" :options="categoryOpts" option-label="text" option-value="value" placeholder="Layout Category"></Dropdown>
-          </div>
-          <div class="p-field">
-            <Dropdown v-model="selectedTag" @change="e => onTagSelected(e.value)" :options="tagsOpts" option-label="text" option-value="value" placeholder="Tag"></Dropdown>
-          </div>
+        <div class="p-formgroup-inline p-d-flex">
+            <Dropdown class="p-mr-2" v-model="selectedNation" @change="e => onNationSelected(e.value)" :options="nations" :filter="true" option-label="Name" option-value="Name" placeholder="Nation"></Dropdown>
+            <Dropdown class="p-mr-2" v-model="selectedLayoutType" @change="e => onLayoutCategorySelected(e.value)" :options="categoryOpts" option-label="text" option-value="value" placeholder="Layout Category"></Dropdown>
+            <Dropdown class="p-mr-2" v-model="selectedTag" @change="e => onTagSelected(e.value)" :options="tagsOpts" option-label="text" option-value="value" placeholder="Tag"></Dropdown>
         </div>
       </div>
       <div class="p-col-12 p-my-2">
@@ -56,6 +50,9 @@
             </div>
           </div>
         </div>
+      </div>
+      <div v-if="filteredTracks.length === 0 && !this.$store.getters['tracks/loadingTracks']" class="text-center p-col-12 p-my-3">
+        <h3 class="display-6">I'm sorry, no track match your request</h3>
       </div>
       <div class="p-col-12">
         <div class="p-mb-2" v-for="track in pageTracks" :key="track.Name">
