@@ -54,6 +54,7 @@ export const tracks = {
                 trackService.addTrack(track)
                     .then(track => {
                         commit('trackPushed', track)
+                        dispatch('getAllTracks')
                         dispatch('alert/success', track, {root: true})
                         res(track)
                     })
@@ -70,6 +71,7 @@ export const tracks = {
                 trackService.updateTrack(track)
                     .then(track => {
                         commit('trackPushed', track)
+                        dispatch('getAllTracks')
                         dispatch('alert/success', track, {root: true})
                         res(track)
                     })
