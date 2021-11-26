@@ -7,19 +7,21 @@
       </div>
       <div class="col-12 col-lg-4"></div>
     </div>
+    <Toast position="center"/>
   </div>
-  <Toast position="center"/>
 </template>
 
 <script>
 
 import TrackForm from "@/components/tracks/TrackForm";
+import Toast from "primevue/toast";
 
 export default {
   name: "TrackEdit",
   props : ["initialTrack"],
   components : {
     TrackForm,
+    Toast
   },
   methods:{
     onSubmit(track){

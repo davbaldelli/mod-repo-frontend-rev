@@ -13,11 +13,13 @@
 
 <script>
 import TrackForm from "@/components/tracks/TrackForm";
+import Toast from "primevue/toast";
 
 export default {
   name: "TrackInput",
   components: {
     TrackForm,
+    Toast
   },
   data() {
     return {
