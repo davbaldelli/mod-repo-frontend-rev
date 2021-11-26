@@ -1,9 +1,9 @@
-<template>
+<template class="p-grid p-m-0">
   <div class="p-grid p-m-0">
-    <div class="p-col-12 p-p-0 sticky-top">
+    <nav class="p-col-12 p-p-0 sticky-top">
       <Menubar :model="menuItems"/>
-    </div>
-    <div class="p-col-12">
+    </nav>
+    <main class="p-col-12">
       <router-view :key="routerViewKey" v-slot="{Component}">
         <keep-alive :include="['CarList','TracksList']">
           <component :is="Component">
@@ -28,7 +28,7 @@
           </form>
         </div>
       </Dialog>
-    </div>
+    </main>
   </div>
 </template>
 

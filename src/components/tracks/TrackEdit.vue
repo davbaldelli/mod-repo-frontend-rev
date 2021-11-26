@@ -8,6 +8,7 @@
       <div class="col-12 col-lg-4"></div>
     </div>
   </div>
+  <Toast position="center"/>
 </template>
 
 <script>
