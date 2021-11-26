@@ -228,7 +228,7 @@ export default {
       window.open(url, '_blank').focus();
     },
     openEditTab(track) {
-      this.$router.push({name: 'TrackEdit', params: {initialCar: JSON.stringify(track)}})
+      this.$router.push({name: 'TrackEdit', params:{name : track.Name}})
     }
   }
 }

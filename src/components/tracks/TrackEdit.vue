@@ -3,32 +3,70 @@
     <div class="row">
       <div class="col-12 col-lg-4"></div>
       <div class="col-12 col-lg-4">
-        <TrackForm :initial-value="initialTrack" @submit="onSubmit"></TrackForm>
+        <TrackForm :initial-value="track" @submit="onSubmit"></TrackForm>
       </div>
       <div class="col-12 col-lg-4"></div>
     </div>
-    <Toast position="center"/>
   </div>
+  <Dialog header="Success!" v-model:visible="success" @hide="closeSuccess" :modal="true">
+    {{successMessage}}
+    <template #footer>
+      <Button label="OK" icon="pi pi-check" @click="closeSuccess" autofocus></Button>
+    </template>
+  </Dialog>
+  <Dialog header="Failure :(" v-model:visible="fail" :modal="true">{{failMessage}}
+    <template #footer>
+      <Button label="OK" icon="pi pi-check" @click="this.fail = false" autofocus></Button>
+    </template>
+  </Dialog>
 </template>
 
 <script>
 
 import TrackForm from "@/components/tracks/TrackForm";
-import Toast from "primevue/toast";
+import Dialog from "primevue/dialog";
+import Button from "primevue/button";
 
 export default {
   name: "TrackEdit",
   props : ["initialTrack"],
   components : {
     TrackForm,
-    Toast
+    Dialog,
+    Button,
+  },
+  data(){
+    return{
+      name: this.$route.params.name,
+      success : false,
+      successMessage : "",
+      fail : false,
+      failMessage : "",
+    }
+  },
+  computed:{
+    track(){
+      return this.$store.getters['tracks/getTrackByName'](this.name)
+    },
+  },
+  mounted() {
+    this.$store.dispatch('tracks/getAllTracks')
   },
   methods:{
     onSubmit(track){
       this.$store.dispatch('tracks/updateTrack', track)
-          .then(() => this.$toast.add({severity:'success', summary: 'Track edited successfully', detail:'Car created', life: 3000}))
-          .catch((e) => this.$toast.add({severity:'error', summary: 'Error editing the track', detail:e.data.error, life: 7000}))
-    }
+          .then(() => {
+            this.success = true
+            this.successMessage = "Track edited successfully"
+          })
+          .catch((e) => {
+            this.fail = true
+            this.failMessage = e.data.error
+          })
+    },
+    closeSuccess(){
+      this.$router.push("/tracks")
+    },
   }
 }
 </script>

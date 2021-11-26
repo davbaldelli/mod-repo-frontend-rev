@@ -159,6 +159,32 @@ import useVuelidate from "@vuelidate/core";
 import MultiSelect from "primevue/multiselect";
 import {integer, minValue, required, url} from '@vuelidate/validators'
 
+const emptyForm = {
+  Torque: 0,
+  BHP: 0,
+  Weight: 0,
+  TopSpeed: 0,
+  DownloadLink: "",
+  Image: "",
+  ModelName: "",
+  Author: {
+    Name: "",
+    Link: "",
+  },
+  Brand: {
+    Name: "",
+    Nation: {
+      Name: "",
+      Code: "",
+    },
+  },
+  Year: 0,
+  Drivetrain: "",
+  Transmission: "",
+  Categories: [],
+  Premium: false,
+}
+
 export default {
   props: ["initialValue"],
   emits: ["submit"],
@@ -175,7 +201,7 @@ export default {
   setup: () => ({v$: useVuelidate()}),
   data() {
     return {
-      form: this.initialValue,
+      form: this.initialValue ? this.initialValue : emptyForm,
       transmissionOptions: [
         {value: "SEQUENTIAL", text: "Sequential"},
         {value: "MANUAL", text: "Manual"},

@@ -10,14 +10,6 @@ import {createRouter, createWebHistory} from "vue-router";
 import CarEdit from "@/components/cars/CarEdit";
 import TrackEdit from "@/components/tracks/TrackEdit";
 
-const initialCar = r => {
-    return {initialCar: JSON.parse(r.params.initialCar)}
-}
-
-const initialTrack = r => {
-    return {initialTrack: JSON.parse(r.params.initialCar)}
-}
-
 const routes = [
     {
         path: '/', component: HelloWorld,
@@ -39,7 +31,7 @@ const routes = [
         }
     },
     {
-        path: '/track/update', name: 'TrackEdit', component: TrackEdit, props: initialTrack, meta: {
+        path: '/track/update/:name', name: 'TrackEdit', component: TrackEdit, meta: {
             requiresAuth: true,
             is_admin: true
         }
@@ -51,10 +43,9 @@ const routes = [
         }
     },
     {
-        path: '/car/edit',
+        path: '/car/edit/:brand/:model/:year',
         name: 'CarEdit',
         component: CarEdit,
-        props: initialCar,
         meta: {
             requiresAuth: true,
             is_admin: true,

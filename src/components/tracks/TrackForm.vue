@@ -131,6 +131,7 @@ import Button from "primevue/button";
 import useVuelidate from "@vuelidate/core";
 import {helpers, integer, minValue, required, url} from "@vuelidate/validators";
 
+
 export default {
   name: "TrackForm",
   props: ["initialValue"],
@@ -147,10 +148,33 @@ export default {
   setup: () => ({v$: useVuelidate()}),
   data() {
     return {
-      form : this.initialValue,
+      form : this.initialValue ? this.initialValue : this.emptyTrack,
       existingAuthor : true,
       existingNation : true,
       submitted : false,
+      emptyTrack : {
+        DownloadLink: "",
+        Image: "",
+        Name: "",
+        Location: "",
+        Tags: [],
+        Year: 0,
+        Nation: {
+          Name: "",
+        },
+        Premium: false,
+        Layouts: [
+          {
+            LengthM: 0,
+            Category: "",
+            Name: "",
+          },
+        ],
+        Author: {
+          Name: "",
+          Link: "",
+        },
+      },
       trackTags: [
         {text: "F1", value: "F1"},
         {text: "NASCAR", value: "NASCAR"},
@@ -200,6 +224,8 @@ export default {
             //callback to execute when user rejects the action
           }
         })
+      } else {
+        console.log(this.v$)
       }
     },
     resetForm(){

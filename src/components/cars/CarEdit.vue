@@ -3,32 +3,95 @@
     <div class="row">
       <div class="col-12 col-lg-4"></div>
       <div class="col-12 col-lg-4">
-        <CarForm :initial-value="initialCar" @submit="onSubmit"></CarForm>
+        <CarForm :initial-value="car" @submit="onSubmit"></CarForm>
       </div>
       <div class="col-12 col-lg-4"></div>
     </div>
   </div>
-  <Toast position="center"/>
+  <Dialog header="Success!" v-model:visible="success" @hide="closeSuccess" :modal="true">
+    {{successMessage}}
+    <template #footer>
+      <Button label="OK" icon="pi pi-check" @click="closeSuccess" autofocus></Button>
+    </template>
+  </Dialog>
+  <Dialog header="Failure :(" v-model:visible="fail" :modal="true">{{failMessage}}
+    <template #footer>
+      <Button label="OK" icon="pi pi-check" @click="this.fail = false" autofocus></Button>
+    </template>
+  </Dialog>
 </template>
 
 <script>
-
 import CarForm from "@/components/cars/CarForm";
-import Toast from "primevue/toast";
-
+import Dialog from 'primevue/dialog'
+import Button from "primevue/button";
 export default {
   props: ['initialCar'],
   name: "CarEdit",
   components: {
     CarForm,
-    Toast
+    Dialog,
+    Button
+  },
+  data(){
+    return{
+      model : this.$route.params.model,
+      brand : this.$route.params.brand,
+      year : this.$route.params.year,
+      emptyCar : {
+        Torque: 0,
+        BHP: 0,
+        Weight: 0,
+        TopSpeed: 0,
+        DownloadLink: "",
+        Image: "",
+        ModelName: "",
+        Author: {
+          Name: "",
+          Link: "",
+        },
+        Brand: {
+          Name: "",
+          Nation: {
+            Name: "",
+            Code: "",
+          },
+        },
+        Year: 0,
+        Drivetrain: "",
+        Transmission: "",
+        Categories: [],
+        Premium: false,
+      },
+      success : false,
+      successMessage : "",
+      fail : false,
+      failMessage : "",
+    }
+  },
+  computed :{
+    car() {
+      return this.$store.getters['cars/getCarByModel'](this.model, this.year, this.brand)
+    },
+  },
+  mounted() {
+    this.$store.dispatch('cars/getAll')
   },
   methods: {
     onSubmit(car) {
       this.$store.dispatch('cars/updateCar', car)
-          .then(() => this.$toast.add({severity:'success', summary: 'Car edited successfully', detail:'Car created', life: 3000}))
-          .catch((e) => this.$toast.add({severity:'error', summary: 'Error editing the car', detail:e.data.error, life: 7000}))
-    }
+          .then(() => {
+            this.success = true
+            this.successMessage = "Car edited successfully"
+          })
+          .catch((e) => {
+            this.fail = true
+            this.failMessage = e.data.error
+          })
+    },
+    closeSuccess(){
+      this.$router.push("/cars")
+    },
   },
 }
 </script>

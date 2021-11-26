@@ -298,8 +298,7 @@ export default {
       window.open(url, '_blank').focus();
     },
     openEditTab(car) {
-      const car_copy = JSON.stringify(car)
-      this.$router.push({name: 'CarEdit', params: {initialCar: car_copy}})
+      this.$router.push({name: 'CarEdit', params:{brand : car.Brand.Name, model : car.ModelName, year : car.Year}})
     }
   }
 }
