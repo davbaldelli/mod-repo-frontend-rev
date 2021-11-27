@@ -2,7 +2,8 @@ export const tracksFilters = {
     filterByTag,
     filterByLayoutCategory,
     filterByNation,
-    filterByName
+    filterByName,
+    filterByAuthor,
 }
 
 function filterByNation(nation) {
@@ -19,4 +20,8 @@ function filterByTag(tag) {
 
 function filterByName(name) {
     return tracks => tracks.filter(track => track.Name.toLowerCase().includes(name.toLowerCase()))
+}
+
+function filterByAuthor(name){
+    return tracks => tracks.filter(track => track.Author.Name === name)
 }

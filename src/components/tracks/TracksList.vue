@@ -25,6 +25,9 @@
                     option-value="value" placeholder="Layout Category"></Dropdown>
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedTag" @change="e => onTagSelected(e.value)"
                     :options="tagsOpts" option-label="text" option-value="value" placeholder="Tag"></Dropdown>
+          <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedAuthor" :options="authors" option-label="Name"
+                    :filter="true"
+                    @change="e => onAuthorSelected(e.value.Name)" placeholder="Author"/>
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" @change="e => sort(e.value)" v-model="selectedSort"
                     :options="sortOpts"
                     placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
@@ -37,6 +40,7 @@
           <Chip :label="`Category: ${selectedLayoutType}`" v-if="selectedLayoutType" @remove="clearLayoutFilter"
                 class="p-ml-2" removable/>
           <Chip :label="`Tag: ${selectedTag}`" v-if="selectedTag" @remove="clearTagFilter" class="p-ml-2" removable/>
+          <Chip :label="`Author: ${selectedAuthor.Name}`" v-if="selectedAuthor" @remove="clearAuthorFilter" class="p-ml-2" removable/>
         </div>
         <div v-if="this.$store.getters['tracks/loadingTracks']" class="p-col-12">
           <div v-for="i in 5" :key="i" class="p-mb-2">
@@ -166,6 +170,8 @@ export default {
       selectedNation: "",
       trackTagsSelector: t => t,
       selectedTag: "",
+      authorSelector: t => t,
+      selectedAuthor : "",
     }
   },
   mounted() {
@@ -173,7 +179,7 @@ export default {
   },
   computed: {
     filter() {
-      return t => this.nameSelector(this.layoutTypeSelector(this.trackTagsSelector(this.nationSelector(t))))
+      return t => this.authorSelector(this.nameSelector(this.layoutTypeSelector(this.trackTagsSelector(this.nationSelector(t)))))
     },
     loggedIn() {
       return this.$store.getters['authentication/loggedIn']
@@ -193,6 +199,9 @@ export default {
     pageTracks() {
       return this.filteredTracks.slice(this.offset, this.offset + this.pageRows)
     },
+    authors(){
+      return this.$store.getters['tracks/authors']
+    }
   },
   watch: {
     loggedIn() {
@@ -245,9 +254,12 @@ export default {
       this.selectedNation = ""
       this.nationSelector = t => t
     },
-    clearAllFilters() {
-      this.selectedNameFilter = ""
-      this.filter = t => t
+    onAuthorSelected(name){
+      this.authorSelector = tracksFilters.filterByAuthor(name)
+    },
+    clearAuthorFilter(){
+      this.selectedAuthor = ""
+      this.authorSelector = t => t
     },
     openInNewTab(url) {
       window.open(url, '_blank').focus();
