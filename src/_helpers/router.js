@@ -43,7 +43,7 @@ const routes = [
         }
     },
     {
-        path: '/car/edit/:brand/:model/:year',
+        path: '/car/edit/:id',
         name: 'CarEdit',
         component: CarEdit,
         meta: {
@@ -52,7 +52,7 @@ const routes = [
         }
     },
     {
-        path: '/car/:brand/:model/:year', name: 'car', component: CarDetail, meta: {
+        path: '/car/:id', name: 'car', component: CarDetail, meta: {
             requiresAuth: true,
         }
     },

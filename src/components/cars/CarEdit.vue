@@ -35,9 +35,7 @@ export default {
   },
   data(){
     return{
-      model : this.$route.params.model,
-      brand : this.$route.params.brand,
-      year : this.$route.params.year,
+      id : this.$route.params.id,
       emptyCar : {
         Torque: 0,
         BHP: 0,
@@ -71,7 +69,7 @@ export default {
   },
   computed :{
     car() {
-      return this.$store.getters['cars/getCarByModel'](this.model, this.year, this.brand)
+      return this.$store.getters['cars/getCarById'](this.id)
     },
   },
   mounted() {
