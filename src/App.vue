@@ -6,9 +6,7 @@
     <main class="p-col-12">
       <router-view :key="routerViewKey" v-slot="{Component}">
         <keep-alive :include="['CarList','TracksList']">
-          <component :is="Component">
-
-          </component>
+          <component :is="Component"></component>
         </keep-alive>
       </router-view>
       <Dialog v-model:visible="display" :modal="true" header="Login" @hide="resetModal">
@@ -95,7 +93,7 @@ export default {
           label: 'Login', icon: 'pi pi-fw pi-user', command: this.toggleDialog, visible: () => !this.logged,
         },
         {
-          label: 'User', icon: 'pi pi-fw pi-user', visible: () => this.logged,
+          label: this.loggedUsername, icon: 'pi pi-fw pi-user', visible: () => this.logged,
           items: [
             {
               label: 'Add Car',
@@ -118,6 +116,9 @@ export default {
       display: false,
       submitted: false,
     }
+  },
+  mounted() {
+    this.menuItems[5].label = this.loggedUsername
   },
   validations() {
     return {
@@ -147,6 +148,10 @@ export default {
     $route() {
       // clear alert on location change
       this.$store.dispatch('alert/clear');
+    },
+    loggedUsername() {
+      console.log(this.loggedUsername)
+      this.menuItems[5].label = this.loggedUsername
     },
     alert: {
       async handler(value) {
