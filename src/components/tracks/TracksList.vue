@@ -70,42 +70,43 @@
           <h3 class="display-6">I'm sorry, no track match your request</h3>
         </div>
         <div v-else class="p-col-12">
-          <div class="p-grid"></div>
-          <div v-for="track in pageTracks" :key="track.Name" class="p-col-12 p-py-2 p-mb-2">
-            <div class="p-grid p-card p-p-2">
-              <div class="p-lg-12 p-xl-4 p-p-2">
-                <div class="d-flex align-items-center" style="height: 100%">
-                  <img :src="track.Image" alt="track thumbnail" class="rounded-4 card-img">
+          <div class="p-grid p-p-2">
+            <div v-for="(track, index) in pageTracks" :key="index" class="p-col-12 p-py-2 p-mb-2">
+              <div class="p-grid p-card p-p-2">
+                <div class="p-lg-12 p-xl-4 p-p-2">
+                  <div class="d-flex align-items-center" style="height: 100%">
+                    <img :src="track.Image" alt="track thumbnail" class="rounded-4 card-img">
+                  </div>
                 </div>
-              </div>
-              <div class="p-lg-12 p-xl-8 p-mt-2 d-flex flex-column">
-                <div class="p-card-title p-mt-2 p-mb-0">
-                  <h3>
-                    <router-link :to="{name : 'track', params:{name : track.Name}}">{{ track.Name }}</router-link>
-                  </h3>
-                </div>
-                <div class="p-card-subtitle">
+                <div class="p-lg-12 p-xl-8 p-mt-2 d-flex flex-column">
+                  <div class="p-card-title p-mt-2 p-mb-0">
+                    <h3>
+                      <router-link :to="{name : 'track', params:{name : track.Name}}">{{ track.Name }}</router-link>
+                    </h3>
+                  </div>
+                  <div class="p-card-subtitle">
                       <span class="badge badge-secondary p-mr-1" v-for="tag in track.Tags"
                             :key="tag">{{ tag }}</span>
-                  <span class="badge badge-warning" v-if="track.Premium">Premium</span>
-                </div>
-                <div class="p-card-body">
-                  <strong>Year: </strong>{{ track.Year }}<br/>
-                  <strong>Location: </strong>{{ track.Location }}, {{ track.Nation.Name }}<br/>
-                  <strong>Author: </strong>
-                  <a target="_blank" :href="track.Author.Link">{{ track.Author.Name }}</a>
-                </div>
-                <div class="p-card-footer p-text-right mt-auto">
-                  <Button v-if="userRole === 'admin'" @click="openEditTab(track)" icon="pi pi-pencil"
-                          class="p-mr-2"></Button>
-                  <Button @click="openInNewTab(track.DownloadLink)" icon="pi pi-download"
-                          iconPos="right"></Button>
+                    <span class="badge badge-warning" v-if="track.Premium">Premium</span>
+                  </div>
+                  <div class="p-card-body">
+                    <strong>Year: </strong>{{ track.Year }}<br/>
+                    <strong>Location: </strong>{{ track.Location }}, {{ track.Nation.Name }}<br/>
+                    <strong>Author: </strong>
+                    <a target="_blank" :href="track.Author.Link">{{ track.Author.Name }}</a>
+                  </div>
+                  <div class="p-card-footer p-text-right mt-auto">
+                    <Button v-if="userRole === 'admin'" @click="openEditTab(track)" icon="pi pi-pencil"
+                            class="p-mr-2"></Button>
+                    <Button @click="openInNewTab(track.DownloadLink)" icon="pi pi-download"
+                            iconPos="right"></Button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-12">
+        <div class="p-col-12">
           <Paginator :rows="pageRows" v-model:first="offset" :total-records="filteredTracks.length"></Paginator>
         </div>
       </div>

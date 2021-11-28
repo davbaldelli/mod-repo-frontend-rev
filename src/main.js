@@ -18,6 +18,7 @@ import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
 
+
 library.add(faCar, faRoad)
 const app = createApp(App)
 const head = createHead()

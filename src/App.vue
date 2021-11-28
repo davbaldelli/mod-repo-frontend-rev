@@ -78,13 +78,13 @@ export default {
       password: "",
       menuItems: [
         {
-          label: 'Home', icon: 'pi pi-fw pi-home', to: '/',
+          label: 'Home', icon: 'fas fa-home', to: '/',
         },
         {
-          label: 'Cars', to: '/cars'
+          label: 'Cars', to: '/cars', icon: 'fas fa-car'
         },
         {
-          label: 'Tracks', to: '/tracks',
+          label: 'Tracks', to: '/tracks', icon: 'fas fa-road'
         },
         {
           separator: true, style: 'width = 100%'
@@ -93,22 +93,22 @@ export default {
           label: 'Login', icon: 'pi pi-fw pi-user', command: this.toggleDialog, visible: () => !this.logged,
         },
         {
-          label: this.loggedUsername, icon: 'pi pi-fw pi-user', visible: () => this.logged,
+          label: this.loggedUsername, icon: 'fas fa-user', visible: () => this.logged,
           items: [
             {
               label: 'Add Car',
               to: '/car/new',
               visible: () => this.loggedUsername === "admin",
-              icon: 'pi pi-plus-circle'
+              icon: 'fas fa-plus'
             },
             {
               label: 'Add Track',
               to: '/track/new',
               visible: () => this.loggedUsername === "admin",
-              icon: 'pi pi-plus-circle'
+              icon: 'fas fa-plus'
             },
             {
-              label: 'Logout', command: this.logOut, icon: 'pi pi-sign-out'
+              label: 'Logout', command: this.logOut, icon: 'fas fa-sign-out-alt'
             },
           ]
         },
