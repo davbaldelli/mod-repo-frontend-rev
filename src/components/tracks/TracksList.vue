@@ -71,14 +71,14 @@
         </div>
         <div v-else class="p-col-12">
           <div class="p-grid p-p-2">
-            <div v-for="(track, index) in pageTracks" :key="index" class="p-col-12 p-py-2 p-mb-2">
+            <div v-for="(track, index) in pageTracks" :key="index" class="p-col-12">
               <div class="p-grid p-card p-p-2">
-                <div class="p-lg-12 p-xl-4 p-p-2">
+                <div class="p-col-12 p-xl-4 p-p-2">
                   <div class="d-flex align-items-center" style="height: 100%">
                     <img :src="track.Image" alt="track thumbnail" class="rounded-4 card-img">
                   </div>
                 </div>
-                <div class="p-lg-12 p-xl-8 p-mt-2 d-flex flex-column">
+                <div class="p-col-12 p-xl-8 p-p-2 d-flex flex-column">
                   <div class="p-card-title p-mt-2 p-mb-0">
                     <h3>
                       <router-link :to="{name : 'track', params:{name : track.Name}}">{{ track.Name }}</router-link>

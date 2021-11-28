@@ -73,12 +73,12 @@
           <div class="p-grid p-p-2">
             <div v-for="(car,index) in pageCars" :key="index" class="p-col-12">
               <div class="p-grid p-card p-p-2">
-                <div class="p-lg-12 p-xl-4 p-p-2">
+                <div class="p-col-12 p-xl-4 p-p-2">
                   <div class="d-flex align-items-center" style="height: 100%">
                     <img :src="car.Image" alt="car thumbnail" class="rounded-4 card-img">
                   </div>
                 </div>
-                <div class="p-lg-12 p-xl-8 p-p-2 d-flex flex-column">
+                <div class="p-col-12 p-xl-8 p-p-2 d-flex flex-column">
                   <div class="p-card-title p-mt-2 p-mb-0">
                     <h3>
                       <router-link
