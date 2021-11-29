@@ -18,7 +18,7 @@
         </div>
         <div class="p-col-12">
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedNation" @change="e => onNationSelected(e.value)"
-                    :options="nations" :filter="true" option-label="Name" option-value="Name"
+                    :options="nations" :filter="true" option-label="Name" option-value="Name" :loading="this.$store.getters['tracks/loadingNations']"
                     placeholder="Nation"></Dropdown>
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedLayoutType"
                     @change="e => onLayoutCategorySelected(e.value)" :options="categoryOpts" option-label="text"
@@ -26,7 +26,7 @@
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedTag" @change="e => onTagSelected(e.value)"
                     :options="tagsOpts" option-label="text" option-value="value" placeholder="Tag"></Dropdown>
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedAuthor" :options="authors" option-label="Name"
-                    :filter="true"
+                    :filter="true" :loading="this.$store.getters['tracks/loadingAuthors']"
                     @change="e => onAuthorSelected(e.value.Name)" placeholder="Author"/>
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" @change="e => sort(e.value)" v-model="selectedSort"
                     :options="sortOpts"
@@ -96,7 +96,7 @@
                     <a target="_blank" :href="track.Author.Link">{{ track.Author.Name }}</a>
                   </div>
                   <div class="p-card-footer p-text-right mt-auto">
-                    <Button v-if="userRole === 'admin'" @click="openEditTab(track)" icon="pi pi-pencil"
+                    <Button v-if="userRole === 'admin'" @click="openEditTab(track)" icon="far fa-edit"
                             class="p-mr-2"></Button>
                     <Button @click="openInNewTab(track.DownloadLink)" icon="pi pi-download"
                             iconPos="right"></Button>
@@ -173,6 +173,7 @@ export default {
       selectedTag: "",
       authorSelector: t => t,
       selectedAuthor : "",
+      selectedSort : "",
     }
   },
   mounted() {

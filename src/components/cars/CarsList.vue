@@ -25,7 +25,7 @@
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedCategory" :options="categories" option-label="Name"
                     @change="e => onSelectedCategory(e.value.Name)" placeholder="Category"/>
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedAuthor" :options="authors" option-label="Name"
-                    :filter="true"
+                    :filter="true" :loading="this.$store.getters['cars/loadingAuthors']"
                     @change="e => onAuthorSelected(e.value.Name)" placeholder="Author"/>
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" @change="e => sort(e.value)" v-model="selectedSort"
                     :options="sortOpts"
