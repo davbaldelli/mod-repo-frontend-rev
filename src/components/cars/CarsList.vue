@@ -219,6 +219,7 @@ export default {
   },
   watch: {
     brandGrouped() {
+      this.brandOpts = []
       this.brandGrouped.forEach((value, key) => {
         this.brandOpts.push({nation: key, brands: value})
       })
