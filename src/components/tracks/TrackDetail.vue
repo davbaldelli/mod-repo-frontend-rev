@@ -18,12 +18,12 @@
               <div class="p-col-12 p-p-3">
                 <div class="p-grid p-card">
                   <div class="p-col-12 p-sm-6 p-p-sm-3 p-pt-3 p-pb-0">
-                    <Skeleton class="p-m-2" height="30px" width="100%"></Skeleton>
-                    <Skeleton class="p-m-2" height="30px" width="100%"></Skeleton>
+                    <Skeleton class="p-m-2" height="30px" width="auto"></Skeleton>
+                    <Skeleton class="p-m-2" height="30px" width="auto"></Skeleton>
                   </div>
                   <div class="p-col-12 p-sm-6 p-p-sm-3 p-pt-0">
-                    <Skeleton class="p-m-2" height="30px" width="100%"></Skeleton>
-                    <Skeleton class="p-m-2" height="30px" width="100%"></Skeleton>
+                    <Skeleton class="p-m-2" height="30px" width="auto"></Skeleton>
+                    <Skeleton class="p-m-2" height="30px" width="auto"></Skeleton>
                   </div>
                 </div>
               </div>

@@ -3,6 +3,42 @@
     <div class="p-col-12 p-lg-2 p-xl-4"></div>
     <div class="p-col-12 p-lg-8 p-xl-4">
       <div class="p-grid">
+        <div v-if="!car && !carLoading" class="p-col-12">
+          <h3 class="p-mt-4">I'm sorry, but I can't find the car that you are looking for. You can turn back to the <router-link to="/cars/">cars list</router-link> and see if that exits.</h3>
+        </div>
+        <div v-if="carLoading" class="p-col-12">
+          <div class="p-grid">
+            <div class="p-col-12">
+              <Skeleton height="450px" width="100%"></Skeleton>
+            </div>
+            <div class="p-col-12">
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <Skeleton height="60px" width="70%"></Skeleton>
+                </div>
+                <div class="p-col-12 p-p-3">
+                  <div class="p-grid p-card">
+                    <div class="p-col-12 p-sm-6 p-p-sm-3 p-pt-3 p-pb-0">
+                      <Skeleton class="p-m-2" height="30px" width="auto"></Skeleton>
+                      <Skeleton class="p-m-2" height="30px" width="auto"></Skeleton>
+                      <Skeleton class="p-m-2" height="30px" width="auto"></Skeleton>
+                      <Skeleton class="p-m-2" height="30px" width="auto"></Skeleton>
+                      <Skeleton class="p-m-2" height="30px" width="auto"></Skeleton>
+                    </div>
+                    <div class="p-col-12 p-sm-6 p-p-sm-3 p-pt-0">
+                      <Skeleton class="p-m-2" height="30px" width="auto"></Skeleton>
+                      <Skeleton class="p-m-2" height="30px" width="auto"></Skeleton>
+                      <Skeleton class="p-m-2" height="30px" width="auto"></Skeleton>
+                      <Skeleton class="p-m-2" height="30px" width="auto"></Skeleton>
+                      <Skeleton class="p-m-2" height="30px" width="auto"></Skeleton>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-col-12"><Skeleton class="p-p-2" height="40px"></Skeleton></div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div v-if="car" class="p-col-12">
           <div class="p-grid">
             <div class="p-col-12">
@@ -35,42 +71,6 @@
               </div>
             </div>
             <div class="p-col-12"><Button style="width: 100%" label="Download" @click="openInNewTab(car.DownloadLink)"></Button></div>
-          </div>
-        </div>
-        <div v-if="!car && !carLoading" class="p-col-12">
-          <h3 class="p-mt-4">I'm sorry, but I can't find the car that you are looking for. You can turn back to the <router-link to="/cars/">cars list</router-link> and see if that exits.</h3>
-        </div>
-      </div>
-      <div v-if="carLoading" class="p-col-12">
-        <div class="p-grid">
-          <div class="p-col-12">
-            <Skeleton height="450px" width="100%"></Skeleton>
-          </div>
-          <div class="p-col-12">
-            <div class="p-grid">
-              <div class="p-col-12">
-                <Skeleton height="60px" width="70%"></Skeleton>
-              </div>
-              <div class="p-col-12 p-p-3">
-                <div class="p-grid p-card">
-                  <div class="p-col-12 p-sm-6 p-p-sm-3 p-pt-3 p-pb-0">
-                    <Skeleton class="p-m-2" height="30px" width="100%"></Skeleton>
-                    <Skeleton class="p-m-2" height="30px" width="100%"></Skeleton>
-                    <Skeleton class="p-m-2" height="30px" width="100%"></Skeleton>
-                    <Skeleton class="p-m-2" height="30px" width="100%"></Skeleton>
-                    <Skeleton class="p-m-2" height="30px" width="100%"></Skeleton>
-                  </div>
-                  <div class="p-col-12 p-sm-6 p-p-sm-3 p-pt-0">
-                    <Skeleton class="p-m-2" height="30px" width="100%"></Skeleton>
-                    <Skeleton class="p-m-2" height="30px" width="100%"></Skeleton>
-                    <Skeleton class="p-m-2" height="30px" width="100%"></Skeleton>
-                    <Skeleton class="p-m-2" height="30px" width="100%"></Skeleton>
-                    <Skeleton class="p-m-2" height="30px" width="100%"></Skeleton>
-                  </div>
-                </div>
-              </div>
-              <div class="p-col-12"><Skeleton class="p-p-2" height="40px"></Skeleton></div>
-            </div>
           </div>
         </div>
       </div>
