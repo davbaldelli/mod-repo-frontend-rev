@@ -90,7 +90,7 @@ export default {
           separator: true, style: 'width = 100%'
         },
         {
-          label: 'Login', icon: 'pi pi-fw pi-user', command: this.toggleDialog, visible: () => !this.logged,
+          label: 'Login', icon: 'fas fa-user', command: this.toggleDialog, visible: () => !this.logged,
         },
         {
           label: this.loggedUsername, icon: 'fas fa-user', visible: () => this.logged,
