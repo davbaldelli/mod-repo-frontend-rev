@@ -112,7 +112,7 @@
                       -->
                     </p>
                   </div>
-                  <div class="p-card-footer p-text-right mt-auto">
+                  <div class="p-card-footer p-pt-0  p-text-right mt-auto">
                     <Button v-if="userRole === 'admin'" @click="openEditTab(car)" icon="far fa-edit"
                             class="p-mr-2"></Button>
                     <Button @click="openInNewTab(car.downloadLink)" icon="pi pi-download"></Button>
