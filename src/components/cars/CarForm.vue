@@ -29,7 +29,7 @@
     </div>
     <div v-if="!existingBrand && existingNation" class="p-field p-col-12 p-sm-10">
       <label for="nationDropbox">Nation</label>
-      <Dropdown filter id="nationDropbox" :options="nations" option-label="Name" v-model="form.brand.nation"
+      <Dropdown filter id="nationDropbox" :options="nations" option-label="name" v-model="form.brand.nation"
                 :class="{'p-invalid':v$.form.brand.nation.name.$invalid && submitted}"></Dropdown>
       <small v-if="(v$.form.brand.nation.name.$invalid && submitted) || v$.form.brand.nation.name.$pending.$response"
              class="p-error">{{ v$.form.brand.nation.name.required.$message.replace('Value', 'Nation') }}</small>
@@ -124,8 +124,8 @@
       <label for="authorDropdown">Author</label>
       <Dropdown id="authorDropdown" :options="authors" filter optionLabel="name" v-model="form.author"
                 placeholder="Select Author" :class="{'p-invalid':v$.form.author.name.$invalid && submitted}"></Dropdown>
-      <small v-if="(v$.form.author.name.$invalid && submitted) || v$.form.author.name.$pending.$response"
-             class="p-error">{{ v$.form.author.name.required.$message.replace('Value', 'Author') }}</small>
+      <small v-if="(v$.form.author.$invalid && submitted) || v$.form.author.$pending.$response"
+             class="p-error">{{ v$.form.author.required.$message.replace('Value', 'Author') }}</small>
     </div>
     <div v-if="!existingAuthor" class="p-field p-col-6 p-sm-5 p-px-2 p-py-0">
       <label for="authorNameTextField">Author Name</label>
@@ -147,7 +147,9 @@
       <label :for="'categoriesChips'">Categories</label>
       <MultiSelect :id="'categoriesChips'" v-model="form.categories" :options="categories" optionLabel="name" placeholder="Select Categories" display="chip"/>
     </div>
-    <Button type="submit" label="Submit" class="p-mt-2"/>
+    <div class="p-field p-col-12">
+      <Button type="submit" label="Submit" class="p-mt-2"/>
+    </div>
   </form>
   <ConfirmDialog/>
 </template>
