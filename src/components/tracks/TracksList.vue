@@ -81,7 +81,7 @@
                 <div class="p-col-12 p-xl-8 p-p-2 d-flex flex-column">
                   <div class="p-card-title p-mt-2 p-mb-0">
                     <h3>
-                      <router-link :to="{name : 'track', params:{name : track.name}}">{{ track.name }}</router-link>
+                      <router-link :to="{name : 'track', params:{id : track.id}}">{{ track.name }}</router-link>
                     </h3>
                   </div>
                   <div class="p-card-subtitle">
@@ -270,7 +270,7 @@ export default {
       window.open(url, '_blank').focus();
     },
     openEditTab(track) {
-      this.$router.push({name: 'TrackEdit', params: {name: track.name}})
+      this.$router.push({name: 'TrackEdit', params: {id: track.id}})
     }
   }
 }

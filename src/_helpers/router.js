@@ -31,7 +31,7 @@ const routes = [
         }
     },
     {
-        path: '/track/update/:name', name: 'TrackEdit', component: TrackEdit, meta: {
+        path: '/track/edit/:id', name: 'TrackEdit', component: TrackEdit, meta: {
             requiresAuth: true,
             is_admin: true
         }
@@ -57,7 +57,7 @@ const routes = [
         }
     },
     {
-        path: '/track/:name', name: 'track', component: TrackDetail, meta: {
+        path: '/track/:id', name: 'track', component: TrackDetail, meta: {
             requiresAuth: true,
         }
     },

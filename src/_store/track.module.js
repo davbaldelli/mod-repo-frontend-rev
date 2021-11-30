@@ -7,7 +7,7 @@ export const tracks = {
     state: initialState,
     getters: {
         tracks: state => state.tracks.items,
-        getTrackByName: state => name => state.tracks.items.find(t => t.name === name),
+        getTrackByName: state => id => state.tracks.items.find(t => t.id === parseInt(id)),
         loadingTracks: state => state.tracks.fetching,
         nations: state => state.nations.items,
         loadingNations: state => state.nations.fetching,

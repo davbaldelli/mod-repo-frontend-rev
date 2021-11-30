@@ -37,7 +37,7 @@ export default {
   },
   data(){
     return{
-      name: this.$route.params.name,
+      id: this.$route.params.id,
       success : false,
       successMessage : "",
       fail : false,
@@ -46,7 +46,7 @@ export default {
   },
   computed:{
     track(){
-      return this.$store.getters['tracks/getTrackByName'](this.name)
+      return this.$store.getters['tracks/getTrackByName'](this.id)
     },
   },
   mounted() {
