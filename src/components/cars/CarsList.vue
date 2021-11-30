@@ -22,23 +22,23 @@
                     optionLabel="name" optionGroupLabel="nation" optionGroupChildren="brands"
                     :loading="this.$store.getters['cars/loadingBrands']">
           </Dropdown>
-          <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedCategory" :options="categories" option-label="Name"
-                    @change="e => onSelectedCategory(e.value.Name)" placeholder="Category"/>
-          <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedAuthor" :options="authors" option-label="Name"
+          <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedCategory" :options="categories" option-label="name"
+                    @change="e => onSelectedCategory(e.value.name)" placeholder="Category"/>
+          <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedAuthor" :options="authors" option-label="name"
                     :filter="true" :loading="this.$store.getters['cars/loadingAuthors']"
-                    @change="e => onAuthorSelected(e.value.Name)" placeholder="Author"/>
+                    @change="e => onAuthorSelected(e.value.name)" placeholder="Author"/>
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" @change="e => sort(e.value)" v-model="selectedSort"
                     :options="sortOpts"
                     placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
         </div>
         <div class="p-col-12">
-          <Chip class="p-mr-2" :label="`Category: ${selectedCategory.Name}`" v-if="selectedCategory"
+          <Chip class="p-mr-2" :label="`Category: ${selectedCategory.name}`" v-if="selectedCategory"
                 @remove="clearCategoryFilter" removable/>
           <Chip class="p-mr-2" :label="`Name: ${activeNameFilter}`" v-if="activeNameFilter" @remove="clearNameFilter"
                 removable/>
           <Chip class="p-mr-2" :label="`Brand: ${selectedBrand.name}`" v-if="selectedBrand" @remove="clearBrandFilter"
                 removable/>
-          <Chip class="p-mr-2" :label="`Author: ${selectedAuthor.Name}`" v-if="selectedAuthor"
+          <Chip class="p-mr-2" :label="`Author: ${selectedAuthor.name}`" v-if="selectedAuthor"
                 @remove="clearAuthorFilter" removable/>
         </div>
         <div v-if="this.$store.getters['cars/loadingCars']" class="p-col-12">
@@ -75,44 +75,44 @@
               <div class="p-grid p-card p-p-2">
                 <div class="p-col-12 p-xl-4 p-p-2">
                   <div class="d-flex align-items-center" style="height: 100%">
-                    <img :src="car.Image" alt="car thumbnail" class="rounded-4 card-img">
+                    <img :src="car.image" alt="car thumbnail" class="rounded-4 card-img">
                   </div>
                 </div>
                 <div class="p-col-12 p-xl-8 p-p-2 d-flex flex-column">
                   <div class="p-card-title p-mt-2 p-mb-0">
                     <h3>
                       <router-link
-                          :to="{name : 'car', params:{id: car.Id}}">{{
-                          `${car.Brand.Name} ${car.ModelName}`
+                          :to="{name : 'car', params:{id: car.id}}">{{
+                          `${car.brand.name} ${car.modelName}`
                         }}
                       </router-link>
                     </h3>
                   </div>
                   <div class="p-card-subtitle">
-                <span class="badge badge-secondary p-mr-1" v-for="category in car.Categories"
-                      :key="category.Name">{{ category.Name }}</span>
-                    <span class="badge badge-warning" v-if="car.Premium">Premium</span>
+                <span class="badge badge-secondary p-mr-1" v-for="category in car.categories"
+                      :key="category.name">{{ category.name }}</span>
+                    <span class="badge badge-warning" v-if="car.premium">Premium</span>
                   </div>
                   <div class="p-card-body">
                     <p>
-                      <strong>Year: </strong>{{ car.Year }}
+                      <strong>Year: </strong>{{ car.year }}
                       <br>
-                      <strong>Author: </strong><a :href="car.Author.Link" rel="noopener" target="_blank">{{
-                        car.Author.Name
+                      <strong>Author: </strong><a :href="car.author.link" rel="noopener" target="_blank">{{
+                        car.author.name
                       }}</a>
                       <br>
-                      <strong>{{ car.Transmission }}</strong>,
-                      <strong>{{ car.Drivetrain }}</strong>,
-                      <strong>BHP:</strong>{{ car.BHP }},
-                      <strong>Nm: </strong>{{ car.Torque }},
-                      <strong>Kg:</strong>{{ car.Weight }},
-                      <strong>Top Speed:</strong>{{ car.TopSpeed }},
+                      <strong>{{ car.transmission }}</strong>,
+                      <strong>{{ car.drivetrain }}</strong>,
+                      <strong>BHP:</strong>{{ car.bhp }},
+                      <strong>Nm: </strong>{{ car.torque }},
+                      <strong>Kg:</strong>{{ car.weight }},
+                      <strong>Top Speed:</strong>{{ car.topSpeed }},
                     </p>
                   </div>
                   <div class="p-card-footer p-text-right mt-auto">
                     <Button v-if="userRole === 'admin'" @click="openEditTab(car)" icon="far fa-edit"
                             class="p-mr-2"></Button>
-                    <Button @click="openInNewTab(car.DownloadLink)" icon="pi pi-download"></Button>
+                    <Button @click="openInNewTab(car.downloadLink)" icon="pi pi-download"></Button>
                   </div>
                 </div>
               </div>
@@ -167,16 +167,16 @@ export default {
       authorSelector: c => c,
       nameSelector: c => c,
       categories: [
-        {Name: "Endurance"},
-        {Name: "Formula"},
-        {Name: "GT"},
-        {Name: "Prototype"},
-        {Name: "Rally"},
-        {Name: "Stock Car"},
-        {Name: "Street"},
-        {Name: "Tuned"},
-        {Name: "Touring"},
-        {Name: "Vintage"},
+        {name: "Endurance"},
+        {name: "Formula"},
+        {name: "GT"},
+        {name: "Prototype"},
+        {name: "Rally"},
+        {name: "Stock Car"},
+        {name: "Street"},
+        {name: "Tuned"},
+        {name: "Touring"},
+        {name: "Vintage"},
       ],
       sorter: carSort.sortByName(true),
       pageRows: 20,
@@ -209,7 +209,7 @@ export default {
     },
     brandGrouped() {
       return this.$store.getters['cars/brands'].reduce((r, a) => {
-        r.set(a.Nation.Name, [...r.get(a.Nation.Name) || [], {name: a.Name}])
+        r.set(a.nation.name, [...r.get(a.nation.name) || [], {name: a.name}])
         return r
       }, new Map())
     },
@@ -243,7 +243,7 @@ export default {
       this.$store.dispatch('cars/getAll')
     },
     searchCategory(e) {
-      this.categoryOpts = this.categories.filter(v => v.Name.toLowerCase().includes(e.query.toLowerCase()))
+      this.categoryOpts = this.categories.filter(v => v.name.toLowerCase().includes(e.query.toLowerCase()))
     },
     sort(value) {
       this.sorter = value
@@ -304,7 +304,7 @@ export default {
       window.open(url, '_blank').focus();
     },
     openEditTab(car) {
-      this.$router.push({name: 'CarEdit', params: {id: car.Id}})
+      this.$router.push({name: 'CarEdit', params: {id: car.id}})
     }
   }
 }

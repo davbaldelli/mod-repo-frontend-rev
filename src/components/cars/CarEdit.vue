@@ -43,7 +43,7 @@ export default {
         TopSpeed: 0,
         DownloadLink: "",
         Image: "",
-        ModelName: "",
+        modelName: "",
         Author: {
           Name: "",
           Link: "",

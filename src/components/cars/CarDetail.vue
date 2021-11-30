@@ -42,35 +42,35 @@
         <div v-if="car" class="p-col-12">
           <div class="p-grid">
             <div class="p-col-12">
-              <img :src="car.Image" alt="car thumbnail" class="rounded-3 card-img">
+              <img :src="car.image" alt="car thumbnail" class="rounded-3 card-img">
             </div>
             <div class="p-col-12">
               <div class="p-grid">
                 <div class="p-col-12">
-                  <h1 class="display-4">{{`${car.Brand.Name} ${car.ModelName}`}}</h1>
+                  <h1 class="display-4">{{`${car.brand.name} ${car.modelName}`}}</h1>
                 </div>
                 <div class="p-col-12 p-p-3">
                   <div class="p-grid p-card">
                     <div class="p-col-12 p-sm-6 p-p-sm-3 p-pt-3 p-pb-0">
-                      <strong>Model Name</strong> {{car.ModelName}}<hr>
-                      <strong>Brand</strong> {{car.Brand.Name}}<hr>
-                      <strong>Nation</strong> {{car.Brand.Nation.Name}}<hr>
-                      <strong>Year</strong> {{car.Year}}<hr>
-                      <strong>Author</strong> <a :href="car.Author.Link">{{car.Author.Name}}</a><hr>
+                      <strong>Model Name</strong> {{car.modelName}}<hr>
+                      <strong>Brand</strong> {{car.brand.name}}<hr>
+                      <strong>Nation</strong> {{car.brand.nation.name}}<hr>
+                      <strong>Year</strong> {{car.year}}<hr>
+                      <strong>Author</strong> <a :href="car.author.link">{{car.author.name}}</a><hr>
                     </div>
                     <div class="p-col-12 p-sm-6 p-p-sm-3 p-pt-0">
-                      <strong>Power</strong> {{car.BHP}} BHP<hr>
-                      <strong>Torque</strong> {{car.Torque}} Nm<hr>
-                      <strong>Max Speed</strong> {{car.TopSpeed}} Km/h<hr>
-                      <strong>Drivetrain</strong> {{car.Drivetrain}}<hr>
-                      <strong>Transmission</strong> {{car.Transmission}}<hr>
+                      <strong>Power</strong> {{car.bhp}} BHP<hr>
+                      <strong>Torque</strong> {{car.torque}} Nm<hr>
+                      <strong>Max Speed</strong> {{car.topSpeed}} Km/h<hr>
+                      <strong>Drivetrain</strong> {{car.drivetrain}}<hr>
+                      <strong>Transmission</strong> {{car.transmission}}<hr>
                     </div>
                   </div>
                 </div>
 
               </div>
             </div>
-            <div class="p-col-12"><Button style="width: 100%" label="Download" @click="openInNewTab(car.DownloadLink)"></Button></div>
+            <div class="p-col-12"><Button style="width: 100%" label="Download" @click="openInNewTab(car.downloadLink)"></Button></div>
           </div>
         </div>
       </div>

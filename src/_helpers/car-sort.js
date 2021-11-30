@@ -8,18 +8,18 @@ export const carSort = {
 
 function sortByDate() {
     return (a, b) => {
-        let timeA = moment(a.CreatedAt)
-        let timeB = moment(b.CreatedAt)
+        let timeA = moment(a.createdAt)
+        let timeB = moment(b.createdAt)
         return timeA.isBefore(timeB) ? 1 : -1
     }
 }
 
 function sortByName(desc) {
-    return (a, b) => XOR(desc, `${a.Brand.Name}${a.ModelName}${a.Year}`.toLowerCase() < `${b.Brand.Name}${b.ModelName}${b.Year}`.toLowerCase()) ? 1 : -1
+    return (a, b) => XOR(desc, `${a.brand.name}${a.modelName}${a.year}`.toLowerCase() < `${b.brand.name}${b.modelName}${b.year}`.toLowerCase()) ? 1 : -1
 }
 
 function sortByYear(desc) {
-    return (a, b) => XOR(desc, b.Year < a.Year) ? 1 : -1
+    return (a, b) => XOR(desc, b.year < a.year) ? 1 : -1
 }
 
 function XOR(a, b) {
