@@ -78,8 +78,8 @@
                     <img :src="track.image" alt="track thumbnail" class="rounded-4 card-img">
                   </div>
                 </div>
-                <div class="p-col-12 p-xl-8 p-p-2 d-flex flex-column">
-                  <div class="p-card-title p-mt-2 p-mb-0">
+                <div class="p-col-12 p-xl-8 p-p-3 d-flex flex-column">
+                  <div class="p-card-title p-mb-0">
                     <h3>
                       <router-link :to="{name : 'track', params:{id : track.id}}">{{ track.name }}</router-link>
                     </h3>
