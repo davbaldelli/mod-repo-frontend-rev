@@ -29,7 +29,7 @@
     </div>
     <div v-if="!existingBrand && existingNation" class="p-field p-col-12 p-sm-10">
       <label for="nationDropbox">Nation</label>
-      <Dropdown filter id="nationDropbox" :options="nations" option-label="Name" v-model="form.Brand.Nation"
+      <Dropdown filter id="nationDropbox" :options="nations" option-label="Name" v-model="form.brand.nation"
                 :class="{'p-invalid':v$.form.brand.nation.name.$invalid && submitted}"></Dropdown>
       <small v-if="(v$.form.brand.nation.name.$invalid && submitted) || v$.form.brand.nation.name.$pending.$response"
              class="p-error">{{ v$.form.brand.nation.name.required.$message.replace('Value', 'Nation') }}</small>
