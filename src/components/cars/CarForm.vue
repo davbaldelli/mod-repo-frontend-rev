@@ -60,6 +60,10 @@
              class="p-error">{{ v$.form.year.required.$message.replace('Value', 'Year') }}</small>
     </div>
     <div class="p-field p-col-12">
+      <label>Rating</label>
+      <Rating v-model="form.rating" :cancel="false" :stars="10"/>
+    </div>
+    <div class="p-field p-col-12">
       <label for="powerTextField">Horsepower</label>
       <InputNumber v-model="form.bhp" show-buttons id="powerTextField" suffix="BHP" :min="0"
                    :class="{'p-invalid':v$.form.bhp.$invalid && submitted}"></InputNumber>
@@ -158,6 +162,7 @@ import Button from "primevue/button";
 import useVuelidate from "@vuelidate/core";
 import MultiSelect from "primevue/multiselect";
 import {integer, minValue, required, url} from '@vuelidate/validators'
+import Rating from "primevue/rating"
 
 const emptyForm = {
   torque: 0,
@@ -197,7 +202,8 @@ export default {
     Dropdown,
     Button,
     MultiSelect,
-    ConfirmDialog
+    ConfirmDialog,
+    Rating,
   },
   setup: () => ({v$: useVuelidate()}),
   data() {

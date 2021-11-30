@@ -10,6 +10,10 @@
       <label for="premiumCheck">Premium</label>
     </div>
     <div class="p-field p-col-12">
+      <label>Rating</label>
+      <Rating v-model="form.rating" :cancel="false" :stars="10"/>
+    </div>
+    <div class="p-field p-col-12">
       <label for="tagsMultiselect">Tags</label>
       <MultiSelect id="tagsMultiselect" v-model="form.tags" :options="trackTags" option-label="text" option-value="value" display="chip" :filter="true" placeholder="Select Tags"></MultiSelect>
     </div>
@@ -129,8 +133,32 @@ import InputNumber from "primevue/inputnumber";
 import MultiSelect from "primevue/multiselect"
 import Button from "primevue/button";
 import useVuelidate from "@vuelidate/core";
+import Rating from "primevue/rating";
 import {helpers, integer, minValue, required, url} from "@vuelidate/validators";
 
+const emptyTrack = {
+      downloadLink: "",
+      image: "",
+      name: "",
+      location: "",
+      tags: [],
+      year: 0,
+      nation: {
+        name: "",
+      },
+      premium: false,
+      layouts: [
+        {
+          lengthM: 0,
+          category: "",
+          name: "",
+        },
+      ],
+      author: {
+        name: "",
+        link: "",
+      },
+    }
 
 export default {
   name: "TrackForm",
@@ -144,37 +172,15 @@ export default {
     MultiSelect,
     Button,
     ConfirmDialog,
+    Rating,
   },
   setup: () => ({v$: useVuelidate()}),
   data() {
     return {
-      form : this.initialValue ? this.initialValue : this.emptyTrack,
+      form : this.initialValue ? this.initialValue : emptyTrack,
       existingAuthor : true,
       existingNation : true,
       submitted : false,
-      emptyTrack : {
-        downloadLink: "",
-        image: "",
-        name: "",
-        location: "",
-        tags: [],
-        year: 0,
-        nation: {
-          name: "",
-        },
-        premium: false,
-        layouts: [
-          {
-            lengthM: 0,
-            category: "",
-            name: "",
-          },
-        ],
-        author: {
-          name: "",
-          link: "",
-        },
-      },
       trackTags: [
         {text: "F1", value: "F1"},
         {text: "NASCAR", value: "NASCAR"},

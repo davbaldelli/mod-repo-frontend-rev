@@ -36,31 +36,6 @@ export default {
   data(){
     return{
       id : this.$route.params.id,
-      emptyCar : {
-        Torque: 0,
-        BHP: 0,
-        Weight: 0,
-        TopSpeed: 0,
-        DownloadLink: "",
-        Image: "",
-        modelName: "",
-        Author: {
-          Name: "",
-          Link: "",
-        },
-        Brand: {
-          Name: "",
-          Nation: {
-            Name: "",
-            Code: "",
-          },
-        },
-        Year: 0,
-        Drivetrain: "",
-        Transmission: "",
-        Categories: [],
-        Premium: false,
-      },
       success : false,
       successMessage : "",
       fail : false,
