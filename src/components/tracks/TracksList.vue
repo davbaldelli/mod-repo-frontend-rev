@@ -18,16 +18,16 @@
         </div>
         <div class="p-col-12">
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedNation" @change="e => onNationSelected(e.value)"
-                    :options="nations" :filter="true" option-label="Name" option-value="Name" :loading="this.$store.getters['tracks/loadingNations']"
+                    :options="nations" :filter="true" option-label="name" option-value="name" :loading="this.$store.getters['tracks/loadingNations']"
                     placeholder="Nation"></Dropdown>
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedLayoutType"
                     @change="e => onLayoutCategorySelected(e.value)" :options="categoryOpts" option-label="text"
                     option-value="value" placeholder="Layout Category"></Dropdown>
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedTag" @change="e => onTagSelected(e.value)"
                     :options="tagsOpts" option-label="text" option-value="value" placeholder="Tag"></Dropdown>
-          <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedAuthor" :options="authors" option-label="Name"
+          <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedAuthor" :options="authors" option-label="name"
                     :filter="true" :loading="this.$store.getters['tracks/loadingAuthors']"
-                    @change="e => onAuthorSelected(e.value.Name)" placeholder="Author"/>
+                    @change="e => onAuthorSelected(e.value.name)" placeholder="Author"/>
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" @change="e => sort(e.value)" v-model="selectedSort"
                     :options="sortOpts"
                     placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
@@ -40,7 +40,7 @@
           <Chip :label="`Category: ${selectedLayoutType}`" v-if="selectedLayoutType" @remove="clearLayoutFilter"
                 class="p-ml-2" removable/>
           <Chip :label="`Tag: ${selectedTag}`" v-if="selectedTag" @remove="clearTagFilter" class="p-ml-2" removable/>
-          <Chip :label="`Author: ${selectedAuthor.Name}`" v-if="selectedAuthor" @remove="clearAuthorFilter" class="p-ml-2" removable/>
+          <Chip :label="`Author: ${selectedAuthor.name}`" v-if="selectedAuthor" @remove="clearAuthorFilter" class="p-ml-2" removable/>
         </div>
         <div v-if="this.$store.getters['tracks/loadingTracks']" class="p-col-12">
           <div v-for="i in 5" :key="i" class="p-mb-2">
@@ -75,30 +75,30 @@
               <div class="p-grid p-card p-p-2">
                 <div class="p-col-12 p-xl-4 p-p-2">
                   <div class="d-flex align-items-center" style="height: 100%">
-                    <img :src="track.Image" alt="track thumbnail" class="rounded-4 card-img">
+                    <img :src="track.image" alt="track thumbnail" class="rounded-4 card-img">
                   </div>
                 </div>
                 <div class="p-col-12 p-xl-8 p-p-2 d-flex flex-column">
                   <div class="p-card-title p-mt-2 p-mb-0">
                     <h3>
-                      <router-link :to="{name : 'track', params:{name : track.Name}}">{{ track.Name }}</router-link>
+                      <router-link :to="{name : 'track', params:{name : track.name}}">{{ track.name }}</router-link>
                     </h3>
                   </div>
                   <div class="p-card-subtitle">
-                      <span class="badge badge-secondary p-mr-1" v-for="tag in track.Tags"
+                      <span class="badge badge-secondary p-mr-1" v-for="tag in track.tags"
                             :key="tag">{{ tag }}</span>
-                    <span class="badge badge-warning" v-if="track.Premium">Premium</span>
+                    <span class="badge badge-warning" v-if="track.premium">Premium</span>
                   </div>
                   <div class="p-card-body">
-                    <strong>Year: </strong>{{ track.Year }}<br/>
-                    <strong>Location: </strong>{{ track.Location }}, {{ track.Nation.Name }}<br/>
+                    <strong>Year: </strong>{{ track.year }}<br/>
+                    <strong>Location: </strong>{{ track.location }}, {{ track.nation.name }}<br/>
                     <strong>Author: </strong>
-                    <a target="_blank" :href="track.Author.Link">{{ track.Author.Name }}</a>
+                    <a target="_blank" :href="track.author.link">{{ track.author.name }}</a>
                   </div>
                   <div class="p-card-footer p-text-right mt-auto">
                     <Button v-if="userRole === 'admin'" @click="openEditTab(track)" icon="far fa-edit"
                             class="p-mr-2"></Button>
-                    <Button @click="openInNewTab(track.DownloadLink)" icon="pi pi-download"
+                    <Button @click="openInNewTab(track.downloadLink)" icon="pi pi-download"
                             iconPos="right"></Button>
                   </div>
                 </div>
@@ -267,7 +267,7 @@ export default {
       window.open(url, '_blank').focus();
     },
     openEditTab(track) {
-      this.$router.push({name: 'TrackEdit', params: {name: track.Name}})
+      this.$router.push({name: 'TrackEdit', params: {name: track.name}})
     }
   }
 }

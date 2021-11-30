@@ -24,26 +24,26 @@ export default {
   data() {
     return {
       initialTrack: {
-        DownloadLink: "",
-        Image: "",
-        Name: "",
-        Location: "",
-        Tags: [],
-        Year: 0,
-        Nation: {
-          Name: "",
+        downloadLink: "",
+        image: "",
+        name: "",
+        location: "",
+        tags: [],
+        year: 0,
+        nation: {
+          name: "",
         },
-        Premium: false,
-        Layouts: [
+        premium: false,
+        layouts: [
           {
-            LengthM: 0,
-            Category: "",
-            Name: "",
+            lengthM: 0,
+            category: "",
+            name: "",
           },
         ],
-        Author: {
-          Name: "",
-          Link: "",
+        author: {
+          name: "",
+          link: "",
         },
       },
     }

@@ -47,20 +47,20 @@
           <div class="p-col-12">
             <div class="p-grid">
               <div class="p-col-12">
-                <img :src="track.Image" alt="track thumbnail" class="rounded-3 card-img">
+                <img :src="track.image" alt="track thumbnail" class="rounded-3 card-img">
               </div>
               <div class="p-col-12">
-                <h1 class="display-4">{{track.Name}}</h1>
+                <h1 class="display-4">{{track.name}}</h1>
               </div>
               <div class="p-col-12 p-p-3">
                 <div class="p-grid p-card p-p-2">
                   <div class="p-col-12 p-sm-6 p-p-sm-3 p-pt-3 p-pb-0">
-                    <strong>Name</strong>: {{ track.Name }}<hr>
-                    <strong>Year</strong>: {{track.Year}}<hr>
+                    <strong>Name</strong>: {{ track.name }}<hr>
+                    <strong>Year</strong>: {{track.year}}<hr>
                   </div>
                   <div class="p-col-12 p-sm-6 p-p-sm-3 p-pt-0">
-                    <strong>Location</strong>: {{ track.Location }}, {{ track.Nation.Name }}<hr>
-                    <strong>Author</strong>: <a :href="track.Author.Link">{{ track.Author.Name }}</a><hr>
+                    <strong>Location</strong>: {{ track.location }}, {{ track.nation.name }}<hr>
+                    <strong>Author</strong>: <a :href="track.author.link">{{ track.author.name }}</a><hr>
                   </div>
                 </div>
               </div>
@@ -69,16 +69,16 @@
           <div class="p-col-12 p-mt-2"><h3>Layouts</h3></div>
           <div class="p-col-12">
             <div class="p-grid p-p-2">
-              <div v-for="(layout, id) in track.Layouts" :key="id" class="p-col-12  p-p-2">
+              <div v-for="(layout, id) in track.layouts" :key="id" class="p-col-12  p-p-2">
                 <div class="p-grid p-card">
-                  <div class="p-col-12 p-sm-4"><strong>Name</strong>: {{ layout.Name }}</div>
-                  <div class="p-col-12 p-sm-4"><strong>Type</strong>: {{ layout.Category }}</div>
-                  <div class="p-col-12 p-sm-4"><strong>Length</strong>: {{ layout.LengthM }}m</div>
+                  <div class="p-col-12 p-sm-4"><strong>Name</strong>: {{ layout.name }}</div>
+                  <div class="p-col-12 p-sm-4"><strong>Type</strong>: {{ layout.category }}</div>
+                  <div class="p-col-12 p-sm-4"><strong>Length</strong>: {{ layout.lengthM }}m</div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="p-col-12"><Button style="width: 100%" label="Download" @click="openInNewTab(track.DownloadLink)"></Button></div>
+          <div class="p-col-12"><Button style="width: 100%" label="Download" @click="openInNewTab(track.downloadLink)"></Button></div>
         </div>
       </div>
     </div>
