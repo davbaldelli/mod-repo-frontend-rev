@@ -14,7 +14,7 @@ export const cars = {
     getters: {
         loadingCars: state => state.cars.fetching,
         cars: state => state.cars.items,
-        getCarById: state => (id) => state.cars.items.find(c =>c.Id === parseInt(id)),
+        getCarById: state => (id) => state.cars.items.find(c =>c.id === parseInt(id)),
         loadingBrands: state => state.brands.fetching,
         brands: state => state.brands.items,
         loadingTypes: state => state.types.loading,

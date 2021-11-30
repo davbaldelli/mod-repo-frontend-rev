@@ -24,29 +24,30 @@ export default {
   data() {
     return {
       form: {
-        Torque: 0,
-        BHP: 0,
-        Weight: 0,
-        TopSpeed: 0,
-        DownloadLink: "",
-        Image: "",
-        ModelName: "",
-        Author: {
-          Name: "",
-          Link: "",
+        torque: 0,
+        bhp: 0,
+        weight: 0,
+        topSpeed: 0,
+        downloadLink: "",
+        image: "",
+        modelName: "",
+        author: {
+          name: "",
+          link: "",
         },
-        Brand: {
-          Name: "",
-          Nation: {
-            Name: "",
-            Code: "",
+        brand: {
+          name: "",
+          nation: {
+            name: "",
+            code: "",
           },
         },
-        Year: 0,
-        Drivetrain: "",
-        Transmission: "",
-        Categories: [],
-        Premium: false,
+        year: 0,
+        drivetrain: "",
+        transmission: "",
+        categories: [],
+        premium: false,
+        rating: 0,
       },
     }
   },

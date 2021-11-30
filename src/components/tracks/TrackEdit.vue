@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12 col-lg-4"></div>
       <div class="col-12 col-lg-4">
-        <TrackForm :initial-value="track" @submit="onSubmit"></TrackForm>
+        <TrackForm v-if="track" :initial-value="track" @submit="onSubmit"></TrackForm>
       </div>
       <div class="col-12 col-lg-4"></div>
     </div>

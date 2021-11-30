@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12 col-lg-4"></div>
       <div class="col-12 col-lg-4">
-        <CarForm :initial-value="car" @submit="onSubmit"></CarForm>
+        <CarForm v-if="car" :initial-value="car" @submit="onSubmit"></CarForm>
       </div>
       <div class="col-12 col-lg-4"></div>
     </div>
@@ -36,31 +36,6 @@ export default {
   data(){
     return{
       id : this.$route.params.id,
-      emptyCar : {
-        Torque: 0,
-        BHP: 0,
-        Weight: 0,
-        TopSpeed: 0,
-        DownloadLink: "",
-        Image: "",
-        ModelName: "",
-        Author: {
-          Name: "",
-          Link: "",
-        },
-        Brand: {
-          Name: "",
-          Nation: {
-            Name: "",
-            Code: "",
-          },
-        },
-        Year: 0,
-        Drivetrain: "",
-        Transmission: "",
-        Categories: [],
-        Premium: false,
-      },
       success : false,
       successMessage : "",
       fail : false,
