@@ -95,22 +95,20 @@
                   </div>
                   <div class="p-card-body">
                     <Rating class="p-mb-1" :model-value="car.rating/2" :readonly="true" :cancel="false" />
-                    <p>
-                      <strong>Year: </strong>{{ car.year }}
-                      <br>
-                      <strong>Author: </strong><a :href="car.author.link" rel="noopener" target="_blank">{{
-                        car.author.name
-                      }}</a>
-                      <br>
-                      <!--
-                      <strong>{{ car.transmission }}</strong>,
-                      <strong>{{ car.drivetrain }}</strong>,
-                      <strong>BHP:</strong>{{ car.bhp }},
-                      <strong>Nm: </strong>{{ car.torque }},
-                      <strong>Kg:</strong>{{ car.weight }},
-                      <strong>Top Speed:</strong>{{ car.topSpeed }},
+                    <strong>Year: </strong>{{ car.year }}
+                    <br>
+                    <strong>Author: </strong><a :href="car.author.link" rel="noopener" target="_blank">{{
+                      car.author.name
+                    }}</a>
+                    <br>
+                    <!--
+                    <strong>{{ car.transmission }}</strong>,
+                    <strong>{{ car.drivetrain }}</strong>,
+                    <strong>BHP:</strong>{{ car.bhp }},
+                    <strong>Nm: </strong>{{ car.torque }},
+                    <strong>Kg:</strong>{{ car.weight }},
+                    <strong>Top Speed:</strong>{{ car.topSpeed }},
                       -->
-                    </p>
                   </div>
                   <div class="p-card-footer p-pt-0  p-text-right mt-auto">
                     <Button v-if="userRole === 'admin'" @click="openEditTab(car)" icon="far fa-edit"
