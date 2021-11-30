@@ -90,6 +90,7 @@
                     <span class="badge badge-warning" v-if="track.premium">Premium</span>
                   </div>
                   <div class="p-card-body">
+                    <Rating class="p-mb-1" :model-value="track.rating/2" :readonly="true" :cancel="false" />
                     <strong>Year: </strong>{{ track.year }}<br/>
                     <strong>Location: </strong>{{ track.location }}, {{ track.nation.name }}<br/>
                     <strong>Author: </strong>
@@ -123,6 +124,7 @@ import Paginator from "primevue/paginator";
 import Chip from "primevue/chip";
 import Dropdown from "primevue/dropdown";
 import Skeleton from "primevue/skeleton";
+import Rating from "primevue/rating";
 import {tracksFilters, trackSort} from "@/_helpers";
 
 export default {
@@ -134,6 +136,7 @@ export default {
     Chip,
     Dropdown,
     Skeleton,
+    Rating,
   },
   data() {
     return {

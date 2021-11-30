@@ -94,6 +94,7 @@
                     <span class="badge badge-warning" v-if="car.premium">Premium</span>
                   </div>
                   <div class="p-card-body">
+                    <Rating class="p-mb-1" :model-value="car.rating/2" :readonly="true" :cancel="false" />
                     <p>
                       <strong>Year: </strong>{{ car.year }}
                       <br>
@@ -101,12 +102,14 @@
                         car.author.name
                       }}</a>
                       <br>
+                      <!--
                       <strong>{{ car.transmission }}</strong>,
                       <strong>{{ car.drivetrain }}</strong>,
                       <strong>BHP:</strong>{{ car.bhp }},
                       <strong>Nm: </strong>{{ car.torque }},
                       <strong>Kg:</strong>{{ car.weight }},
                       <strong>Top Speed:</strong>{{ car.topSpeed }},
+                      -->
                     </p>
                   </div>
                   <div class="p-card-footer p-text-right mt-auto">
@@ -135,6 +138,7 @@ import Button from 'primevue/button'
 import InputText from "primevue/inputtext";
 import Chip from 'primevue/chip'
 import Skeleton from 'primevue/skeleton'
+import Rating from "primevue/rating";
 
 import {carsFilters, carSort} from "@/_helpers";
 
@@ -148,6 +152,7 @@ export default {
     InputText,
     Chip,
     Skeleton,
+    Rating,
   },
   data() {
     return {
