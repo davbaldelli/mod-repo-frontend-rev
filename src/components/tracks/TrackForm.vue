@@ -9,9 +9,13 @@
       <Checkbox id="premiumCheck" v-model="form.premium" :binary="true"></Checkbox>
       <label for="premiumCheck">Premium</label>
     </div>
-    <div class="p-field p-col-12">
-      <label>Rating</label>
-      <Rating v-model="form.rating" :cancel="false" :stars="10"/>
+    <div class="p-field p-col-6">
+      <label for="versionInputText">Version</label>
+      <InputText id="versionInputText" v-model="form.version" :class="{'p-invalid':v$.form.version.$invalid && submitted}"></InputText>
+    </div>
+    <div class="p-field p-col-6">
+      <label for="ratingRate">Rating</label>
+      <Rating id="ratingRate" v-model="form.rating" :cancel="false" :stars="10"/>
     </div>
     <div class="p-field p-col-12">
       <label for="tagsMultiselect">Tags</label>
@@ -158,6 +162,8 @@ const emptyTrack = {
         name: "",
         link: "",
       },
+      rating : 0,
+      version : "",
     }
 
 export default {
@@ -273,6 +279,8 @@ export default {
           name: {required},
           link: {required},
         },
+        rating : {required, integer},
+        version : {required},
       }
     }
   }

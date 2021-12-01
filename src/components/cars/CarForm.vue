@@ -59,9 +59,13 @@
       <small v-if="(v$.form.year.$invalid && submitted) || v$.form.year.$pending.$response"
              class="p-error">{{ v$.form.year.required.$message.replace('Value', 'Year') }}</small>
     </div>
-    <div class="p-field p-col-12">
-      <label>Rating</label>
-      <Rating v-model="form.rating" :cancel="false" :stars="10"/>
+    <div class="p-field p-col-6">
+      <label for="versionInputText">Version</label>
+      <InputText id="versionInputText" v-model="form.version" :class="{'p-invalid':v$.form.version.$invalid && submitted}"></InputText>
+    </div>
+    <div class="p-field p-col-6">
+      <label for="ratingRate">Rating</label>
+      <Rating id="ratingRate" v-model="form.rating" :cancel="false" :stars="10"/>
     </div>
     <div class="p-field p-col-12">
       <label for="powerTextField">Horsepower</label>
@@ -191,6 +195,7 @@ const emptyForm = {
   categories: [],
   premium: false,
   rating: 0,
+  version : "",
 }
 
 export default {
@@ -318,7 +323,8 @@ export default {
           },
         ],
         premium: {required},
-        rating : {required},
+        rating : {required, integer},
+        version : {required},
       }
     }
   },

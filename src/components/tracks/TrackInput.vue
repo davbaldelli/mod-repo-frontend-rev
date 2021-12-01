@@ -45,6 +45,8 @@ export default {
           name: "",
           link: "",
         },
+        rating : 0,
+        version : "",
       },
     }
   },

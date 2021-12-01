@@ -48,6 +48,7 @@ export default {
         categories: [],
         premium: false,
         rating: 0,
+        version : "",
       },
     }
   },
