@@ -2,7 +2,7 @@
   <div class="p-grid">
     <div class="p-col-12 text-center p-mt-4">
       <h1 class="display-4">Repository Logs</h1>
-      <p class="lead"><em>Stay updated on what's happening in the repository</em></p>
+      <p class="lead"><em>Stay updated on what's happening inside the repository</em></p>
     </div>
     <div class="p-col-12 p-lg-3"></div>
     <div class="p-col-12 p-lg-6">
