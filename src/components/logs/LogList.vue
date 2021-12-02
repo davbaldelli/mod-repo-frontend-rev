@@ -1,16 +1,16 @@
 <template>
   <div class="p-grid">
+    <div class="p-col-12 text-center p-mt-4">
+      <h1 class="display-4">Repository Logs</h1>
+      <p class="lead"><em>Stay updated on what's happening in the repository</em></p>
+    </div>
     <div class="p-col-12 p-lg-3"></div>
     <div class="p-col-12 p-lg-6">
       <DataTable :value="logs" responsive-layout="scroll">
-        <template #header>
-          <div class="table-header">
-            Logs
-          </div>
-        </template>
         <Column header="Type">
           <template #body="slotProps">
-            <FontAwesomeIcon :icon="slotProps.data.name ? 'road' : 'car'"></FontAwesomeIcon>
+            <FontAwesomeIcon class="p-mr-2" :icon="slotProps.data.name ? 'road' : 'car'"></FontAwesomeIcon>
+            <FontAwesomeIcon v-if="slotProps.data.premium" icon="dollar-sign"></FontAwesomeIcon>
           </template>
         </Column>
         <Column header="Mod">
