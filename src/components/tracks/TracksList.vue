@@ -100,9 +100,9 @@
                   </div>
                   <div class="p-card-footer p-pt-0 p-text-right mt-auto">
                     <Button v-if="userRole === 'admin'" @click="openEditTab(track)" icon="far fa-edit"
-                            class="p-mr-2"></Button>
+                            class="p-mr-2 p-button-warning"></Button>
                     <Button @click="openInNewTab(track.downloadLink)" icon="pi pi-download"
-                            iconPos="right"></Button>
+                            iconPos="right" ></Button>
                   </div>
                 </div>
               </div>

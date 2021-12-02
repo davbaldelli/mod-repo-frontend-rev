@@ -46,17 +46,20 @@
             </div>
             <div class="p-col-12">
               <div class="p-grid">
-                <div class="p-col-12">
-                  <h1 class="display-4">{{`${car.brand.name} ${car.modelName}`}}</h1>
+                <div class="p-col-12 p-text-center ">
+                  <h1 class="display-4 p-mb-0">{{`${car.brand.name} ${car.modelName}`}}</h1>
+                </div>
+                <div class="p-col-12 p-text-center">
+                  <Rating :model-value="car.rating" :stars="10" :readonly="true" :cancel="false"></Rating>
                 </div>
                 <div class="p-col-12 p-p-3">
                   <div class="p-grid p-card">
                     <div class="p-col-12 p-sm-6 p-p-sm-3 p-pt-3 p-pb-0">
-                      <strong>Model Name</strong> {{car.modelName}}<hr>
                       <strong>Brand</strong> {{car.brand.name}}<hr>
                       <strong>Nation</strong> {{car.brand.nation.name}}<hr>
                       <strong>Year</strong> {{car.year}}<hr>
                       <strong>Author</strong> <a :href="car.author.link">{{car.author.name}}</a><hr>
+                      <strong>Mod Version</strong> {{car.version}}<hr>
                     </div>
                     <div class="p-col-12 p-sm-6 p-p-sm-3 p-pt-0">
                       <strong>Power</strong> {{car.bhp}} BHP<hr>
@@ -71,6 +74,8 @@
               </div>
             </div>
             <div class="p-col-12"><Button style="width: 100%" label="Download" @click="openInNewTab(car.downloadLink)"></Button></div>
+            <div class="p-col-12"><Button v-if="userRole === 'admin'" @click="openEditTab(car)" label="Edit"
+                                          class="p-button-warning" style="width: 100%"></Button></div>
           </div>
         </div>
       </div>
@@ -83,12 +88,14 @@
 
 import Button from "primevue/button";
 import Skeleton from "primevue/skeleton";
+import Rating from "primevue/rating";
 
 export default {
   name: "CarDetail",
   components:{
     Button,
     Skeleton,
+    Rating,
   },
   data(){
     return{
@@ -101,7 +108,10 @@ export default {
     },
     carLoading(){
       return this.$store.getters['cars/loadingCars']
-    }
+    },
+    userRole() {
+      return this.$store.getters['authentication/user'].role
+    },
   },
   mounted() {
     this.init()
@@ -113,6 +123,10 @@ export default {
     openInNewTab(url) {
       window.open(url, '_blank').focus();
     },
+    openEditTab(car) {
+      this.$router.push({name: 'CarEdit', params: {id: car.id}})
+    }
+
   },
 }
 </script>

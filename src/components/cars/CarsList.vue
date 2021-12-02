@@ -114,7 +114,7 @@
                   </div>
                   <div class="p-card-footer p-pt-0  p-text-right mt-auto">
                     <Button v-if="userRole === 'admin'" @click="openEditTab(car)" icon="far fa-edit"
-                            class="p-mr-2"></Button>
+                            class="p-mr-2 p-button-warning"></Button>
                     <Button @click="openInNewTab(car.downloadLink)" icon="pi pi-download"></Button>
                   </div>
                 </div>
