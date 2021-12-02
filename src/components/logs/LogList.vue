@@ -25,7 +25,7 @@
         </Column>
         <Column header="Date">
           <template #body="slotProps">
-            {{getDate(slotProps.data.happened_at)}}
+            {{getDate(slotProps.data.happenedAt)}}
           </template>
         </Column>
       </DataTable>
@@ -42,8 +42,8 @@ import moment from "moment-timezone";
 import Tag from 'primevue/tag'
 
 const sortByDate = (a, b) => {
-    let timeA = moment(a.happened_at)
-    let timeB = moment(b.happened_at)
+    let timeA = moment(a.happenedAt)
+    let timeB = moment(b.happenedAt)
     return timeA.isBefore(timeB) ? 1 : -1
 }
 
@@ -59,15 +59,28 @@ export default {
     logs(){
       return this.$store.getters['logs/carLogs'].concat(this.$store.getters['logs/trackLogs']).sort(sortByDate)
     },
+    loggedIn() {
+      return this.$store.getters['authentication/loggedIn']
+    },
+  },
+  watch :{
+    loggedIn() {
+      if (this.loggedIn) {
+        this.initiate()
+      }
+    }
   },
   mounted() {
-    this.$store.dispatch('logs/getCarLogs')
-    this.$store.dispatch('logs/getTrackLogs')
+    this.initiate()
   },
   methods:{
     getDate(momentString){
       return moment(momentString).format('DD-MM-YYYY')
     },
+    initiate(){
+      this.$store.dispatch('logs/getCarLogs')
+      this.$store.dispatch('logs/getTrackLogs')
+    }
   }
 }
 </script>

@@ -13,30 +13,23 @@ export const logs = {
         trackLogs : state => state.trackLogs.items
     },
     actions :{
-        getCarLogs({commit}) {
+        getCarLogs({dispatch, commit}) {
             commit('carLogsFetching')
-            /*
             logsService.getCarLogs().then(logs => {
                 commit('carLogsFetched', logs)
             }).catch(err => {
                 commit('carLogsFetchingError', err)
                 dispatch('alert/error', err, {root: true});
-            })*/
-            const logs = logsService.getCarLogs()
-            commit('carLogsFetched', logs)
+            })
         },
-        getTrackLogs({commit}) {
+        getTrackLogs({dispatch, commit}) {
             commit('trackLogsFetching')
-            /*
             logsService.getTrackLogs().then(logs => {
                 commit('trackLogsFetched', logs)
             }).catch(err => {
                 commit('trackLogsFetchingError', err)
                 dispatch('alert/error', err, {root: true});
             })
-             */
-            const logs = logsService.getTrackLogs()
-            commit('trackLogsFetched', logs)
         }
     },
     mutations : {
