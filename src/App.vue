@@ -87,6 +87,9 @@ export default {
           label: 'Tracks', to: '/tracks', icon: 'fas fa-road'
         },
         {
+          label: 'Logs', to: '/logs', icon: 'fas fa-clipboard-list'
+        },
+        {
           separator: true, style: 'width = 100%'
         },
         {
@@ -118,7 +121,7 @@ export default {
     }
   },
   mounted() {
-    this.menuItems[5].label = this.loggedUsername
+    this.menuItems[6].label = this.loggedUsername
   },
   validations() {
     return {
