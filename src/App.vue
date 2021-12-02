@@ -87,6 +87,9 @@ export default {
           label: 'Tracks', to: '/tracks', icon: 'fas fa-road'
         },
         {
+          label: 'Logs', to: '/logs', icon: 'fas fa-clipboard-list'
+        },
+        {
           separator: true, style: 'width = 100%'
         },
         {

@@ -9,6 +9,7 @@ import NotFound from "@/components/404"
 import {createRouter, createWebHistory} from "vue-router";
 import CarEdit from "@/components/cars/CarEdit";
 import TrackEdit from "@/components/tracks/TrackEdit";
+import LogList from "@/components/logs/LogList";
 
 const routes = [
     {
@@ -22,6 +23,11 @@ const routes = [
     {
         path: '/cars', name: "Cars", component: CarList, meta: {
             requiresAuth: true,
+        }
+    },
+    {
+      path: '/logs', name: "Logs", component: LogList, meta: {
+          requiresAuth: true,
         }
     },
     {
