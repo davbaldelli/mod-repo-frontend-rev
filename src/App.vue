@@ -121,7 +121,7 @@ export default {
     }
   },
   mounted() {
-    this.menuItems[5].label = this.loggedUsername
+    this.menuItems[6].label = this.loggedUsername
   },
   validations() {
     return {
