@@ -93,7 +93,7 @@
                     <Rating class="p-mb-1" :model-value="track.rating/2" :readonly="true" :cancel="false" />
                     <strong>Year: </strong>{{ track.year }}<br/>
                     <strong>Location: </strong>{{ track.location }}, {{ track.nation.name }}<br/>
-                    <strong>Mod Version: </strong>{{ tracks.version }}
+                    <strong>Mod Version: </strong>{{ track.version }}
                     <br>
                     <strong>Author: </strong>
                     <a target="_blank" :href="track.author.link">{{ track.author.name }}</a>
