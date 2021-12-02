@@ -5,7 +5,7 @@
       <p class="lead"><em>Stay updated on what's happening inside the repository</em></p>
     </div>
     <div class="p-col-12 p-lg-3"></div>
-    <div class="p-col-12 p-lg-6" style="height: calc(75vh)">
+    <div class="p-col-12 p-lg-6" style="height: calc(70vh)">
       <DataTable :value="logs" :scrollable="true" scrollHeight="flex" responsive-layout="scroll">
         <Column header="Type">
           <template #body="slotProps">
@@ -20,7 +20,7 @@
         </Column>
         <Column header="Action">
           <template #body="slotProps">
-            <Tag :severity="slotProps.data.action==='Insert' ? 'success' : 'primary'">{{slotProps.data.action}}</Tag>
+            <Tag :severity="slotProps.data.action==='Insert' ? 'success' : 'primary'">{{slotProps.data.action === 'Insert' ? 'Added' : 'Updated'}}</Tag>
           </template>
         </Column>
         <Column header="Date">
