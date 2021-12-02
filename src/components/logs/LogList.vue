@@ -6,7 +6,7 @@
     </div>
     <div class="p-col-12 p-lg-3"></div>
     <div class="p-col-12 p-lg-6" style="height: calc(75vh)">
-      <DataTable :value="logs" :scrollable="true" scrollHeight="flex">
+      <DataTable :value="logs" :scrollable="true" scrollHeight="flex" responsive-layout="scroll">
         <Column header="Type">
           <template #body="slotProps">
             <FontAwesomeIcon class="p-mr-2" :icon="slotProps.data.name ? 'road' : 'car'"></FontAwesomeIcon>
