@@ -63,7 +63,7 @@ export default {
           })
     },
     closeSuccess(){
-      this.$router.push("/cars")
+      this.$router.back()
     },
   },
 }

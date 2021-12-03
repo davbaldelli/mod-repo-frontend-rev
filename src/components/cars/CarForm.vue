@@ -62,6 +62,8 @@
     <div class="p-field p-col-6">
       <label for="versionInputText">Version</label>
       <InputText id="versionInputText" v-model="form.version" :class="{'p-invalid':v$.form.version.$invalid && submitted}"></InputText>
+      <small v-if="(v$.form.version.$invalid && submitted) || v$.form.version.$pending.$response"
+             class="p-error">{{ v$.form.version.required.$message.replace('Value', 'Version') }}</small>
     </div>
     <div class="p-field p-col-6">
       <label for="ratingRate">Rating</label>
@@ -128,8 +130,8 @@
       <label for="authorDropdown">Author</label>
       <Dropdown id="authorDropdown" :options="authors" filter optionLabel="name" v-model="form.author"
                 placeholder="Select Author" :class="{'p-invalid':v$.form.author.name.$invalid && submitted}"></Dropdown>
-      <small v-if="(v$.form.author.$invalid && submitted) || v$.form.author.$pending.$response"
-             class="p-error">{{ v$.form.author.required.$message.replace('Value', 'Author') }}</small>
+      <small v-if="(v$.form.author.name.$invalid && submitted) || v$.form.author.$pending.$response"
+             class="p-error">Author is required</small>
     </div>
     <div v-if="!existingAuthor" class="p-field p-col-6 p-sm-5 p-px-2 p-py-0">
       <label for="authorNameTextField">Author Name</label>

@@ -99,10 +99,14 @@
                     <a target="_blank" :href="track.author.link">{{ track.author.name }}</a>
                   </div>
                   <div class="p-card-footer p-pt-0 p-text-right mt-auto">
-                    <Button v-if="userRole === 'admin'" @click="openEditTab(track)" icon="far fa-edit"
-                            class="p-mr-2 p-button-warning"></Button>
-                    <Button @click="openInNewTab(track.downloadLink)" icon="pi pi-download"
-                            iconPos="right" ></Button>
+                    <router-link :to="`/track/edit/${track.id}`" tag="button">
+                      <Button v-if="userRole === 'admin'" icon="far fa-edit"
+                              class="p-mr-2 p-button-warning"></Button>
+                    </router-link>
+                    <a :href="track.downloadLink" target="_blank">
+                      <Button icon="pi pi-download"
+                              iconPos="right"></Button>
+                    </a>
                   </div>
                 </div>
               </div>

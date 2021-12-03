@@ -65,7 +65,7 @@ export default {
           })
     },
     closeSuccess(){
-      this.$router.push("/tracks")
+      this.$router.back()
     },
   }
 }

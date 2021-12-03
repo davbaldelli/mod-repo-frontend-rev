@@ -9,17 +9,28 @@
       </div>
     <Toast position="center"/>
   </div>
+  <Dialog header="Success!" v-model:visible="success" @hide="closeSuccess" :modal="true">
+    {{successMessage}}
+    <template #footer>
+      <Button label="OK" icon="pi pi-check" @click="closeSuccess" autofocus></Button>
+    </template>
+  </Dialog>
+  <Dialog header="Failure :(" v-model:visible="fail" :modal="true">{{failMessage}}
+    <template #footer>
+      <Button label="OK" icon="pi pi-check" @click="this.fail = false" autofocus></Button>
+    </template>
+  </Dialog>
 </template>
 
 <script>
 import CarForm from '@/components/cars/CarForm'
-import Toast from 'primevue/toast';
+import Dialog from "primevue/dialog";
 
 export default {
   name: "CarInput",
   components : {
     CarForm,
-    Toast,
+    Dialog,
   },
   data() {
     return {
@@ -50,14 +61,27 @@ export default {
         rating: 0,
         version : "",
       },
+      success : false,
+      successMessage : "",
+      fail : false,
+      failMessage : "",
     }
   },
   methods: {
     onSubmit(car){
       this.$store.dispatch('cars/addCar', car)
-          .then(() => this.$toast.add({severity:'success', summary: 'Car created successfully', detail:'Car created', life: 3000}))
-          .catch((e) => this.$toast.add({severity:'error', summary: 'Error crating the car', detail:e.data.error, life: 7000}))
-    }
+          .then(() => {
+            this.success = true
+            this.successMessage = "Car created successfully"
+          })
+          .catch((e) => {
+            this.fail = true
+            this.failMessage = e.data.error
+          })
+    },
+    closeSuccess(){
+      this.$router.back()
+    },
   }
 }
 </script>

@@ -42,7 +42,7 @@
                 @remove="clearAuthorFilter" removable/>
         </div>
         <div v-if="this.$store.getters['cars/loadingCars']" class="p-col-12">
-          <div v-for="i in 5" :key="i" class="p-mb-2">
+          <div v-for="i in 25" :key="i" class="p-mb-2">
             <div class="custom-skeleton p-card container-fluid p-py-2">
               <div class="row">
                 <div class="col-lg-12 col-xl-4">
@@ -103,19 +103,15 @@
                       car.author.name
                     }}</a>
                     <br>
-                    <!--
-                    <strong>{{ car.transmission }}</strong>,
-                    <strong>{{ car.drivetrain }}</strong>,
-                    <strong>BHP:</strong>{{ car.bhp }},
-                    <strong>Nm: </strong>{{ car.torque }},
-                    <strong>Kg:</strong>{{ car.weight }},
-                    <strong>Top Speed:</strong>{{ car.topSpeed }},
-                      -->
                   </div>
                   <div class="p-card-footer p-pt-0  p-text-right mt-auto">
-                    <Button v-if="userRole === 'admin'" @click="openEditTab(car)" icon="far fa-edit"
-                            class="p-mr-2 p-button-warning"></Button>
-                    <Button @click="openInNewTab(car.downloadLink)" icon="pi pi-download"></Button>
+                    <router-link :to="`/car/edit/${car.id}`" tag="button">
+                      <Button v-if="userRole === 'admin'" icon="far fa-edit"
+                              class="p-mr-2 p-button-warning"></Button>
+                    </router-link>
+                    <a :href="car.downloadLink" target="_blank">
+                      <Button icon="pi pi-download"></Button>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -264,39 +260,31 @@ export default {
     },
     onNameSelected(name) {
       this.activeNameFilter = name
-      //this.$router.replace({query: {...this.$route.query, nameFilter: name}})
       this.nameSelector = carsFilters.filterByName(name)
     },
     onBrandSelected(name) {
-      //this.$router.replace({query: {...this.$route.query, brandFilter: name}})
       this.brandSelector = carsFilters.filterByBrand(name)
     },
     onAuthorSelected(name) {
-      //this.$router.replace({query: {...this.$route.query, authorFilter: name}})
       this.authorSelector = carsFilters.filterByAuthor(name)
     },
     onSelectedCategory(name) {
-      //this.$router.replace({query: {...this.$route.query, categoryFilter: name}})
       this.categorySelector = carsFilters.filterByCategory(name)
     },
     clearNameFilter() {
       this.activeNameFilter = ""
-      this.$router.replace({query: {...this.$route.query, nameFilter: this.activeNameFilter}})
       this.nameSelector = c => c
     },
     clearCategoryFilter() {
       this.selectedCategory = ""
-      this.$router.replace({query: {...this.$route.query, categoryFilter: this.selectedCategory.Name}})
       this.categorySelector = c => c
     },
     clearBrandFilter() {
       this.selectedBrand = ""
-      this.$router.replace({query: {...this.$route.query, brandFilter: this.selectedBrand.Name}})
       this.brandSelector = c => c
     },
     clearAuthorFilter() {
       this.selectedAuthor = ""
-      this.$router.replace({query: {...this.$route.query, authorFilter: this.selectedAuthor.Name}})
       this.authorSelector = c => c
     },
     resetFilters() {
