@@ -10,7 +10,7 @@
         <div class="p-col-12">
           <div class="p-inputgroup p-mb-2">
             <InputText v-on:keyup.enter="nameFilterClick" v-model="nameFilter" placeholder="Type Track Name"/>
-            <Button @click="nameFilterClick" label="Search"/>
+            <Button @click="nameFilterClick" icon="pi pi-search" aria-label="search"/>
           </div>
         </div>
         <div class="p-col-12">
@@ -19,18 +19,18 @@
         <div class="p-col-12">
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedNation" @change="e => onNationSelected(e.value)"
                     :options="nations" :filter="true" option-label="name" option-value="name" :loading="this.$store.getters['tracks/loadingNations']"
-                    placeholder="Nation"></Dropdown>
+                    placeholder="Nation" aria-label="nation filter selection"></Dropdown>
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedLayoutType"
                     @change="e => onLayoutCategorySelected(e.value)" :options="categoryOpts" option-label="text"
-                    option-value="value" placeholder="Layout Category"></Dropdown>
+                    option-value="value" placeholder="Layout Category" aria-label="layout type selection"></Dropdown>
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedTag" @change="e => onTagSelected(e.value)"
                     :options="tagsOpts" option-label="text" option-value="value" placeholder="Tag"></Dropdown>
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedAuthor" :options="authors" option-label="name"
                     :filter="true" :loading="this.$store.getters['tracks/loadingAuthors']"
-                    @change="e => onAuthorSelected(e.value.name)" placeholder="Author"/>
+                    @change="e => onAuthorSelected(e.value.name)" placeholder="Author" aria-label="mod author selection"/>
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" @change="e => sort(e.value)" v-model="selectedSort"
                     :options="sortOpts"
-                    placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
+                    placeholder="Sort By" option-label="label" option-value="value" aria-label="sort selection"></Dropdown>
         </div>
         <div class="p-col-12">
           <Chip :label="`Name: ${selectedNameFilter}`" v-if="selectedNameFilter" @remove="clearNameFilter"
@@ -96,15 +96,15 @@
                     <strong>Mod Version: </strong>{{ track.version }}
                     <br>
                     <strong>Author: </strong>
-                    <a target="_blank" :href="track.author.link">{{ track.author.name }}</a>
+                    <a target="_blank" :href="track.author.link" rel="noopener">{{ track.author.name }}</a>
                   </div>
                   <div class="p-card-footer p-pt-0 p-text-right mt-auto">
-                    <router-link :to="`/track/edit/${track.id}`" tag="button">
-                      <Button v-if="userRole === 'admin'" icon="far fa-edit"
+                    <router-link  aria-label="edit link" :to="`/track/edit/${track.id}`" tag="button">
+                      <Button aria-label="edit button" v-if="userRole === 'admin'" icon="far fa-edit"
                               class="p-mr-2 p-button-warning"></Button>
                     </router-link>
-                    <a :href="track.downloadLink" target="_blank">
-                      <Button icon="pi pi-download"
+                    <a aria-label="mod download link" :href="track.downloadLink" target="_blank" rel="noopener">
+                      <Button aria-label="download button" icon="pi pi-download"
                               iconPos="right"></Button>
                     </a>
                   </div>

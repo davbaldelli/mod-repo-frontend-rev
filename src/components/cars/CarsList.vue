@@ -10,7 +10,7 @@
         <div class="p-col-12">
           <div class="p-inputgroup p-mb-2">
             <InputText v-on:keyup.enter="nameFilterClick" v-model="nameFilter" placeholder="Type Car Name"/>
-            <Button @click="nameFilterClick" icon="pi pi-search"/>
+            <Button @click="nameFilterClick" icon="pi pi-search" aria-label="search"/>
           </div>
         </div>
         <div class="p-col-12">
@@ -20,16 +20,16 @@
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedBrand" :options="brandOpts" :filter="true"
                     @change="e => onBrandSelected(e.value.name)" placeholder="Brand"
                     optionLabel="name" optionGroupLabel="nation" optionGroupChildren="brands"
-                    :loading="this.$store.getters['cars/loadingBrands']">
+                    :loading="this.$store.getters['cars/loadingBrands']" aria-label="car brand selection">
           </Dropdown>
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedCategory" :options="categories" option-label="name"
-                    @change="e => onSelectedCategory(e.value.name)" placeholder="Category"/>
+                    @change="e => onSelectedCategory(e.value.name)" placeholder="Category" aria-label="car category selection"/>
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" v-model="selectedAuthor" :options="authors" option-label="name"
                     :filter="true" :loading="this.$store.getters['cars/loadingAuthors']"
-                    @change="e => onAuthorSelected(e.value.name)" placeholder="Author"/>
+                    @change="e => onAuthorSelected(e.value.name)" placeholder="Author" aria-label="mod author selection"/>
           <Dropdown class="p-mr-2 p-mb-2 p-mb-sm-0" @change="e => sort(e.value)" v-model="selectedSort"
                     :options="sortOpts"
-                    placeholder="Sort By" option-label="label" option-value="value"></Dropdown>
+                    placeholder="Sort By" option-label="label" option-value="value" aria-label="sort type selection"></Dropdown>
         </div>
         <div class="p-col-12">
           <Chip class="p-mr-2" :label="`Category: ${selectedCategory.name}`" v-if="selectedCategory"
@@ -105,12 +105,12 @@
                     <br>
                   </div>
                   <div class="p-card-footer p-pt-0  p-text-right mt-auto">
-                    <router-link :to="`/car/edit/${car.id}`" tag="button">
-                      <Button v-if="userRole === 'admin'" icon="far fa-edit"
+                    <router-link  aria-label="mod edit link" :to="`/car/edit/${car.id}`" tag="button">
+                      <Button aria-label="edit button" v-if="userRole === 'admin'" icon="far fa-edit"
                               class="p-mr-2 p-button-warning"></Button>
                     </router-link>
-                    <a :href="car.downloadLink" target="_blank">
-                      <Button icon="pi pi-download"></Button>
+                    <a aria-label="mod download link" :href="car.downloadLink" target="_blank" rel="noopener">
+                      <Button aria-label="download button" icon="pi pi-download"></Button>
                     </a>
                   </div>
                 </div>
