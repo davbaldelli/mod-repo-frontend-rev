@@ -137,8 +137,6 @@ import Skeleton from 'primevue/skeleton'
 import Rating from "primevue/rating";
 
 import {carsFilters, carSort} from "@/_helpers";
-import {computed, reactive} from "vue";
-import {useHead} from "@vueuse/head";
 
 
 export default {

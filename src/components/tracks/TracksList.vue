@@ -132,8 +132,6 @@ import Dropdown from "primevue/dropdown";
 import Skeleton from "primevue/skeleton";
 import Rating from "primevue/rating";
 import {tracksFilters, trackSort} from "@/_helpers";
-import {computed, reactive} from "vue";
-import {useHead} from "@vueuse/head";
 
 export default {
   name: "TracksList",
