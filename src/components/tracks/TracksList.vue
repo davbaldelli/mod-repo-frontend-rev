@@ -147,13 +147,6 @@ export default {
     Rating,
   },
   setup() {
-    const siteData = reactive({
-      title: `Assetto Corsa Track Repository`,
-    })
-    useHead({
-      // Can be static or computed
-      title: computed(() => siteData.title),
-    })
   },
   data() {
     return {

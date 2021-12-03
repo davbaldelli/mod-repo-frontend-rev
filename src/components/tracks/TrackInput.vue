@@ -24,12 +24,14 @@
 <script>
 import TrackForm from "@/components/tracks/TrackForm";
 import Dialog from "primevue/dialog";
+import Button from "primevue/button";
 
 export default {
   name: "TrackInput",
   components: {
     TrackForm,
-    Dialog
+    Dialog,
+    Button,
   },
   data() {
     return {
