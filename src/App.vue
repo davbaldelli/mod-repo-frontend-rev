@@ -38,8 +38,6 @@ import Password from 'primevue/password'
 import Button from "primevue/button";
 import useVuelidate from "@vuelidate/core";
 import required from "vuelidate/lib/validators/required";
-import {useHead} from "@vueuse/head";
-import {computed, reactive} from "vue";
 
 
 export default {
@@ -53,23 +51,6 @@ export default {
   },
   emits: ['loggedOut', 'loggedIn'],
   setup() {
-    const siteData = reactive({
-      title: `Assetto Corsa Mod Repository`,
-      description: `Assetto Corsa mod repository by Davide Baldelli is a website where you can download a large selection of quality cars and tracks
-           mods for the famous Assetto Corsa simulator developed by kunos simulations.`,
-    })
-
-    useHead({
-      // Can be static or computed
-      title: computed(() => siteData.title),
-      meta: [
-        {
-          name: `description`,
-          content: computed(() => siteData.description),
-        },
-      ],
-    })
-
     return {v$: useVuelidate()}
   },
   data() {
