@@ -97,11 +97,9 @@
                     <Rating class="p-mb-1" :model-value="car.rating/2" :readonly="true" :cancel="false" />
                     <strong>Year: </strong>{{ car.year }}
                     <br>
-                    <strong>Mod Version: </strong>{{ car.version }}
-                    <br>
                     <strong>Author: </strong><a :href="car.author.link" rel="noopener" target="_blank">{{
                       car.author.name
-                    }}</a>
+                    }}</a> v{{car.version}}
                     <br>
                   </div>
                   <div class="p-card-footer p-pt-0  p-text-right mt-auto">

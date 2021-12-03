@@ -91,12 +91,9 @@
                   </div>
                   <div class="p-card-body">
                     <Rating class="p-mb-1" :model-value="track.rating/2" :readonly="true" :cancel="false" />
-                    <strong>Year: </strong>{{ track.year }}<br/>
                     <strong>Location: </strong>{{ track.location }}, {{ track.nation.name }}<br/>
-                    <strong>Mod Version: </strong>{{ track.version }}
-                    <br>
                     <strong>Author: </strong>
-                    <a target="_blank" :href="track.author.link" rel="noopener">{{ track.author.name }}</a>
+                    <a target="_blank" :href="track.author.link" rel="noopener">{{ track.author.name }}</a> v{{track.version}}
                   </div>
                   <div class="p-card-footer p-pt-0 p-text-right mt-auto">
                     <router-link  aria-label="edit link" :to="`/track/edit/${track.id}`" tag="button">
