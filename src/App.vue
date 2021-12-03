@@ -54,8 +54,9 @@ export default {
   emits: ['loggedOut', 'loggedIn'],
   setup() {
     const siteData = reactive({
-      title: `AC Mod Repository`,
-      description: `A repository of high quality ac mods`,
+      title: `Assetto Corsa Mod Repository`,
+      description: `Assetto Corsa mod repository by Davide Baldelli is a website where you can download a large selection of quality cars and tracks
+           mods for the famous Assetto Corsa simulator developed by kunos simulations.`,
     })
 
     useHead({

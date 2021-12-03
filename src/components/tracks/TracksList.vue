@@ -1,8 +1,8 @@
 <template>
   <div class="p-grid">
     <div class="p-col-12 p-mt-4 text-center">
-      <h1 class="display-4">AC Tracks Repository</h1>
-      <p class="lead"><em>A collection of quality tracks</em></p>
+      <h1 class="display-4">Tracks Repository</h1>
+      <h2 class="lead"><em>A collection of quality tracks</em></h2>
     </div>
     <div class="p-col-12 p-lg-3"></div>
     <div class="p-col-12 p-lg-6">
@@ -132,6 +132,8 @@ import Dropdown from "primevue/dropdown";
 import Skeleton from "primevue/skeleton";
 import Rating from "primevue/rating";
 import {tracksFilters, trackSort} from "@/_helpers";
+import {computed, reactive} from "vue";
+import {useHead} from "@vueuse/head";
 
 export default {
   name: "TracksList",
@@ -143,6 +145,15 @@ export default {
     Dropdown,
     Skeleton,
     Rating,
+  },
+  setup() {
+    const siteData = reactive({
+      title: `Assetto Corsa Track Repository`,
+    })
+    useHead({
+      // Can be static or computed
+      title: computed(() => siteData.title),
+    })
   },
   data() {
     return {

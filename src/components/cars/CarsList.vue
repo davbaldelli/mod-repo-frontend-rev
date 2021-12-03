@@ -1,8 +1,8 @@
 <template>
   <div class="p-grid">
     <div class="p-col-12 text-center p-mt-4">
-      <h1 class="display-4">AC Cars Repository</h1>
-      <p class="lead"><em>A collection of quality cars</em></p>
+      <h1 class="display-4">Cars Repository</h1>
+      <h2 class="lead"><em>A collection of quality cars</em></h2>
     </div>
     <div class="p-col-12 p-lg-3"></div>
     <div class="p-col-12 p-lg-6">
@@ -137,6 +137,8 @@ import Skeleton from 'primevue/skeleton'
 import Rating from "primevue/rating";
 
 import {carsFilters, carSort} from "@/_helpers";
+import {computed, reactive} from "vue";
+import {useHead} from "@vueuse/head";
 
 
 export default {
@@ -149,6 +151,15 @@ export default {
     Chip,
     Skeleton,
     Rating,
+  },
+  setup() {
+    const siteData = reactive({
+      title: `Assetto Corsa Car Repository`,
+    })
+    useHead({
+      // Can be static or computed
+      title: computed(() => siteData.title),
+    })
   },
   data() {
     return {
