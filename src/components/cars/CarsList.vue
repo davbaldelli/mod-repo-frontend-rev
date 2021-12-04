@@ -75,7 +75,7 @@
               <div class="p-grid p-card p-p-2">
                 <div class="p-col-12 p-xl-4 p-p-2">
                   <div class="d-flex align-items-center" style="height: 100%">
-                    <img :src="car.image" alt="car thumbnail" class="rounded-4 card-img">
+                    <img loading="lazy" :src="car.image" alt="car thumbnail" class="rounded-4 card-img">
                   </div>
                 </div>
                 <div class="p-col-12 p-xl-8 p-p-3 d-flex flex-column">

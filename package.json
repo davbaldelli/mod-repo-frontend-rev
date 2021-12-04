@@ -39,6 +39,14 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0"
   },
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false
+      }
+    ]
+  ],
   "eslintConfig": {
     "root": true,
     "env": {
